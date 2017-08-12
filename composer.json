@@ -28,6 +28,9 @@
         "symfony/symfony": "^3.2"
     },
     "require-dev": {
+        "symfony/web-server-bundle": "^3.3",
+        "sensio/generator-bundle": "^3.1",
+        "symfony/phpunit-bridge": "^2.7",
         "lin3s/cs": "^0.4.3",
         "phpspec/phpspec": "^3.2"
     },
