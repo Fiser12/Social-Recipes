@@ -22,6 +22,7 @@
 /src/App/Infrastructure/Ui/manifest.json
 /var/bootstrap.php.cache
 /var/cache/*
+!var/.gitkeep
 !var/cache/.gitkeep
 /var/logs/*
 !var/logs/.gitkeep
@@ -29,5 +30,4 @@
 !var/sessions/.gitkeep
 /vendor
 .idea/
-var/
 composer.phar

@@ -12,11 +12,9 @@
 ######################################################################
 # Setup Server
 ######################################################################
-server "dev.company.com", user: "sshuser", roles: %w{web}
-set :deploy_to, "/path/to/your/deployment/directory"
+server "192.168.0.29", user: "fiser", roles: %w{web}
+set :deploy_to, "/home/fiser/WebSocialRecipes"
 set :env,  "dev"
-set :cache_opts, "-u user:password"
-set :domain, "http://devwebsite.domain.com"
 
 SSHKit.config.command_map[:composer] = "php #{shared_path.join("composer.phar")}"
 
@@ -30,3 +28,7 @@ set :webserver_user, "www-data"
 # Setup Git
 ######################################################################
 set :branch, "master"
+
+set :symfony_env, "prod"
+set :composer_install_flags, '--no-interaction'
+set :controllers_to_clear, []

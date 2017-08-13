@@ -8,3 +8,5 @@
     - sudo npm update
     - sudo npm install
     - sudo npm run-script build
+6. sudo gem install capistrano
+7. sudo gem install capistrano-symfony

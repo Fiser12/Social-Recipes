@@ -13,7 +13,7 @@
 # Setup project
 ############################################
 
-set :application,   "project-name"
+set :application,   "web-social-recipes"
 set :repo_url,      "git@github.com:organization/project.git"
 
 set :infr_path, "src/App/Infrastructure"
