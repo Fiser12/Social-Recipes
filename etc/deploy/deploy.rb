@@ -14,7 +14,7 @@
 ############################################
 
 set :application,   "web-social-recipes"
-set :repo_url,      "git@github.com:organization/project.git"
+set :repo_url,      "git@fiser12@bitbucket.org/fiser12/social-recipes.git"
 
 set :infr_path, "src/App/Infrastructure"
 set :symfony_path, fetch(:infr_path) + "/Symfony/Framework"
@@ -26,6 +26,7 @@ set :bin_path, fetch(:infr_path) + "/Ui/Cli/Symfony"
 set :ui_path, fetch(:infr_path) + "/Ui"
 set :assets_path, fetch(:ui_path) + "/Assets"
 set :build_path, fetch(:assets_path) + "/build"
+set :var_path, "var"
 
 set :sessions_path, fetch(:var_path) + "/sessions"
 
