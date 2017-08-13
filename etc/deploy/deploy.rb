@@ -14,7 +14,7 @@
 ############################################
 
 set :application,   "web-social-recipes"
-set :repo_url,      "git@fiser12@bitbucket.org/fiser12/social-recipes.git"
+set :repo_url,      "git@bitbucket.org:fiser12/social-recipes.git"
 
 set :infr_path, "src/App/Infrastructure"
 set :symfony_path, fetch(:infr_path) + "/Symfony/Framework"
