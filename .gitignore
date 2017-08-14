@@ -34,3 +34,7 @@
 /vendor
 .idea/
 composer.phar
+
+!var/cache
+!var/logs
+!var/sessions
