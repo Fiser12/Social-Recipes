@@ -30,6 +30,8 @@ set :build_path, fetch(:assets_path) + "/build"
 set :var_path, "var"
 
 set :sessions_path, fetch(:var_path) + "/sessions"
+set :cache_path, fetch(:var_path) + "/cache"
+set :log_path, fetch(:var_path) + "/logs"
 
 ############################################
 # Setup Capistrano
@@ -50,7 +52,7 @@ set :keep_releases, 3
 ############################################
 
 set :linked_files,           ["parameters.yml", fetch(:web_path) + "/.htaccess", fetch(:web_path) + "/robots.txt"]
-set :linked_dirs,            [fetch(:log_path), fetch(:sessions_path), fetch(:web_path) + "/uploads"]
+set :linked_dirs,            [fetch(:log_path), fetch(:sessions_path), fetch(:cache_path), fetch(:web_path) + "/uploads"]
 set :file_permissions_paths, [fetch(:cache_path), fetch(:log_path), fetch(:sessions_path)]
 
 set :composer_install_flags, '--no-interaction --optimize-autoloader'
