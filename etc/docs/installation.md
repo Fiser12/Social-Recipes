@@ -34,6 +34,28 @@
 * Previusly in local: ssh-add -K ~/.ssh/id_rsa
 * Execute for first time the deploy: cap prod deploy --trace
 * Create the files in share folder using dist files
-    * /shared/parameters.yml
-    * /shared/src/App/Infrastructure/Ui/Http/Symfony/.htaccess 
+    * /home/cloud/WebSocialRecipes/shared/parameters.yml
+    * /home/cloud/WebSocialRecipes/shared/src/App/Infrastructure/Ui/Http/Symfony/.htaccess 
     * /home/cloud/WebSocialRecipes/shared/src/App/Infrastructure/Ui/Http/Symfony/robots.txt
+
+##### Conect the database
+###### Prepare database
+    sudo apt-get install mariadb-server
+    mysql -u root -p
+        use mysql
+        update user set password=PASSWORD("NYhTJTTsXRfWYcrQQ6iRaWae") where User='root';
+        CREATE DATABASE social-recipes-bd;
+###### Set in parameters.yml in the server this data
+    database_host: 127.0.0.1
+    database_port: 3306
+    database_name: social_recipes_bd
+    database_user: root
+    database_password: NYhTJTTsXRfWYcrQQ6iRaWae
+
+##### Prepare apache2 in server
+    - Agregar fichero /etc/apache2/sites-available/social-recipes.conf
+    - sudo a2ensite social-recipes.conf
+    - sudo apache restart
+    - chmod -R 777 /home/cloud/WebSocialRecipes/shared/var
+    
+
