@@ -28,3 +28,4 @@
 /vendor
 .idea/
 composer.phar
+!/parameters.yml.dist

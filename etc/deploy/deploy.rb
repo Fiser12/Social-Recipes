@@ -47,6 +47,8 @@ set :ssh_options, {
 
 set :keep_releases, 3
 
+Rake::Task["symfony:create_cache_dir"].clear_actions
+
 ############################################
 # Linked files and directories (symlinks)
 ############################################
