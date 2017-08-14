@@ -61,5 +61,5 @@ namespace :deploy do
   after :updated, 'compile_and_upload:webpack'
   after :updated, 'compile_and_upload:upload'
   after :updated, 'database:migrate'
-  after :finishing, 'cache:clear'
+  after 'deploy:finishing', 'deploy:cleanup'
 end
