@@ -18,6 +18,7 @@ set :repo_url,      "git@bitbucket.org:fiser12/social-recipes.git"
 
 set :infr_path, "src/App/Infrastructure"
 set :symfony_path, fetch(:infr_path) + "/Symfony/Framework"
+set :symfony_console_path, "etc/bin/symfony-console"
 
 set :app_path, fetch(:symfony_path)
 set :web_path, fetch(:infr_path) + "/Ui/Http/Symfony"
