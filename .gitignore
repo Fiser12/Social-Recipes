@@ -10,6 +10,7 @@
 
 /.editorconfig
 /.lin3s_cs.yml
+
 /parameters.yml
 /src/App/Infrastructure/Ui/Assets/.eslint.yml
 /src/App/Infrastructure/Ui/Assets/.scss_lint.yml
@@ -28,6 +29,8 @@
 !var/logs/.gitkeep
 /var/sessions/*
 !var/sessions/.gitkeep
+/var/*
+!/var/.gitkeep
 /vendor
 .idea/
 composer.phar

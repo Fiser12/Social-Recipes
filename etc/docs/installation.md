@@ -10,3 +10,9 @@
     - sudo npm run-script build
 6. sudo gem install capistrano
 7. sudo gem install capistrano-symfony
+
+#Server prepartion
+
+* sudo apt install php7.1 zip unzip php7.1-zip
+* sudo a2enmod proxy_fcgi setenvif
+* sudo a2enconf php7.0-fpm
