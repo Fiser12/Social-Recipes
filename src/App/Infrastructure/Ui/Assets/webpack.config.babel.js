@@ -14,30 +14,30 @@
 import {Webpack} from 'lin3s-distribution';
 
 const options = {
-  entry: {
-    'app': './js/entry-app.js',
-  },
-  input: {
-    base: '',
-    scss: `scss`
-  },
-  output: {
-    jsPath: './build',
-    jsPublicPath: '/',
-    jsFilename: '[name].js',
-    jsFilenameProduction: '[name].[chunkhash].js',
+    entry: {
+        'app': './js/entry-app.js',
+    },
+    input: {
+        base: '',
+        scss: `scss`
+    },
+    output: {
+        jsPath: './build',
+        jsPublicPath: '/',
+        jsFilename: '[name].js',
+        jsFilenameProduction: '[name].[chunkhash].js',
 
-    cssPath: '',
-    cssPublicPath: '/',
-    cssFilename: '[name].css',
-    cssFilenameProduction: '[name].[contenthash].css'
-  },
-  postcss: {
-    autoprefixer: {
-      browsers: ['last 2 versions']
-    }
-  },
-  manifest: '../../manifest.json'
+        cssPath: '',
+        cssPublicPath: '/',
+        cssFilename: '[name].css',
+        cssFilenameProduction: '[name].[contenthash].css'
+    },
+    postcss: {
+        autoprefixer: {
+            browsers: ['last 2 versions']
+        }
+    },
+    manifest: '../../manifest.json'
 };
 
 export default Webpack(options);
