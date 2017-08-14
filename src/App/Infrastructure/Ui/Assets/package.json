@@ -10,7 +10,8 @@
     "lin3s-front-foundation": "^0.2.2",
     "parsleyjs": "^2.6.2",
     "picturefill": "^3.0.2",
-    "svg4everybody": "^2.1.0"
+    "svg4everybody": "^2.1.0",
+    "yarn": "^0.27.5"
   },
   "devDependencies": {
     "lin3s-distribution": "^2.4"
