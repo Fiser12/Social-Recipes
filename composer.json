@@ -25,7 +25,14 @@
         "symfony/monolog-bundle": "^2.8",
         "symfony/polyfill-apcu": "^1.0",
         "symfony/swiftmailer-bundle": "^2.3",
-        "symfony/symfony": "^3.2"
+        "symfony/symfony": "^3.2",
+        "bengor-user/user-bundle": "^0.8",
+        "bengor-user/symfony-routing-bridge-bundle": "^1.1",
+        "bengor-user/symfony-security-bridge-bundle": "^1.0.1",
+        "bengor-user/twig-bridge-bundle": "^1.0.1",
+        "bengor-user/doctrine-orm-bridge-bundle": "^1.2.0",
+        "bengor-user/swift-mailer-bridge-bundle": "^1.0.1",
+        "bengor-user/simple-bus-bridge-bundle": "^1.0.1"
     },
     "require-dev": {
         "symfony/web-server-bundle": "^3.3",

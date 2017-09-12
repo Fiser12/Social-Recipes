@@ -11,6 +11,14 @@
 
 namespace App\Infrastructure\Symfony\Framework;
 
+use BenGorUser\DoctrineORMBridgeBundle\DoctrineORMBridgeBundle;
+use BenGorUser\SimpleBusBridgeBundle\SimpleBusBridgeBundle;
+use BenGorUser\SimpleBusBridgeBundle\SimpleBusDoctrineORMBridgeBundle;
+use BenGorUser\SwiftMailerBridgeBundle\SwiftMailerBridgeBundle;
+use BenGorUser\SymfonyRoutingBridgeBundle\SymfonyRoutingBridgeBundle;
+use BenGorUser\SymfonySecurityBridgeBundle\SymfonySecurityBridgeBundle;
+use BenGorUser\TwigBridgeBundle\TwigBridgeBundle;
+use BenGorUser\UserBundle\BenGorUserBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
 use LIN3S\Distribution\Php\Symfony\Lin3sDistributionBundle;
@@ -44,6 +52,14 @@ class AppKernel extends Kernel
             new SensioFrameworkExtraBundle(),
             new SwiftmailerBundle(),
             new TwigBundle(),
+            new TwigBridgeBundle(),
+            new SymfonyRoutingBridgeBundle(),
+            new SymfonySecurityBridgeBundle(),
+            new SwiftMailerBridgeBundle(),
+            new DoctrineORMBridgeBundle(),
+            new SimpleBusBridgeBundle(),
+            new SimpleBusDoctrineORMBridgeBundle(),
+            new BenGorUserBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
