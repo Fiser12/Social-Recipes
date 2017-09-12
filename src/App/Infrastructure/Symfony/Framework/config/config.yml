@@ -63,5 +63,5 @@ lin3s_distribution:
 ben_gor_user:
     user_class:
         user:
-            class: App\Domain\Model\User
+            class: App\Domain\Model\User\User
             firewall: main

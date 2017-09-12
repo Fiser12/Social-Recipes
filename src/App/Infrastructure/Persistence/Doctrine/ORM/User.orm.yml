@@ -1,5 +1,0 @@
-App\Domain\Model\User:
-    type: entity
-    table: user
-    repositoryClass: App\Infrastructure\Symfony\Framework\Repository\UserRepository
-    lifecycleCallbacks: {  }

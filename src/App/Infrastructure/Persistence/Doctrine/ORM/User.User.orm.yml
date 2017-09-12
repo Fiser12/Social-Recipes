@@ -1,0 +1,10 @@
+App\Domain\Model\User\User:
+    type: entity
+    table: user
+    repositoryClass: App\Infrastructure\Symfony\Framework\Repository\UserRepository
+    lifecycleCallbacks: {  }
+    embedded:
+        facebookId:
+            class: App\Domain\Model\User\UserFacebookId
+        facebookAccessToken:
+            class: App\Domain\Model\User\UserFacebookAccessToken
