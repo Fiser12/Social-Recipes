@@ -61,9 +61,8 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         }
         $accessToken = $this->fetchAccessToken($this->client());
         $oauthUser = $this->client()->fetchUserFromToken($accessToken);
-        $email = $oauthUser->getEmail();
 
-        return new FacebookLogInClientCommand($oauthUser->getId(), $email);
+        return new FacebookLogInClientCommand($oauthUser->getId(), $accessToken->getToken(), $oauthUser->getEmail());
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider) : UserInterface

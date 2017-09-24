@@ -25,12 +25,16 @@ class User extends BaseUser
     private const ROLE_CLIENT = 'ROLE_CLIENT';
 
     private $facebookId;
+    private $usersFollowed;
+    private $facebookAccessToken;
 
     public function __construct(
         UserId $anId,
         UserEmail $anEmail,
         UserPassword $aPassword = null,
-        string $facebookId = null
+        UserFacebookId $facebookId = null,
+        UserFacebookAccessToken $facebookAccessToken = null,
+        UsersFollowed $usersFollowed = null
     ) {
         $userRoles = array_map(function ($role) {
             return new UserRole($role);
@@ -41,9 +45,11 @@ class User extends BaseUser
         if (null !== $facebookId) {
             $this->connectToFacebook($facebookId);
         }
+        $this->usersFollowed = $usersFollowed;
+        $this->facebookAccessToken = $facebookAccessToken;
     }
 
-    public function facebookId() : ?string
+    public function facebookId() : ?UserFacebookId
     {
         return $this->facebookId;
     }
@@ -51,15 +57,19 @@ class User extends BaseUser
 
     public static function signUpWithFacebook(
         UserId $id,
-        string $facebookId,
-        UserEmail $email
+        UserFacebookId $facebookId,
+        UserEmail $email,
+        UserFacebookAccessToken $facebookAccessToken,
+        UsersFollowed $usersFollowed
+
     ) : self {
-        $client = new self($id, $email, null, $facebookId);
+        $client = new self($id, $email, null, $facebookId, $facebookAccessToken, $usersFollowed);
 
         $client->publish(
             new UserRegisteredWithFacebook(
                 $client->id(),
                 $client->facebookId(),
+                $client->facebookAccessToken(),
                 $client->email()
             )
         );
@@ -70,7 +80,7 @@ class User extends BaseUser
 
     }
 
-    public function connectToFacebook(string $facebookId) : void
+    public function connectToFacebook(UserFacebookId $facebookId) : void
     {
         $this->facebookId = $facebookId;
         $this->lastLogin = new \DateTimeImmutable();
@@ -88,6 +98,16 @@ class User extends BaseUser
         return [
             self::ROLE_CLIENT,
         ];
+    }
+
+    public function usersFollowed(): ?UsersFollowed
+    {
+        return $this->usersFollowed;
+    }
+
+    public function facebookAccessToken(): ?UserFacebookAccessToken
+    {
+        return $this->facebookAccessToken;
     }
 }
 

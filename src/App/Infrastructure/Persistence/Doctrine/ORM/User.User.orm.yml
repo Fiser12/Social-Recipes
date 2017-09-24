@@ -2,8 +2,19 @@ App\Domain\Model\User\User:
     type: entity
     table: user
     repositoryClass: BenGorUser\DoctrineORMBridge\Infrastructure\Persistence\DoctrineORMUserRepository
-    fields:
-      facebookId:
-        column: facebook_id
-        type: guid
-        nullable: true
+    embedded:
+        facebookId:
+            class: App\Domain\Model\User\UserFacebookId
+        facebookAccessToken:
+            class: App\Domain\Model\User\UserFacebookAccessToken
+    manyToMany:
+      usersFollowed:
+        targetEntity: App\Domain\Model\User\User
+        joinTable:
+          name: users_followed
+          joinColumns:
+            user_id:
+              referencedColumnName: id
+          inverseJoinColumns:
+            user_followed_id:
+              referencedColumnName: id

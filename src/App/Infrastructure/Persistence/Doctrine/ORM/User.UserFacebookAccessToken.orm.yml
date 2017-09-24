@@ -2,4 +2,3 @@ App\Domain\Model\User\UserFacebookAccessToken:
     type: embeddable
     fields:
         token: { type: string }
-        createdOn: { type: date }

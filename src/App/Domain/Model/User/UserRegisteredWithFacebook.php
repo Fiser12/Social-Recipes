@@ -27,13 +27,15 @@ class UserRegisteredWithFacebook implements UserEvent, DomainEvent
     private $email;
     private $occurredOn;
     private $facebookId;
+    private $facebookAccessToken;
 
-    public function __construct(UserId $userId, string $facebookId, UserEmail $email)
+    public function __construct(UserId $userId, UserFacebookId $facebookId, UserFacebookAccessToken $facebookAccessToken, UserEmail $email)
     {
         $this->occurredOn = new \DateTimeImmutable();
         $this->facebookId = $facebookId;
         $this->userId = $userId;
         $this->email = $email;
+        $this->facebookAccessToken = $facebookAccessToken;
     }
 
     public function id() : UserId
@@ -41,7 +43,7 @@ class UserRegisteredWithFacebook implements UserEvent, DomainEvent
         return $this->userId;
     }
 
-    public function facebookId() : string
+    public function facebookId() : UserFacebookId
     {
         return $this->facebookId;
     }
@@ -51,9 +53,13 @@ class UserRegisteredWithFacebook implements UserEvent, DomainEvent
         return $this->email;
     }
 
-
     public function occurredOn() : \DateTimeInterface
     {
         return $this->occurredOn;
+    }
+
+    public function facebookAccessToken(): UserFacebookAccessToken
+    {
+        return $this->facebookAccessToken;
     }
 }

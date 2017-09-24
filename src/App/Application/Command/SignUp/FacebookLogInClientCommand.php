@@ -20,11 +20,13 @@ class FacebookLogInClientCommand
 {
     private $facebookId;
     private $email;
+    private $facebookAccessToken;
 
-    public function __construct(string $facebookId, string $email)
+    public function __construct(string $facebookId, string $facebookAccessToken, string $email)
     {
         $this->facebookId = $facebookId;
         $this->email = $email;
+        $this->facebookAccessToken = $facebookAccessToken;
     }
 
     public function facebookId() : string
@@ -35,5 +37,10 @@ class FacebookLogInClientCommand
     public function email() : string
     {
         return $this->email;
+    }
+
+    public function facebookAccessToken(): string
+    {
+        return $this->facebookAccessToken;
     }
 }

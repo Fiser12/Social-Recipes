@@ -18,6 +18,6 @@ class UsersFollowed extends Collection
 {
     protected function type()
     {
-        return UserId::class;
+        return User::class;
     }
 }

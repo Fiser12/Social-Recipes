@@ -14,6 +14,9 @@ declare(strict_types=1);
 namespace App\Application\Command\SignUp;
 
 use App\Domain\Model\User\User;
+use App\Domain\Model\User\UserFacebookAccessToken;
+use App\Domain\Model\User\UserFacebookId;
+use App\Domain\Model\User\UsersFollowed;
 use BenGorUser\User\Domain\Model\UserEmail;
 use BenGorUser\User\Domain\Model\UserId;
 use BenGorUser\User\Domain\Model\UserRepository;
@@ -35,15 +38,16 @@ class FacebookLogInClientHandler
 
     public function __invoke(FacebookLogInClientCommand $command) : void
     {
-        $facebookId = $command->facebookId();
         $email = new UserEmail($command->email());
         $user = $this->repository->userOfEmail($email);
-
+        $facebookId = new UserFacebookId($command->facebookId());
         if (null === $user) {
             $user = User::signUpWithFacebook(
                 new UserId(),
                 $facebookId,
-                $email
+                $email,
+                new UserFacebookAccessToken($command->facebookAccessToken()),
+                new UsersFollowed()
             );
         } else {
             /** @var User $user */
