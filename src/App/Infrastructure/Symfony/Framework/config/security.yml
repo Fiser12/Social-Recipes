@@ -10,11 +10,31 @@
 
 security:
     providers:
+        hwi_provider:
+           entity: {  class: App\Domain\Model\User, property: login }
         in_memory:
             memory: ~
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
+        secured_area:
+            pattern: ^/
             anonymous: ~
+            logout:
+                path: /logout
+                target: /
+            security: true
+            anonymous: true
+            oauth:
+                resource_owners:
+                    facebook: "/login/check-facebook"
+                login_path:        /login
+                failure_path:      /login
+                oauth_user_provider:
+                    service: app.facebook_oauth.user_provider
+
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login/check-facebook, roles: IS_AUTHENTICATED_ANONYMOUSLY }

@@ -4,6 +4,7 @@
   "dependencies": {
     "bengor-cookies": "^0.8",
     "fastclick": "^1.0.6",
+    "fb": "^2.0.0",
     "jquery": "^3.1.1",
     "lin3s-css-grid": "^0.3.0",
     "lin3s-event-bus": "^0.5.1",

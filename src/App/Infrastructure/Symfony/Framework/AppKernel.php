@@ -13,6 +13,8 @@ namespace App\Infrastructure\Symfony\Framework;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
+use FOS\UserBundle\FOSUserBundle;
+use HWI\Bundle\OAuthBundle\HWIOAuthBundle;
 use LIN3S\Distribution\Php\Symfony\Lin3sDistributionBundle;
 use Sensio\Bundle\DistributionBundle\SensioDistributionBundle;
 use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
@@ -44,6 +46,9 @@ class AppKernel extends Kernel
             new SensioFrameworkExtraBundle(),
             new SwiftmailerBundle(),
             new TwigBundle(),
+            new FOSUserBundle(),
+            new HWIOAuthBundle(),
+            new AppBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
