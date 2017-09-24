@@ -64,4 +64,34 @@ ben_gor_user:
     user_class:
         user:
             class: App\Domain\Model\User\User
-            firewall: main
+            data_transformer: App\Application\DataTransformer\User\UserDTODataTransform
+            firewall: user
+            default_roles:
+                - ROLE_CLIENT
+            routes:
+                security:
+                    login:
+                        path: /login/
+                    login_check:
+                        path: /login-check/
+                    logout:
+                        path: /logout/
+                    success_redirection_route:
+                        route: /
+                    jwt:
+                        path: /api/client/token
+                change_password:
+                    path: /cambiar-contrasena/
+                    success_redirection_route: app_home
+                request_remember_password:
+                    path: /recordar-contrasena/
+                    success_redirection_route: ~
+
+knpu_oauth2_client:
+    clients:
+        facebook:
+            type: facebook
+            client_id: "%oauth_facebook_client_id%"
+            client_secret: "%oauth_facebook_client_secret%"
+            graph_api_version: v2.9
+            redirect_route: oauth_facebook_check

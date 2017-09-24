@@ -22,3 +22,5 @@ parameters:
     router.request_context.host: php-ddd-standard.com
     router.request_context.scheme: https
     router.request_context.base_url: my/path
+    oauth_facebook_client_id: 2121
+    oauth_facebook_client_secret: 42424

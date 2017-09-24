@@ -9,51 +9,85 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace App\Domain\Model\User;
 
+use BenGorUser\User\Domain\Model\Event\UserLoggedIn;
 use BenGorUser\User\Domain\Model\User as BaseUser;
 use BenGorUser\User\Domain\Model\UserEmail;
 use BenGorUser\User\Domain\Model\UserId;
+use BenGorUser\User\Domain\Model\UserPassword;
+use BenGorUser\User\Domain\Model\UserRole;
 
 class User extends BaseUser
 {
+    private const ROLE_CLIENT = 'ROLE_CLIENT';
+
     private $facebookId;
-    private $facebookAccessToken;
-    private $usersFollowed;
-    private $usersFollowMe;
 
     public function __construct(
         UserId $anId,
         UserEmail $anEmail,
-        UserFacebookId $facebookId,
-        UserFacebookAccessToken $facebookAccessToken,
-        UsersFollowed $usersFollowed,
-        UsersFollowMe $usersFollowMe,
-        array $userRoles
-    )
-    {
-        parent::__construct($anId, $anEmail, $userRoles, null);
-        $this->facebookId = $facebookId;
-        $this->facebookAccessToken = $facebookAccessToken;
-        $this->usersFollowed = $usersFollowed;
-        $this->usersFollowMe = $usersFollowMe;
+        UserPassword $aPassword = null,
+        string $facebookId = null
+    ) {
+        $userRoles = array_map(function ($role) {
+            return new UserRole($role);
+        }, self::availableRoles());
+
+        parent::__construct($anId, $anEmail, $userRoles, $aPassword);
+
+        if (null !== $facebookId) {
+            $this->connectToFacebook($facebookId);
+        }
     }
 
-    public function facebookId(){
+    public function facebookId() : ?string
+    {
         return $this->facebookId;
     }
 
-    public function facebookAccessToken(){
-        return $this->facebookAccessToken;
+
+    public static function signUpWithFacebook(
+        UserId $id,
+        string $facebookId,
+        UserEmail $email
+    ) : self {
+        $client = new self($id, $email, null, $facebookId);
+
+        $client->publish(
+            new UserRegisteredWithFacebook(
+                $client->id(),
+                $client->facebookId(),
+                $client->email()
+            )
+        );
+
+        return $client;
+    }
+    public static function signUp(UserId $anId, UserEmail $anEmail, UserPassword $aPassword, array $userRoles){
+
     }
 
-    public function usersFollowed()
+    public function connectToFacebook(string $facebookId) : void
     {
-        return $this->usersFollowed;
+        $this->facebookId = $facebookId;
+        $this->lastLogin = new \DateTimeImmutable();
+
+        $this->publish(
+            new UserLoggedIn(
+                $this->id,
+                $this->email
+            )
+        );
     }
 
-    public function usersFollowMe()
+    public static function availableRoles() : array
     {
-        return $this->usersFollowMe;
+        return [
+            self::ROLE_CLIENT,
+        ];
     }
 }
+

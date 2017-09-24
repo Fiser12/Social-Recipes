@@ -18,20 +18,22 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
+        user:
             anonymous: ~
-            pattern: ^/user
+            pattern: ^/
             guard:
                 authenticators:
-                    - bengor_user.user.form_login_authenticator
+                    - app.security.authenticator.social
+                entry_point: bengor_user.user.form_login_authenticator
             provider: bengor_user
             form_login:
-                check_path: bengor_user_user_login_check
-                login_path: bengor_user_user_login
-                failure_path: bengor_user_user_login
+                check_path: bengor_user_client_login_check
+                failure_path: /?login=true
+                login_path: /?login=true
             logout:
-                path: bengor_user_user_logout
+                path: bengor_user_client_logout
                 target: /
+
     access_control:
         - { path: ^/user/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user/sign-up, role: IS_AUTHENTICATED_ANONYMOUSLY }

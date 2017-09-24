@@ -21,10 +21,14 @@ use BenGorUser\TwigBridgeBundle\TwigBridgeBundle;
 use BenGorUser\UserBundle\BenGorUserBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
+use KnpU\OAuth2ClientBundle\KnpUOAuth2ClientBundle;
 use LIN3S\Distribution\Php\Symfony\Lin3sDistributionBundle;
+use LIN3S\SharedKernel\Infrastructure\Symfony\Bundle\Lin3sSharedKernelBundle;
 use Sensio\Bundle\DistributionBundle\SensioDistributionBundle;
 use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
 use Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle;
+use SimpleBus\SymfonyBridge\SimpleBusCommandBusBundle;
+use SimpleBus\SymfonyBridge\SimpleBusEventBusBundle;
 use SmartCore\Bundle\AcceleratorCacheBundle\AcceleratorCacheBundle;
 use Symfony\Bundle\DebugBundle\DebugBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
@@ -60,6 +64,10 @@ class AppKernel extends Kernel
             new SimpleBusBridgeBundle(),
             new SimpleBusDoctrineORMBridgeBundle(),
             new BenGorUserBundle(),
+            new KnpUOAuth2ClientBundle(),
+            new Lin3sSharedKernelBundle(),
+            new SimpleBusCommandBusBundle(),
+            new SimpleBusEventBusBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

@@ -1,25 +1,9 @@
 App\Domain\Model\User\User:
     type: entity
     table: user
-    repositoryClass: App\Infrastructure\Symfony\Framework\Repository\UserRepository
-    lifecycleCallbacks: {  }
-    embedded:
-        facebookId:
-            class: App\Domain\Model\User\UserFacebookId
-        facebookAccessToken:
-            class: App\Domain\Model\User\UserFacebookAccessToken
-    manyToMany:
-      usersFollowed:
-        targetEntity: App\Domain\Model\User\User
-        inversedBy: usersFollowMe
-        joinTable:
-          name: users_followed
-          joinColumns:
-            user_id:
-              referencedColumnName: id
-          inverseJoinColumns:
-            user_followed_id:
-              referencedColumnName: id
-      usersFollowMe:
-        targetEntity: App\Domain\Model\User\User
-        mappedBy: usersFollowed
+    repositoryClass: BenGorUser\DoctrineORMBridge\Infrastructure\Persistence\DoctrineORMUserRepository
+    fields:
+      facebookId:
+        column: facebook_id
+        type: guid
+        nullable: true
