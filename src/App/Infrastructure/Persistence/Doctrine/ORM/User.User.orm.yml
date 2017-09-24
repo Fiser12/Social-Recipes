@@ -9,6 +9,7 @@ App\Domain\Model\User\User:
             class: App\Domain\Model\User\UserFacebookAccessToken
     manyToMany:
       usersFollowed:
+        fetch: EXTRA_LAZY
         targetEntity: App\Domain\Model\User\User
         joinTable:
           name: users_followed

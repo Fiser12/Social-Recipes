@@ -14,9 +14,13 @@ declare(strict_types=1);
 namespace App\Infrastructure\Symfony\Security;
 
 use App\Application\Command\SignUp\FacebookLogInClientCommand;
+use App\Domain\Model\User\User;
 use BenGorUser\User\Domain\Model\Exception\UserDoesNotExistException;
 use BenGorUser\User\Domain\Model\Exception\UserEmailInvalidException;
 use BenGorUser\User\Domain\Model\Exception\UserInactiveException;
+use Facebook\Exceptions\FacebookResponseException;
+use Facebook\Exceptions\FacebookSDKException;
+use Facebook\Facebook;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\OAuth2Client;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator as BaseSocialAuthenticator;
@@ -41,17 +45,23 @@ class SocialAuthenticator extends BaseSocialAuthenticator
     private $urlGenerator;
     private $commandBus;
     private $queryBus;
+    private $facebookClientId;
+    private $facebookAppSecret;
 
     public function __construct(
         ClientRegistry $clientRegistry,
         UrlGeneratorInterface $urlGenerator,
         MessageBusSupportingMiddleware $commandBus,
-        QueryBus $queryBus
+        QueryBus $queryBus,
+        string $facebookClientId,
+        string $facebookAppSecret
     ) {
         $this->clientRegistry = $clientRegistry;
         $this->urlGenerator = $urlGenerator;
         $this->commandBus = $commandBus;
         $this->queryBus = $queryBus;
+        $this->facebookClientId = $facebookClientId;
+        $this->facebookAppSecret = $facebookAppSecret;
     }
 
     public function getCredentials(Request $request)
@@ -62,7 +72,12 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         $accessToken = $this->fetchAccessToken($this->client());
         $oauthUser = $this->client()->fetchUserFromToken($accessToken);
 
-        return new FacebookLogInClientCommand($oauthUser->getId(), $accessToken->getToken(), $oauthUser->getEmail());
+        return new FacebookLogInClientCommand(
+            $oauthUser->getId(),
+            $accessToken->getToken(),
+            $oauthUser->getEmail(),
+            $this->getFollowUsers($accessToken->getToken())
+        );
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider) : UserInterface
@@ -126,4 +141,40 @@ class SocialAuthenticator extends BaseSocialAuthenticator
 
         return new RedirectResponse($url);
     }
+
+
+    private function getFollowUsersFromApi(string $accessToken): array
+    {
+        $fb = new Facebook([
+            'app_id' => $this->facebookClientId,
+            'app_secret' => $this->facebookAppSecret,
+            'default_graph_version' => 'v2.10',
+            'default_access_token' => $accessToken,
+        ]);
+        try {
+            $response = $fb->get('/me/friends');
+            return $response->getDecodedBody();
+        } catch (FacebookResponseException $e) {
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+        } catch (FacebookSDKException $e) {
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+        }
+    }
+
+    private function getFollowUsers(string $accessToken) : array{
+        $usersFollowers = [];
+        if(isset($this->getFollowUsersFromApi($accessToken)["data"]))
+        {
+            foreach($this->getFollowUsersFromApi($accessToken)["data"] as $followUser)
+            {
+                if(isset($followUser["id"])){
+                    $usersFollowers[] = $followUser["id"];
+                }
+            }
+        }
+        return $usersFollowers;
+    }
+
 }

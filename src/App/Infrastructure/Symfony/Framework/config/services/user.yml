@@ -13,6 +13,8 @@ services:
             - "@router"
             - "@command_bus"
             - "@app.query_bus"
+            - "%oauth_facebook_client_id%"
+            - "%oauth_facebook_client_secret%"
 
     app.application.command.user.facebook_login:
         class: App\Application\Command\SignUp\FacebookLogInClientHandler

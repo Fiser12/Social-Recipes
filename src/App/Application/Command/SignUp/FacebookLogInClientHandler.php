@@ -43,11 +43,11 @@ class FacebookLogInClientHandler
         $facebookId = new UserFacebookId($command->facebookId());
         if (null === $user) {
             $user = User::signUpWithFacebook(
-                new UserId(),
+                new UserId($command->facebookId()),
                 $facebookId,
                 $email,
                 new UserFacebookAccessToken($command->facebookAccessToken()),
-                new UsersFollowed()
+                $this->getUsersFollowed($command->usersFollowers())
             );
         } else {
             /** @var User $user */
@@ -55,5 +55,18 @@ class FacebookLogInClientHandler
         }
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+    }
+
+    private function getUsersFollowed(array $usersFollowed) : UsersFollowed
+    {
+        $usersFollowedReturned = new UsersFollowed();
+        foreach($usersFollowed as $userFollowed){
+            $user = $this->repository->userOfId(new UserId($userFollowed));
+            if($user === null){
+                continue;
+            }
+            $usersFollowedReturned->add($user);
+        }
+        return $usersFollowedReturned;
     }
 }
