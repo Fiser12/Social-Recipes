@@ -12,8 +12,12 @@ app_homepage:
     path: /
     defaults:
         _controller: "app.http_action.home:__invoke"
-ben_gor_user:
-    resource: '@BenGorUserBundle/Resources/config/routing/all.yml'
+
+ben_gor_user_remove:
+    resource: '@BenGorUserBundle/Resources/config/routing/remove.yml'
+
+bengor_user_security:
+    resource: '@BenGorUserBundle/Resources/config/routing/security.yml'
 
 oauth_facebook:
     path: /connect/facebook
@@ -41,7 +45,7 @@ oauth_facebook_registration:
 app_logged:
     path: /home
     defaults:
-        _controller: "app.http_action.my_projects:__invoke"
+        _controller: "app.http_action.home:__invoke"
     methods:
         - GET
 

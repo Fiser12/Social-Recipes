@@ -17,6 +17,7 @@ use App\Domain\Model\User\User;
 use BenGorUser\User\Domain\Model\UserEmail;
 use BenGorUser\User\Domain\Model\UserId;
 use BenGorUser\User\Domain\Model\UserRepository;
+use Doctrine\ORM\EntityManager;
 
 /**
  * @author José Elías Gutiérrez <jose@lin3s.com>
@@ -24,10 +25,12 @@ use BenGorUser\User\Domain\Model\UserRepository;
 class FacebookLogInClientHandler
 {
     private $repository;
+    private $entityManager;
 
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepository $repository, EntityManager $entityManager)
     {
         $this->repository = $repository;
+        $this->entityManager = $entityManager;
     }
 
     public function __invoke(FacebookLogInClientCommand $command) : void
@@ -43,8 +46,10 @@ class FacebookLogInClientHandler
                 $email
             );
         } else {
+            /** @var User $user */
             $user->connectToFacebook($facebookId);
         }
-        $this->repository->persist($user);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
     }
 }

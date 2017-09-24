@@ -70,23 +70,8 @@ ben_gor_user:
                 - ROLE_CLIENT
             routes:
                 security:
-                    login:
-                        path: /login/
-                    login_check:
-                        path: /login-check/
-                    logout:
-                        path: /logout/
-                    success_redirection_route:
-                        route: /
                     jwt:
                         path: /api/client/token
-                change_password:
-                    path: /cambiar-contrasena/
-                    success_redirection_route: app_home
-                request_remember_password:
-                    path: /recordar-contrasena/
-                    success_redirection_route: ~
-
 knpu_oauth2_client:
     clients:
         facebook:

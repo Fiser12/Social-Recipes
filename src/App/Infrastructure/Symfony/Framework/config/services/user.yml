@@ -18,6 +18,7 @@ services:
         class: App\Application\Command\SignUp\FacebookLogInClientHandler
         arguments:
             - "@bengor_user.user.repository"
+            - "@doctrine.orm.entity_manager"
         tags:
             -
                 name: command_handler
