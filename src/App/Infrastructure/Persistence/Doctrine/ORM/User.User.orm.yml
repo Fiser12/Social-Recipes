@@ -7,6 +7,8 @@ App\Domain\Model\User\User:
             class: App\Domain\Model\User\UserFacebookId
         facebookAccessToken:
             class: App\Domain\Model\User\UserFacebookAccessToken
+        fullName:
+            class: App\Domain\Model\User\FullName
     manyToMany:
       usersFollowed:
         fetch: EXTRA_LAZY
@@ -15,7 +17,9 @@ App\Domain\Model\User\User:
           name: users_followed
           joinColumns:
             user_id:
+              onDelete: CASCADE
               referencedColumnName: id
           inverseJoinColumns:
             user_followed_id:
+              onDelete: CASCADE
               referencedColumnName: id

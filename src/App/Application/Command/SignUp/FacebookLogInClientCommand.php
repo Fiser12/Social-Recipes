@@ -19,16 +19,27 @@ namespace App\Application\Command\SignUp;
 class FacebookLogInClientCommand
 {
     private $facebookId;
+    private $firstName;
+    private $lastName;
     private $email;
     private $facebookAccessToken;
     private $usersFollowers;
 
-    public function __construct(string $facebookId, string $facebookAccessToken, string $email, array $usersFollowers)
+    public function __construct(
+        string $facebookId,
+        string $facebookAccessToken,
+        string $email,
+        string $firstName,
+        ?string $lastName,
+        array $usersFollowers
+    )
     {
         $this->facebookId = $facebookId;
         $this->email = $email;
         $this->facebookAccessToken = $facebookAccessToken;
         $this->usersFollowers = $usersFollowers;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
     }
 
     public function facebookId() : string
@@ -50,4 +61,15 @@ class FacebookLogInClientCommand
     {
         return $this->usersFollowers;
     }
+
+    public function firstName() : string
+    {
+        return $this->firstName;
+    }
+
+    public function lastName() : ?string
+    {
+        return $this->lastName;
+    }
+
 }

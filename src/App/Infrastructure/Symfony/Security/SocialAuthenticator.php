@@ -14,6 +14,9 @@ declare(strict_types=1);
 namespace App\Infrastructure\Symfony\Security;
 
 use App\Application\Command\SignUp\FacebookLogInClientCommand;
+use App\Domain\Model\User\FirstName;
+use App\Domain\Model\User\FullName;
+use App\Domain\Model\User\LastName;
 use App\Domain\Model\User\User;
 use BenGorUser\User\Domain\Model\Exception\UserDoesNotExistException;
 use BenGorUser\User\Domain\Model\Exception\UserEmailInvalidException;
@@ -70,12 +73,16 @@ class SocialAuthenticator extends BaseSocialAuthenticator
             return;
         }
         $accessToken = $this->fetchAccessToken($this->client());
-        $oauthUser = $this->client()->fetchUserFromToken($accessToken);
 
+        $oauthUser = $this->client()->fetchUserFromToken($accessToken);
+        $this->getFollowUsers($accessToken->getToken());
+        $nameApi = $this->getFullName($accessToken->getToken());
         return new FacebookLogInClientCommand(
             $oauthUser->getId(),
             $accessToken->getToken(),
             $oauthUser->getEmail(),
+            $nameApi['first_name'],
+            $nameApi['last_name'],
             $this->getFollowUsers($accessToken->getToken())
         );
     }
@@ -91,16 +98,7 @@ class SocialAuthenticator extends BaseSocialAuthenticator
                 )
             );
         }
-        try {
-            $this->commandBus->handle($credentials);
-        } catch (UserEmailInvalidException | UserInactiveException | UserDoesNotExistException $exception) {
-            throw new FinishRegistrationException([
-                'id'         => $credentials->id(),
-                'email'      => $credentials->email(),
-                'first_name' => $credentials->firstName(),
-                'last_name'  => $credentials->lastName(),
-            ]);
-        }
+         $this->commandBus->handle($credentials);
 
         return $userProvider->loadUserByUsername($credentials->email());
     }
@@ -142,6 +140,25 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         return new RedirectResponse($url);
     }
 
+    private function getFullName(string $accessToken): array
+    {
+        $fb = new Facebook([
+            'app_id' => $this->facebookClientId,
+            'app_secret' => $this->facebookAppSecret,
+            'default_graph_version' => 'v2.10',
+            'default_access_token' => $accessToken,
+        ]);
+        try {
+            $response = $fb->get('/me?fields=first_name,last_name')->getDecodedBody();
+            return ['first_name' => $response['first_name'], 'last_name' => $response['last_name']];
+        } catch (FacebookResponseException $e) {
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+        } catch (FacebookSDKException $e) {
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+        }
+    }
 
     private function getFollowUsersFromApi(string $accessToken): array
     {
@@ -163,17 +180,21 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         }
     }
 
-    private function getFollowUsers(string $accessToken) : array{
+    private function getFollowUsers(string $accessToken): array
+    {
         $usersFollowers = [];
-        if(isset($this->getFollowUsersFromApi($accessToken)["data"]))
-        {
-            foreach($this->getFollowUsersFromApi($accessToken)["data"] as $followUser)
-            {
-                if(isset($followUser["id"])){
-                    $usersFollowers[] = $followUser["id"];
-                }
+        $usersFollowersApi = $this->getFollowUsersFromApi($accessToken);
+
+        if (isset($usersFollowersApi["data"])) {
+            return [];
+        }
+
+        foreach ($usersFollowersApi["data"] as $followUser) {
+            if (isset($followUser["id"])) {
+                $usersFollowers[] = $followUser["id"];
             }
         }
+
         return $usersFollowers;
     }
 

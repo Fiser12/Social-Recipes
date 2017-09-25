@@ -17,6 +17,7 @@ use App\Application\Command\SignUp\FacebookLogInClientCommand;
 use App\Infrastructure\Symfony\Security\SocialAuthenticator;
 use BenGorUser\User\Domain\Model\Exception\UserAlreadyExistException;
 use LIN3S\SharedKernel\Application\CommandBus;
+use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,7 +44,7 @@ class FacebookConnectRegistrationAction
     private $urlGenerator;
 
     public function __construct(
-        CommandBus $commandBus,
+        MessageBusSupportingMiddleware $commandBus,
         SocialAuthenticator $socialAuthenticator,
         FormFactoryInterface $formFactory,
         TranslatorInterface $translator,
@@ -72,6 +73,8 @@ class FacebookConnectRegistrationAction
         try {
             $this->commandBus->handle(
                 new FacebookLogInClientCommand(
+                    $facebookUser['id'],
+                    $facebookUser['id'],
                     $facebookUser['id'],
                     $facebookUser['email'],
                     $facebookUser['first_name'],

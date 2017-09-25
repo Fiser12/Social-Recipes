@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace App\Application\Command\SignUp;
 
+use App\Domain\Model\User\FirstName;
+use App\Domain\Model\User\FullName;
+use App\Domain\Model\User\LastName;
 use App\Domain\Model\User\User;
 use App\Domain\Model\User\UserFacebookAccessToken;
 use App\Domain\Model\User\UserFacebookId;
@@ -44,6 +47,7 @@ class FacebookLogInClientHandler
         if (null === $user) {
             $user = User::signUpWithFacebook(
                 new UserId($command->facebookId()),
+                new FullName(new FirstName($command->firstName()), new LastName($command->lastName())),
                 $facebookId,
                 $email,
                 new UserFacebookAccessToken($command->facebookAccessToken()),

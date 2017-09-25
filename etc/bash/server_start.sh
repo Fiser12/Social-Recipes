@@ -10,5 +10,4 @@
 # @author Beñat Espiña <benatespina@gmail.com>
 # @author Gorka Laucirica <gorka.lauzirika@gmail.com>
 
-$(dirname $0)/../bin/symfony-console server:run 127.0.0.1:8001 \
-    --docroot=src/App/Infrastructure/Ui/Http/Symfony
+$(dirname $0)/../bin/symfony-console server:run 127.0.0.1:8001 --docroot=src/App/Infrastructure/Ui/Http/Symfony

@@ -1,0 +1,4 @@
+App\Domain\Model\User\FirstName:
+    type: embeddable
+    fields:
+        firstName: { type: string }
