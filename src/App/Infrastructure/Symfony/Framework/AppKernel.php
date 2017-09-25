@@ -11,14 +11,24 @@
 
 namespace App\Infrastructure\Symfony\Framework;
 
+use BenGorUser\DoctrineORMBridgeBundle\DoctrineORMBridgeBundle;
+use BenGorUser\SimpleBusBridgeBundle\SimpleBusBridgeBundle;
+use BenGorUser\SimpleBusBridgeBundle\SimpleBusDoctrineORMBridgeBundle;
+use BenGorUser\SwiftMailerBridgeBundle\SwiftMailerBridgeBundle;
+use BenGorUser\SymfonyRoutingBridgeBundle\SymfonyRoutingBridgeBundle;
+use BenGorUser\SymfonySecurityBridgeBundle\SymfonySecurityBridgeBundle;
+use BenGorUser\TwigBridgeBundle\TwigBridgeBundle;
+use BenGorUser\UserBundle\BenGorUserBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
-use FOS\UserBundle\FOSUserBundle;
-use HWI\Bundle\OAuthBundle\HWIOAuthBundle;
+use KnpU\OAuth2ClientBundle\KnpUOAuth2ClientBundle;
 use LIN3S\Distribution\Php\Symfony\Lin3sDistributionBundle;
+use LIN3S\SharedKernel\Infrastructure\Symfony\Bundle\Lin3sSharedKernelBundle;
 use Sensio\Bundle\DistributionBundle\SensioDistributionBundle;
 use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
 use Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle;
+use SimpleBus\SymfonyBridge\SimpleBusCommandBusBundle;
+use SimpleBus\SymfonyBridge\SimpleBusEventBusBundle;
 use SmartCore\Bundle\AcceleratorCacheBundle\AcceleratorCacheBundle;
 use Symfony\Bundle\DebugBundle\DebugBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
@@ -46,9 +56,18 @@ class AppKernel extends Kernel
             new SensioFrameworkExtraBundle(),
             new SwiftmailerBundle(),
             new TwigBundle(),
-            new FOSUserBundle(),
-            new HWIOAuthBundle(),
-            new AppBundle()
+            new TwigBridgeBundle(),
+            new SymfonyRoutingBridgeBundle(),
+            new SymfonySecurityBridgeBundle(),
+            new SwiftMailerBridgeBundle(),
+            new DoctrineORMBridgeBundle(),
+            new SimpleBusBridgeBundle(),
+            new SimpleBusDoctrineORMBridgeBundle(),
+            new BenGorUserBundle(),
+            new KnpUOAuth2ClientBundle(),
+            new Lin3sSharedKernelBundle(),
+            new SimpleBusCommandBusBundle(),
+            new SimpleBusEventBusBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

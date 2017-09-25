@@ -1,0 +1,21 @@
+App\Domain\Model\User\User:
+    type: entity
+    table: user
+    repositoryClass: BenGorUser\DoctrineORMBridge\Infrastructure\Persistence\DoctrineORMUserRepository
+    embedded:
+        facebookId:
+            class: App\Domain\Model\User\UserFacebookId
+        facebookAccessToken:
+            class: App\Domain\Model\User\UserFacebookAccessToken
+    manyToMany:
+      usersFollowed:
+        fetch: EXTRA_LAZY
+        targetEntity: App\Domain\Model\User\User
+        joinTable:
+          name: users_followed
+          joinColumns:
+            user_id:
+              referencedColumnName: id
+          inverseJoinColumns:
+            user_followed_id:
+              referencedColumnName: id

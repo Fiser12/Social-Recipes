@@ -34,10 +34,3 @@ doctrine:
             alias: 'CoreModels'
             prefix: 'App\Domain\Model'
             is_bundle: false
-          FOSUserBundle:
-            mapping: true
-            type: ~
-            dir: ~
-            alias: ~
-            prefix: ~
-            is_bundle: ~

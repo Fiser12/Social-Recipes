@@ -9,32 +9,33 @@
 # @author Gorka Laucirica <gorka.lauzirika@gmail.com>
 
 security:
+    encoders:
+        App\Domain\Model\User\User: bcrypt
     providers:
-        hwi_provider:
-           entity: {  class: App\Domain\Model\User, property: login }
-        in_memory:
-            memory: ~
+        bengor_user:
+            id: bengor_user.user.provider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        secured_area:
-            pattern: ^/
+        user:
             anonymous: ~
+            pattern: ^/
+            guard:
+                authenticators:
+                    - app.security.authenticator.social
+                entry_point: bengor_user.user.form_login_authenticator
+            provider: bengor_user
+            form_login:
+                check_path: bengor_user_client_login_check
+                failure_path: /?login=true
+                login_path: /?login=true
             logout:
-                path: /logout
+                path: bengor_user_client_logout
                 target: /
-            security: true
-            anonymous: true
-            oauth:
-                resource_owners:
-                    facebook: "/login/check-facebook"
-                login_path:        /login
-                failure_path:      /login
-                oauth_user_provider:
-                    service: app.facebook_oauth.user_provider
-
 
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/login/check-facebook, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/sign-up, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/enable, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/, role: ROLE_USER }
