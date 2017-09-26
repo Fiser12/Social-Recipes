@@ -74,18 +74,8 @@
         ]
     },
     "autoload": {
-        "psr-4": {
-            "App\\": "src/App/"
-        },
-        "exclude-from-classmap": [
-            "/Tests/",
-            "/test/",
-            "/tests/"
-        ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
+        "psr-0": {
+            "": "src/"
         }
     },
     "extra": {
