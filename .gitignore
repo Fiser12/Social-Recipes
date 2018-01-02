@@ -29,3 +29,5 @@
 .idea/
 composer.phar
 !/parameters.yml.dist
+
+/node_modules
