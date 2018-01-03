@@ -6,11 +6,13 @@ networks:
 
 services:
   db:
+    container_name: mysql
     image: mysql:5.7.17
     env_file:
       - ./.env
     volumes:
-      - "./volumes/mysql/dev:/var/lib/mysql"
+      - "./volumes/mysql/database:/var/lib/mysql"
+      - "./volumes/mysql/conf:/etc/mysql/conf.d"
     networks:
       crv_dev_network:
         aliases:
@@ -18,13 +20,13 @@ services:
     ports:
       - "3306:3306"
 
-  app:
-    container_name: sf.app
-    build: .docker/php
+  php:
+    container_name: php
+    build: docker/php
     volumes:
-      - .:/app
-      - ./var/logs:/app/var/logs
-      - ./var/cache.:/app/var/cache
+      - ./code:/app
+      - ./volumes/logs:/app/var/logs
+      - ./volumes/cache:/app/var/cache
     networks:
       crv_dev_network:
         aliases:
@@ -33,10 +35,10 @@ services:
       - ./.env
 
   nginx:
-    container_name: sf.nginx
-    build: .docker/nginx
+    container_name: nginx
+    build: docker/nginx
     volumes_from:
-      - app
+      - php
     ports:
       - "80:80"
     networks:

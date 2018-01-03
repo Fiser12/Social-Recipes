@@ -8,29 +8,32 @@
 # @author Beñat Espiña <benatespina@gmail.com>
 # @author Gorka Laucirica <gorka.lauzirika@gmail.com>
 
-/.editorconfig
-/.lin3s_cs.yml
+/code/.editorconfig
+/code/.lin3s_cs.yml
 /.env
-/parameters.yml
+/code/parameters.yml
 
-/src/App/Infrastructure/Ui/Assets/.eslint.yml
-/src/App/Infrastructure/Ui/Assets/.scss_lint.yml
-/src/App/Infrastructure/Ui/Assets/node_modules
-/src/App/Infrastructure/Ui/Assets/build
-!/src/App/Infrastructure/Ui/Assets/build/.gitkeep
-/src/App/Infrastructure/Ui/Http/Symfony/.htaccess
-/src/App/Infrastructure/Ui/Http/Symfony/bundles
-/src/App/Infrastructure/Ui/Http/Symfony/robots.txt
-/src/App/Infrastructure/Ui/manifest.json
+/code/src/App/Infrastructure/Ui/Assets/.eslint.yml
+/code/src/App/Infrastructure/Ui/Assets/.scss_lint.yml
+/code/src/App/Infrastructure/Ui/Assets/node_modules
+/code/src/App/Infrastructure/Ui/Assets/build
+!/code/src/App/Infrastructure/Ui/Assets/build/.gitkeep
+/code/src/App/Infrastructure/Ui/Http/Symfony/.htaccess
+/code/src/App/Infrastructure/Ui/Http/Symfony/bundles
+/code/src/App/Infrastructure/Ui/Http/Symfony/robots.txt
+/code/src/App/Infrastructure/Ui/manifest.json
+.DS_Store
 
 /volumes/*
 !/volumes/.gitkeep
-/var/*
-!/var/.gitkeep
+!/volumes/mysql/conf/mysql.conf
 
-/vendor
-.idea/
-composer.phar
-!/parameters.yml.dist
+/code/var/*
+!/code/var/.gitkeep
 
-/node_modules
+/code/vendor
+/code/.idea/
+/code/composer.phar
+!/code/parameters.yml.dist
+
+/code/node_modules

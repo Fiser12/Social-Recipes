@@ -5,14 +5,12 @@ dev:
         	docker-compose \
             		-f docker-compose.yml \
         	up -d --remove-orphans && \
-            composer install  && \
-            php etc/bin/symfony-console doctrine:database:create --if-not-exists && \
-            php etc/bin/symfony-console do:mi:mi -v
+            $(MAKE) -C code dev
 prod:
 	@docker-compose down && \
         	docker-compose build --pull --no-cache && \
         	docker-compose \
             		-f docker-compose.yml \
         	up -d --remove-orphans && \
-            composer install  && \
-            php etc/bin/symfony-console do:mi:mi -v
+            cd code && composer install  && \
+            php code/etc/bin/symfony-console do:mi:mi -v
