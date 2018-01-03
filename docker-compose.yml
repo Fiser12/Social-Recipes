@@ -20,8 +20,8 @@ services:
     ports:
       - "3306:3306"
 
-  php:
-    container_name: php
+  app:
+    container_name: symfony-app
     build: docker/php
     volumes:
       - ./code:/app
@@ -35,10 +35,10 @@ services:
       - ./.env
 
   nginx:
-    container_name: nginx
+    container_name: nginx-server
     build: docker/nginx
     volumes_from:
-      - php
+      - app
     ports:
       - "80:80"
     networks:
