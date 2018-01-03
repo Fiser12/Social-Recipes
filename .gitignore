@@ -10,8 +10,9 @@
 
 /.editorconfig
 /.lin3s_cs.yml
-
+/.env
 /parameters.yml
+
 /src/App/Infrastructure/Ui/Assets/.eslint.yml
 /src/App/Infrastructure/Ui/Assets/.scss_lint.yml
 /src/App/Infrastructure/Ui/Assets/node_modules
@@ -22,6 +23,8 @@
 /src/App/Infrastructure/Ui/Http/Symfony/robots.txt
 /src/App/Infrastructure/Ui/manifest.json
 
+/volumes/*
+!/volumes/.gitkeep
 /var/*
 !/var/.gitkeep
 
@@ -29,3 +32,5 @@
 .idea/
 composer.phar
 !/parameters.yml.dist
+
+/node_modules
