@@ -1,4 +1,0 @@
-App\Domain\Model\User\UserFacebookId:
-    type: embeddable
-    fields:
-        id: { type: string }
