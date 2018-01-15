@@ -9,3 +9,18 @@ App\Domain\Model\Session\User:
         facebookAccessToken:
             columnPrefix: facebook_access_token_
             class: App\Domain\Model\Session\UserFacebookAccessToken
+    manyToMany:
+      usersFollowed:
+        targetEntity: App\Domain\Model\Session\User
+        inversedBy: usersFollowMe
+        joinTable:
+          name: users_followed
+          joinColumns:
+            user_id:
+              referencedColumnName: id
+          inverseJoinColumns:
+            user_followed_id:
+              referencedColumnName: id
+      usersFollowMe:
+        targetEntity: App\Domain\Model\Session\User
+        mappedBy: usersFollowed

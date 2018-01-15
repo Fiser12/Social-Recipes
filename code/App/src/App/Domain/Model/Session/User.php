@@ -21,19 +21,24 @@ class User extends BaseUser
 {
     private $facebookId;
     private $facebookAccessToken;
+    private $usersFollowed;
+    private $usersFollowMe;
 
     public function __construct(
         UserId $anId,
         UserEmail $anEmail,
         UserFacebookId $facebookId,
         UserFacebookAccessToken $facebookAccessToken,
-        array $userRoles,
-        $aPassword = null
+        UsersFollowed $usersFollowed,
+        UsersFollowMe $usersFollowMe,
+        array $userRoles
     )
     {
-        parent::__construct($anId, $anEmail, $userRoles, $aPassword);
+        parent::__construct($anId, $anEmail, $userRoles, null);
         $this->facebookId = $facebookId;
         $this->facebookAccessToken = $facebookAccessToken;
+        $this->usersFollowed = $usersFollowed;
+        $this->usersFollowMe = $usersFollowMe;
     }
 
     public function facebookId() : UserFacebookId{
@@ -42,5 +47,15 @@ class User extends BaseUser
 
     public function facebookAccessToken() : UserFacebookAccessToken{
         return $this->facebookAccessToken;
+    }
+
+    public function usersFollowed() : UsersFollowed
+    {
+        return $this->usersFollowed;
+    }
+
+    public function usersFollowMe() : UsersFollowMe
+    {
+        return $this->usersFollowMe;
     }
 }
