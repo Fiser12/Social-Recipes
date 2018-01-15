@@ -2,3 +2,10 @@ App\Domain\Model\Session\User:
     type: entity
     table: user
     lifecycleCallbacks: {  }
+    embedded:
+        facebookId:
+            columnPrefix: facebook_id_
+            class: App\Domain\Model\Session\UserFacebookId
+        facebookAccessToken:
+            columnPrefix: facebook_access_token_
+            class: App\Domain\Model\Session\UserFacebookAccessToken
