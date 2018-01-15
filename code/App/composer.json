@@ -12,6 +12,8 @@
 
         "hwi/oauth-bundle": "^0.5.3",
         "facebook/graph-sdk": "^5.6",
+        "knpuniversity/oauth2-client-bundle": "^1.10",
+        "ajgl/simple-bus-query-bus": "^0.1.0",
 
         "lin3s/shared-kernel": "^0.4.0",
         "doctrine/doctrine-bundle": "^1.6",
