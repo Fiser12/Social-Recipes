@@ -60,3 +60,9 @@ lin3s_distribution:
         manifest_path: "%kernel.root_dir%/../../Ui/manifest.json"
         public_js_path: "/build/"
         public_css_path: "/build"
+
+ben_gor_user:
+    user_class:
+        user:
+            class: App\Domain\Model\Session\User
+            firewall: user

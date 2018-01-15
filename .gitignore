@@ -12,6 +12,7 @@
 /code/App/.lin3s_cs.yml
 /.env
 /code/App/parameters.yml
+/.idea/*
 
 /code/App/src/App/Infrastructure/Ui/Assets/.eslint.yml
 /code/App/src/App/Infrastructure/Ui/Assets/.scss_lint.yml

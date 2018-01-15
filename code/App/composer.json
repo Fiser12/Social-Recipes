@@ -1,10 +1,19 @@
 {
     "require": {
         "php": "^7.1",
-        "doctrine/orm": "^2.5",
+
+        "bengor-user/user-bundle": "^0.8.5",
+        "bengor-user/symfony-routing-bridge-bundle": "^1.1",
+        "bengor-user/symfony-security-bridge-bundle": "^1.0.1",
+        "bengor-user/twig-bridge-bundle": "^1.0.1",
+        "bengor-user/doctrine-orm-bridge-bundle": "^1.2.0",
+        "bengor-user/swift-mailer-bridge-bundle": "^1.0.1",
+        "bengor-user/simple-bus-bridge-bundle": "^1.0.1",
+
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-cache-bundle": "^1.2",
         "doctrine/doctrine-migrations-bundle": "^1.2",
+        "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",
         "lin3s/distribution": "^4.0.1",
         "sensio/distribution-bundle": "^5.0",

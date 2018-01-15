@@ -11,3 +11,5 @@
 services:
     app.http_action.home:
         class: App\Infrastructure\Symfony\HttpAction\HomeAction
+    app.http_action.user.success:
+        class: App\Infrastructure\Symfony\HttpAction\HomeAction

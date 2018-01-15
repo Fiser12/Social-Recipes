@@ -13,6 +13,14 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Symfony\Framework;
 
+use BenGorUser\DoctrineORMBridgeBundle\DoctrineORMBridgeBundle;
+use BenGorUser\SimpleBusBridgeBundle\SimpleBusBridgeBundle;
+use BenGorUser\SimpleBusBridgeBundle\SimpleBusDoctrineORMBridgeBundle;
+use BenGorUser\SwiftMailerBridgeBundle\SwiftMailerBridgeBundle;
+use BenGorUser\SymfonyRoutingBridgeBundle\SymfonyRoutingBridgeBundle;
+use BenGorUser\SymfonySecurityBridgeBundle\SymfonySecurityBridgeBundle;
+use BenGorUser\TwigBridgeBundle\TwigBridgeBundle;
+use BenGorUser\UserBundle\BenGorUserBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
 use LIN3S\Distribution\Php\Symfony\Lin3sDistributionBundle;
@@ -34,7 +42,7 @@ class AppKernel extends Kernel
 {
     public function registerBundles() : array
     {
-        $bundles = [
+        $bundles = array(
             new AcceleratorCacheBundle(),
             new DoctrineMigrationsBundle(),
             new DoctrineBundle(),
@@ -45,7 +53,19 @@ class AppKernel extends Kernel
             new SensioFrameworkExtraBundle(),
             new SwiftmailerBundle(),
             new TwigBundle(),
-        ];
+
+            new TwigBridgeBundle(),
+            new SymfonyRoutingBridgeBundle(),
+            new SymfonySecurityBridgeBundle(),
+            new SwiftMailerBridgeBundle(),
+            new DoctrineORMBridgeBundle(),
+            new SimpleBusBridgeBundle(),
+            new SimpleBusDoctrineORMBridgeBundle(),
+
+            // User bundle
+            new BenGorUserBundle(),
+
+        );
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
             $bundles[] = new DebugBundle();

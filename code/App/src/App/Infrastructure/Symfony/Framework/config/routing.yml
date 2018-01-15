@@ -12,3 +12,11 @@ app_homepage:
     path: /
     defaults:
         _controller: "app.http_action.home:__invoke"
+
+ben_gor_user:
+    resource: '@BenGorUserBundle/Resources/config/routing/all.yml'
+
+bengor_user_user_homepage:
+    path: /user/
+    defaults:
+        _controller: "app.http_action.user.success:__invoke"
