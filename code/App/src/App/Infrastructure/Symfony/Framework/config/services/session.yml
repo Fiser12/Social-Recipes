@@ -1,0 +1,28 @@
+services:
+    catch_return_message_bus:
+        class: Ajgl\SimpleBus\Message\Bus\Middleware\CatchReturnMessageBusSupportingMiddleware
+
+    app.query_bus:
+        class: LIN3S\SharedKernel\Infrastructure\Application\SimpleBus\SimpleBusQueryBus
+        arguments: ['@catch_return_message_bus']
+
+    app.security.authenticator.social:
+        class: App\Infrastructure\Symfony\Security\SocialAuthenticator
+        arguments:
+            - "@knpu.oauth2.registry"
+            - "@router"
+            - "@command_bus"
+            - "@app.query_bus"
+            - "%oauth_facebook_client_id%"
+            - "%oauth_facebook_client_secret%"
+
+    #Command-Handlers
+    app.application.command.user.facebook_login:
+        class: App\Application\Command\Session\FacebookLogInClientHandler
+        arguments:
+            - "@bengor_user.user.repository"
+            - "@doctrine.orm.entity_manager"
+        tags:
+            -
+                name: command_handler
+                handles: App\Application\Command\Session\FacebookLogInClientCommand

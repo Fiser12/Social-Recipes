@@ -11,5 +11,20 @@
 services:
     app.http_action.home:
         class: App\Infrastructure\Symfony\HttpAction\HomeAction
-    app.http_action.user.success:
-        class: App\Infrastructure\Symfony\HttpAction\HomeAction
+    app.http_action.facebook.connect_registration:
+        class: App\Infrastructure\Symfony\HttpAction\FacebookConnectRegistrationAction
+        arguments:
+            - "@command_bus"
+            - "@app.security.authenticator.social"
+            - "@form.factory"
+            - "@translator"
+            - "@session.flash_bag"
+            - "@bengor_user.user.provider"
+            - "@security.authentication.guard_handler"
+            - "@router"
+    app.http_action.facebook.connect_check:
+        class: App\Infrastructure\Symfony\HttpAction\FacebookConnectCheckAction
+    app.http_action.facebook.connect:
+        class: App\Infrastructure\Symfony\HttpAction\FacebookConnectAction
+        arguments:
+            - "@knpu.oauth2.registry"

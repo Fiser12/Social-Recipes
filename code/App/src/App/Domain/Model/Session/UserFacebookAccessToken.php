@@ -16,34 +16,19 @@ namespace App\Domain\Model\Session;
 class UserFacebookAccessToken
 {
     private $token;
-    private $createdOn;
 
-    public function __construct(string $token)
+    public function __construct($token)
     {
         $this->token = $token;
-        $this->createdOn = new \DateTimeImmutable();
     }
 
-    public function token() : string
+    public function token()
     {
         return $this->token;
     }
-
-    public function createdOn() : \DateTimeImmutable
-    {
-        return $this->createdOn;
-    }
-
-    public function equals(UserFacebookAccessToken $aToken) : bool
+    public function equals(UserFacebookAccessToken $aToken)
     {
         return $this->token === $aToken->token();
-    }
-
-    public function isExpired($lifetime) : bool
-    {
-        $interval = $this->createdOn->diff(new \DateTimeImmutable());
-
-        return $interval->s >= (int) $lifetime;
     }
 
     public function __toString()

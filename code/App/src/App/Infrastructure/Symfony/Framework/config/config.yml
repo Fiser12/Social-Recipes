@@ -66,3 +66,25 @@ ben_gor_user:
         user:
             class: App\Domain\Model\Session\User
             firewall: user
+
+ben_gor_user:
+    user_class:
+        user:
+            class: App\Domain\Model\Session\User
+            data_transformer: App\Application\DataTransformer\Session\UserDTODataTransform
+            firewall: user
+            default_roles:
+                - ROLE_CLIENT
+            routes:
+                security:
+                    jwt:
+                        path: /api/client/token
+
+knpu_oauth2_client:
+    clients:
+        facebook:
+            type: facebook
+            client_id: "%oauth_facebook_client_id%"
+            client_secret: "%oauth_facebook_client_secret%"
+            graph_api_version: v2.9
+            redirect_route: oauth_facebook_check

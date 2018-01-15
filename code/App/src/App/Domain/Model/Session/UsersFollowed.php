@@ -13,13 +13,12 @@ declare(strict_types=1);
 
 namespace App\Domain\Model\Session;
 
-use BenGorUser\User\Domain\Model\UserId;
 use LIN3S\SharedKernel\Domain\Model\Collection\Collection;
 
 class UsersFollowed extends Collection
 {
     protected function type()
     {
-        return UserId::class;
+        return User::class;
     }
 }

@@ -1,0 +1,9 @@
+App\Domain\Model\Session\FullName:
+    type: embeddable
+    embedded:
+        firstName:
+            columnPrefix: first_name_
+            class: App\Domain\Model\Session\FirstName
+        lastName:
+            columnPrefix: last_name_
+            class: App\Domain\Model\Session\LastName

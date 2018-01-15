@@ -11,15 +11,16 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Model\Session;
+namespace App\Infrastructure\Symfony\HttpAction\Session;
 
-use BenGorUser\User\Domain\Model\UserId;
-use LIN3S\SharedKernel\Domain\Model\Collection\Collection;
+use Symfony\Component\HttpFoundation\Request;
 
-class UsersFollowMe extends Collection
+/**
+ * @author Beñat Espiña <bespina@lin3s.com>
+ */
+class FacebookConnectCheckAction
 {
-    protected function type()
+    public function __invoke(Request $request) : void
     {
-        return UserId::class;
     }
 }
