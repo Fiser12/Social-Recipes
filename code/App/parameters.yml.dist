@@ -9,7 +9,7 @@
 # @author Gorka Laucirica <gorka.lauzirika@gmail.com>
 
 parameters:
-    database_host: 127.0.0.1
+    database_host: mysql
     database_port: 3306
     database_name: social-recipes-bd
     database_user: root

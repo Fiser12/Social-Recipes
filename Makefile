@@ -6,12 +6,6 @@ dev-hard:
         	docker-compose \
             		-f docker-compose.yml \
         	up -d --remove-orphans && \
-            $(MAKE) -C code/App dev
-
-dev-light:
-	@cp -n .env.dist .env
-		docker-compose down && \
-        	docker-compose \
-            		-f docker-compose.yml \
-        	up -d --remove-orphans && \
-            $(MAKE) -C code/App dev
+            docker-compose exec app bash -c "composer install -d=/app/App" && \
+            docker-compose exec app bash -c "php /app/App/etc/bin/symfony-console doctrine:database:create --if-not-exists" && \
+            docker-compose exec app bash -c "php /app/App/etc/bin/symfony-console do:mi:mi -v --no-interaction"

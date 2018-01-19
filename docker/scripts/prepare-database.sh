@@ -1,0 +1,2 @@
+docker-compose exec app bash -c "php /app/App/etc/bin/symfony-console doctrine:database:create --if-not-exists && \
+                                                           php /app/App/etc/bin/symfony-console do:mi:mi -v --no-interaction"
