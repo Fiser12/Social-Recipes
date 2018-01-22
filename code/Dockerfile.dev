@@ -1,7 +1,5 @@
 FROM php:7.1-fpm
 
-LABEL maintainer "Daniel Ribeiro <drgomesp@gmail.com>"
-
 RUN apt-get update \
 	&& apt-get install -y \
 		zip \
@@ -24,9 +22,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer --version
 
 # Set your timezone here
-#RUN rm /etc/localtime
-#RUN ln -s /usr/share/zoneinfo/Asia/Dubai /etc/localtime
-#RUN "date"
+RUN rm /etc/localtime
+RUN ln -s /usr/share/zoneinfo/Europe/Madrid /etc/localtime
+RUN "date"
 
 # Install memcached extension
 #RUN git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached \

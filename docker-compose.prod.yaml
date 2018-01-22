@@ -1,4 +1,4 @@
-version: '2'
+version: '3.2'
 
 networks:
   crv_dev_network:
@@ -23,12 +23,11 @@ services:
   app:
     container_name: symfony-app
     build:
-      context: docker/php
-      dockerfile: Dockerfile.dev
+      context: code
+      dockerfile: Dockerfile.prod
     volumes:
-      - ./code:/app
-      - ./volumes/logs:/app/var/logs
-      - ./volumes/cache:/app/var/cache
+      - ./volumes/logs:/app/var/logs/root
+      - ./volumes/cache:/app/var/cache/root
     networks:
       crv_dev_network:
         aliases:
@@ -40,9 +39,7 @@ services:
     container_name: nginx-server
     build:
       context: docker/nginx
-      dockerfile: Dockerfile.dev
-    volumes_from:
-      - app
+      dockerfile: Dockerfile.prod
     ports:
       - "80:80"
     networks:
