@@ -22,7 +22,9 @@ services:
 
   app:
     container_name: symfony-app
-    build: docker/php
+    build:
+      context: docker/php
+      dockerfile: Dockerfile.dev
     volumes:
       - ./code:/app
       - ./volumes/logs:/app/var/logs
@@ -36,7 +38,9 @@ services:
 
   nginx:
     container_name: nginx-server
-    build: docker/nginx
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile.dev
     volumes_from:
       - app
     ports:
