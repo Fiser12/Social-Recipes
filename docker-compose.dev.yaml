@@ -43,6 +43,7 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - "80:80"
+      - "81:81"
     volumes:
       - ./code:/app
     networks:

@@ -48,9 +48,18 @@ start:
 deploy:
 	@rsync --ignore-existing .env.dist .env
 	        docker-compose -f docker-compose.$(ENV).yaml down && \
-        	$(MAKE) -f $(THIS_FILE) vendor-clear && \
+            $(MAKE) -f $(THIS_FILE) clear-all ENV=$(ENV) && \
         	docker-compose -f docker-compose.$(ENV).yaml build --pull --no-cache && \
-        	docker-compose -f docker-compose.$(ENV).yaml up -d --remove-orphans && \
-        	$(MAKE) -f $(THIS_FILE) composer-install ENV=$(ENV) && \
-        	$(MAKE) -f $(THIS_FILE) create-database ENV=$(ENV) && \
-        	$(MAKE) -f $(THIS_FILE) migrations ENV=$(ENV)
+            docker-compose -f docker-compose.$(ENV).yaml up -d --remove-orphans && \
+            $(MAKE) -f $(THIS_FILE) composer-install-all ENV=$(ENV) && \
+            $(MAKE) -f $(THIS_FILE) create-database ENV=$(ENV) && \
+            $(MAKE) -f $(THIS_FILE) migrations ENV=$(ENV)
+
+composer-install-all:
+	@docker-compose -f docker-compose.$(ENV).yaml exec $(IMAGE) bash -c "composer install -d=/app/App --$(ENV_COMPOSER)" && \
+        docker-compose -f docker-compose.$(ENV).yaml exec $(IMAGE) bash -c "composer install -d=/app/CompositeUi --$(ENV_COMPOSER)"
+
+clear-all:
+	rm -rf code/App/vendor
+	rm -rf code/CompositeUi/vendor
+	rm -rf code/CompositeUi/src/Infrastructure/Ui/Assets/node_modules
