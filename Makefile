@@ -29,7 +29,7 @@ cache-clear:
 	@docker-compose -f docker-compose.$(ENV).yaml exec $(IMAGE) bash -c "php /app/$(DIR)/etc/bin/symfony-console cache:clear -e $(ENV)"
 
 vendor-clear:
-	@rm -rf code/$(DIR)/vendor
+	@rm -rf $(DIR)/vendor
 
 symfony-console:
 	@docker-compose -f docker-compose.$(ENV).yaml exec $(IMAGE) bash -c "php /app/$(DIR)/etc/bin/symfony-console $(COMMAND)"
@@ -60,6 +60,6 @@ composer-install-all:
         docker-compose -f docker-compose.$(ENV).yaml exec $(IMAGE) bash -c "composer install -d=/app/CompositeUi --$(ENV_COMPOSER)"
 
 clear-all:
-	rm -rf code/App/vendor
-	rm -rf code/CompositeUi/vendor
-	rm -rf code/CompositeUi/src/Infrastructure/Ui/Assets/node_modules
+	rm -rf App/vendor
+	rm -rf CompositeUi/vendor
+	rm -rf CompositeUi/src/Infrastructure/Ui/Assets/node_modules

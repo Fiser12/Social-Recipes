@@ -25,10 +25,6 @@
 /code/App/src/App/Infrastructure/Ui/manifest.json
 .DS_Store
 
-/volumes/*
-!/volumes/.gitkeep
-!/volumes/mysql/conf/mysql.conf
-
 /code/App/var/*
 !/code/App/var/.gitkeep
 

@@ -1,1 +1,0 @@
-docker-compose exec app bash -c "composer install -d=/app/App"

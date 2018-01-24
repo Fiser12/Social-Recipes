@@ -11,8 +11,8 @@ services:
     env_file:
       - ./.env
     volumes:
-      - "./volumes/mysql/database:/var/lib/mysql"
-      - "./volumes/mysql/conf:/etc/mysql/conf.d"
+      - ./Docker/volumes/mysql/database:/var/lib/mysql
+      - ./Docker/volumes/mysql/conf:/etc/mysql/conf.d
     networks:
       crv_dev_network:
         aliases:
@@ -23,12 +23,16 @@ services:
   app:
     container_name: symfony-app
     build:
-      context: code
+      context: ./
       dockerfile: Dockerfile.dev
     volumes:
-      - ./code:/app
-      - ./volumes/logs:/app/var/logs/root
-      - ./volumes/cache:/app/var/cache/root
+      - ./:/app
+      - ./Docker/volumes/logs/App:/App/var/logs
+      - ./Docker/volumes/cache/App:/App/var/cache
+      - ./Docker/volumes/session/App:/App/var/session
+      - ./Docker/volumes/logs/CompositeUi:/CompositeUi/var/logs
+      - ./Docker/volumes/cache/CompositeUi:/CompositeUi/var/cache
+      - ./Docker/volumes/session/CompositeUi:/CompositeUi/var/session
     networks:
       crv_dev_network:
         aliases:
@@ -39,13 +43,13 @@ services:
   nginx:
     container_name: nginx-server
     build:
-      context: docker/nginx
+      context: Docker/nginx
       dockerfile: Dockerfile.dev
     ports:
       - "80:80"
       - "81:81"
     volumes:
-      - ./code:/app
+      - ./.:/app
     networks:
       crv_dev_network:
         aliases:
