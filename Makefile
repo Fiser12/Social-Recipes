@@ -13,7 +13,7 @@ endif
 
 #COMPOSER COMMANDS
 composer-install:
-	docker-compose -f docker-compose.$(ENV).yaml exec $(IMAGE) bash -c "composer install -d=/app/App --$(ENV_COMPOSER)"
+	docker-compose -f docker-compose.$(ENV).yaml exec $(IMAGE) bash -c "composer install -d=/app/$(DIR) --$(ENV_COMPOSER)"
 
 composer-update:
 	@docker-compose -f docker-compose.$(ENV).yaml exec $(IMAGE) bash -c "composer update -d=/app/$(DIR) --$(ENV_COMPOSER)"
