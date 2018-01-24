@@ -45,6 +45,14 @@ start:
 	@docker-compose -f docker-compose.$(ENV).yaml down && \
         	docker-compose -f docker-compose.$(ENV).yaml up -d --remove-orphans
 
+start-hard:
+	@rsync --ignore-existing .env.dist .env
+	        docker-compose -f docker-compose.$(ENV).yaml down && \
+            docker-compose -f docker-compose.$(ENV).yaml up -d --remove-orphans && \
+            $(MAKE) -f $(THIS_FILE) composer-install-all ENV=$(ENV) && \
+            $(MAKE) -f $(THIS_FILE) create-database ENV=$(ENV) && \
+            $(MAKE) -f $(THIS_FILE) migrations ENV=$(ENV)
+
 deploy:
 	@rsync --ignore-existing .env.dist .env
 	        docker-compose -f docker-compose.$(ENV).yaml down && \

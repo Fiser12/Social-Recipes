@@ -27,12 +27,12 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./:/app
-      - ./Docker/volumes/logs/App:/App/var/logs
-      - ./Docker/volumes/cache/App:/App/var/cache
-      - ./Docker/volumes/session/App:/App/var/session
-      - ./Docker/volumes/logs/CompositeUi:/CompositeUi/var/logs
-      - ./Docker/volumes/cache/CompositeUi:/CompositeUi/var/cache
-      - ./Docker/volumes/session/CompositeUi:/CompositeUi/var/session
+      - ./Docker/volumes/log/App:/app/App/var/log
+      - ./Docker/volumes/cache/App:/app/App/var/cache
+      - ./Docker/volumes/session/App:/app/App/var/sessions
+      - ./Docker/volumes/log/CompositeUi:/app/CompositeUi/var/log
+      - ./Docker/volumes/cache/CompositeUi:/app/CompositeUi/var/cache
+      - ./Docker/volumes/session/CompositeUi:/app/CompositeUi/var/sessions
     networks:
       crv_dev_network:
         aliases:
