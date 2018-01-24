@@ -24,6 +24,7 @@
 /code/App/src/App/Infrastructure/Ui/Http/Symfony/robots.txt
 /code/App/src/App/Infrastructure/Ui/manifest.json
 .DS_Store
+.editorconfig
 
 /code/App/var/*
 !/code/App/var/.gitkeep
