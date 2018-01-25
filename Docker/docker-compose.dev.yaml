@@ -24,18 +24,12 @@ services:
     container_name: symfony-app
     build:
       context: ../
-      dockerfile: Dockerfile.dev
+      dockerfile: ./Docker/php/Dockerfile.dev
       args:
         env: dev
 
     volumes:
       - ../:/app
-      - ./volumes/log/App:/app/App/var/logs
-      - ./volumes/cache/App:/app/App/var/cache
-      - ./volumes/session/App:/app/App/var/sessions
-      - ./volumes/log/CompositeUi:/app/CompositeUi/var/log
-      - ./volumes/cache/CompositeUi:/app/CompositeUi/var/cache
-      - ./volumes/session/CompositeUi:/app/CompositeUi/var/sessions
     networks:
       crv_dev_network:
         aliases:
@@ -53,6 +47,7 @@ services:
       - "81:81"
     volumes:
       - ../.:/app
+      - ./volumes/log/Nginx:/var/log/nginx
     networks:
       crv_dev_network:
         aliases:
