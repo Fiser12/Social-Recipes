@@ -10,3 +10,4 @@
 /volumes/*
 !/volumes/.gitkeep
 !/volumes/mysql/conf/mysql.conf
+/.env
