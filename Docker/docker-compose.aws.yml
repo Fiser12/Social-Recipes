@@ -31,7 +31,7 @@ services:
       - REQUEST_CONTEXT_HOST=php-ddd-standard.com
       - REQUEST_CONTEXT_SCHEME=https
   app-prod:
-    image: 'fiser/phpdddstandar-symfony-app:latest'
+    image: 'fiser/social-recipes-app:latest'
     restart: always
     volumes:
       - 'app_data:/app:rw'

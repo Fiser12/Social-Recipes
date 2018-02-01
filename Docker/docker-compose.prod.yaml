@@ -25,7 +25,7 @@ services:
 
   app-prod:
     container_name: symfony-app-prod
-    image: fiser/phpdddstandar-symfony-app:latest
+    image: fiser/social-recipes-app:latest
 # For locale image deploy
 #    build:
 #      context: ../

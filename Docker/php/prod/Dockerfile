@@ -112,6 +112,8 @@ CMD sed \
         -e "s/\${mail_delivery_address}/${MAILER_DELIVERY_ADDRESS}/" \
         -e "s/\${router_request_context_host}/${REQUEST_CONTEXT_HOST}/" \
         -e "s/\${router_request_context_scheme}/${REQUEST_CONTEXT_SCHEME}/" \
+        -e "s/\${facebook_client_id}/${OAUTH_FACEBOOK_CLIENT_ID}/" \
+        -e "s/\${facebook_client_secret}/${OAUTH_FACEBOOK_CLIENT_SECRET}/" \
         -e "s/\${secret-app}/${SECRET_KEY_APP}/" \
         -e "s/\${secret-compositeui}/${SECRET_KEY_COMPOSITE_UI}/" \
         -e "s/\${env}/prod/" \
@@ -132,6 +134,8 @@ CMD sed \
         -e "s/\${router_request_context_scheme}/${REQUEST_CONTEXT_SCHEME}/" \
         -e "s/\${secret-app}/${SECRET_KEY_APP}/" \
         -e "s/\${secret-compositeui}/${SECRET_KEY_COMPOSITE_UI}/" \
+        -e "s/\${facebook_client_id}/${OAUTH_FACEBOOK_CLIENT_ID}/" \
+        -e "s/\${facebook_client_secret}/${OAUTH_FACEBOOK_CLIENT_SECRET}/" \
         -e "s/\${env}/prod/" \
         /app/Docker/php/.compositeui-env.dist > /app/CompositeUi/.env && \
         php /app/App/etc/bin/symfony-console doctrine:database:create --if-not-exists && \

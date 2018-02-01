@@ -22,7 +22,7 @@ services:
 
   app-dev:
     container_name: symfony-app-dev
-    image: fiser/phpdddstandar-symfony-app:dev
+    image: fiser/social-recipes-app:dev
 # For locale image deploy
 #    build:
 #      context: ../

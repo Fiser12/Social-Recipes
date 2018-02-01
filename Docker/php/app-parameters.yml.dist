@@ -29,3 +29,5 @@ parameters:
     router.request_context.scheme:      ${router_request_context_scheme}
     router.request_context.base_url:    my/path
 
+    oauth_facebook_client_id:           ${facebook_client_id}
+    oauth_facebook_client_secret:       ${facebook_client_secret}
