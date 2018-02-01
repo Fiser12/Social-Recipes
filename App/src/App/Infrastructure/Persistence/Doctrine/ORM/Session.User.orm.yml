@@ -1,0 +1,31 @@
+App\Domain\Model\Session\User:
+    type: entity
+    table: user
+    lifecycleCallbacks: {  }
+    repositoryClass: BenGorUser\DoctrineORMBridge\Infrastructure\Persistence\DoctrineORMUserRepository
+    embedded:
+        facebookId:
+            columnPrefix: facebook_id_
+            class: App\Domain\Model\Session\UserFacebookId
+        facebookAccessToken:
+            columnPrefix: facebook_access_token_
+            class: App\Domain\Model\Session\UserFacebookAccessToken
+        fullName:
+            columnPrefix: full_name_
+            class: App\Domain\Model\Session\FullName
+
+    manyToMany:
+      usersFollowed:
+        fetch: EXTRA_LAZY
+        targetEntity: App\Domain\Model\Session\User
+        inversedBy: usersFollowMe
+        joinTable:
+          name: users_followed
+          joinColumns:
+            user_id:
+              onDelete: CASCADE
+              referencedColumnName: id
+          inverseJoinColumns:
+            user_followed_id:
+              onDelete: CASCADE
+              referencedColumnName: id
