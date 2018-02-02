@@ -16,7 +16,6 @@ namespace App\Infrastructure\Symfony\HttpAction\Session;
 use App\Application\Command\Session\FacebookLogInClientCommand;
 use App\Infrastructure\Symfony\Security\SocialAuthenticator;
 use BenGorUser\User\Domain\Model\Exception\UserAlreadyExistException;
-use LIN3S\SharedKernel\Application\CommandBus;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
