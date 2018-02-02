@@ -7,14 +7,14 @@
 /App/.web-server-pid
 /App/composer.phar
 /App/parameters.yml
-/App/src/App/Infrastructure/Ui/Assets/.eslint.yml
-/App/src/App/Infrastructure/Ui/Assets/.scss_lint.yml
-/App/src/App/Infrastructure/Ui/Assets/node_modules
-/App/src/App/Infrastructure/Ui/Assets/build
-/App/src/App/Infrastructure/Ui/Http/Symfony/.htaccess
-/App/src/App/Infrastructure/Ui/Http/Symfony/bundles
-/App/src/App/Infrastructure/Ui/Http/Symfony/robots.txt
-/App/src/App/Infrastructure/Ui/manifest.json
+/App/src/Infrastructure/Ui/Assets/.eslint.yml
+/App/src/Infrastructure/Ui/Assets/.scss_lint.yml
+/App/src/Infrastructure/Ui/Assets/node_modules
+/App/src/Infrastructure/Ui/Assets/build
+/App/src/Infrastructure/Ui/Http/Symfony/.htaccess
+/App/src/Infrastructure/Ui/Http/Symfony/bundles
+/App/src/Infrastructure/Ui/Http/Symfony/robots.txt
+/App/src/Infrastructure/Ui/manifest.json
 /App/var/bootstrap.php.cache
 /App/var/cache/*
 !App var/cache/.gitkeep
@@ -24,8 +24,8 @@
 !App/var/sessions/dev/.gitkeep
 !App/var/sessions/prod/.gitkeep
 /App/vendor
-/App/src/App/Infrastructure/Ui/Assets/.eslintrc.js
-/App/src/App/Infrastructure/Ui/Assets/.stylelintrc.js
+/App/src/Infrastructure/Ui/Assets/.eslintrc.js
+/App/src/Infrastructure/Ui/Assets/.stylelintrc.js
 /Docker/*
 !Docker/php/.compositeui-env.dist
 !Docker/php/app-parameters.yml.dist
