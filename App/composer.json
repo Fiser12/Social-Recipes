@@ -60,7 +60,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/App/"
+            "App\\": "src/"
         },
         "exclude-from-classmap": [
             "/Tests/",
@@ -77,10 +77,10 @@
         "sort-packages": true
     },
     "extra": {
-        "symfony-app-dir": "src/App/Infrastructure/Symfony/Framework",
-        "symfony-bin-dir": "src/App/Infrastructure/Ui/Cli/Symfony/",
+        "symfony-app-dir": "src/Infrastructure/Symfony/Framework",
+        "symfony-bin-dir": "src/Infrastructure/Ui/Cli/Symfony/",
         "symfony-var-dir": "var",
-        "symfony-web-dir": "src/App/Infrastructure/Ui/Http/Symfony/",
+        "symfony-web-dir": "src/Infrastructure/Ui/Http/Symfony/",
         "symfony-tests-dir": "tests",
         "symfony-assets-install": "relative",
         "incenteev-parameters": [

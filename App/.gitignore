@@ -15,17 +15,17 @@
 /.web-server-pid
 /composer.phar
 /parameters.yml
-/src/App/Infrastructure/Ui/Assets/.eslint.yml
-/src/App/Infrastructure/Ui/Assets/.scss_lint.yml
-/src/App/Infrastructure/Ui/Assets/node_modules
-/src/App/Infrastructure/Ui/Http/Symfony/.htaccess
-/src/App/Infrastructure/Ui/Http/Symfony/bundles
-/src/App/Infrastructure/Ui/Http/Symfony/robots.txt
-/src/App/Infrastructure/Ui/manifest.json
+/src/Infrastructure/Ui/Assets/.eslint.yml
+/src/Infrastructure/Ui/Assets/.scss_lint.yml
+/src/Infrastructure/Ui/Assets/node_modules
+/src/Infrastructure/Ui/Http/Symfony/.htaccess
+/src/Infrastructure/Ui/Http/Symfony/bundles
+/src/Infrastructure/Ui/Http/Symfony/robots.txt
+/src/Infrastructure/Ui/manifest.json
 /var/bootstrap.php.cache
 /vendor
-src/App/Infrastructure/Ui/Assets/.eslintrc.js
-src/App/Infrastructure/Ui/Assets/.stylelintrc.js
+src/Infrastructure/Ui/Assets/.eslintrc.js
+src/Infrastructure/Ui/Assets/.stylelintrc.js
 
 /var/sessions/dev/*
 !var/sessions/dev/.gitkeep
