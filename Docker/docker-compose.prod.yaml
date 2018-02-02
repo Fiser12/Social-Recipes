@@ -57,9 +57,7 @@ services:
     ports:
 # For locale image deploy
       - "80:80"
-      - "81:81"
 #      - "80"
-#      - "81"
     volumes:
       - app_data:/app:rw
       - ./volumes/log/prod/Nginx:/var/log/nginx
