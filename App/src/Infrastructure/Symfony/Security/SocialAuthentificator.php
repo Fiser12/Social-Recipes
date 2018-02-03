@@ -35,12 +35,12 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator as BaseSocialAuthenticator;
 
 /**
  * @author Beñat Espiña <bespina@lin3s.com>
  */
-class SocialAuthenticator extends AbstractGuardAuthenticator
+class SocialAuthenticator extends BaseSocialAuthenticator
 {
     private $clientRegistry;
     private $urlGenerator;
@@ -208,16 +208,5 @@ class SocialAuthenticator extends AbstractGuardAuthenticator
         }
 
         return $usersFollowers;
-    }
-
-    public function checkCredentials($credentials, UserInterface $user)
-    {
-        // do nothing - the fact that the access token works is enough
-        return true;
-    }
-
-    public function supportsRememberMe()
-    {
-        return true;
     }
 }

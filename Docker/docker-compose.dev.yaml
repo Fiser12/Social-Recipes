@@ -12,7 +12,6 @@ services:
       - ./.env
     volumes:
       - ./volumes/mysql/dev/database:/var/lib/mysql
-      - ./volumes/mysql/dev/conf:/etc/mysql/conf.d
     networks:
       crv_dev_network:
         aliases:
