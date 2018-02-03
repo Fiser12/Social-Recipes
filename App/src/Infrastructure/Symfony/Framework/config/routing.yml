@@ -13,9 +13,6 @@ app_homepage:
     defaults:
         _controller: "app.http_action.home:__invoke"
 
-ben_gor_user:
-    resource: '@BenGorUserBundle/Resources/config/routing/all.yml'
-
 oauth_facebook:
     path: /connect/facebook
     defaults:

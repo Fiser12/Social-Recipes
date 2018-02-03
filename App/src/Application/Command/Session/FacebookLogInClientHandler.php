@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace App\Application\Command\Session;
 
+use App\Domain\Model\Session\FirstName;
+use App\Domain\Model\Session\FullName;
+use App\Domain\Model\Session\LastName;
 use App\Domain\Model\Session\User;
 use App\Domain\Model\Session\UserFacebookAccessToken;
 use App\Domain\Model\Session\UserFacebookId;
@@ -37,11 +40,13 @@ class FacebookLogInClientHandler
         $this->entityManager = $entityManager;
     }
 
-    public function __invoke(FacebookLogInClientCommand $command) : void
+    public function __invoke(FacebookLogInClientCommand $command): void
     {
         $email = new UserEmail($command->email());
         $user = $this->repository->userOfEmail($email);
         $facebookId = new UserFacebookId($command->facebookId());
+
+
         if (null === $user) {
             $user = User::signUpWithFacebook(
                 new UserId($command->facebookId()),
@@ -55,6 +60,7 @@ class FacebookLogInClientHandler
             /** @var User $user */
             $user->connectToFacebook($facebookId);
         }
+
         try {
             $this->entityManager->persist($user);
             $this->entityManager->flush();
@@ -62,12 +68,12 @@ class FacebookLogInClientHandler
         }
     }
 
-    private function getUsersFollowed(array $usersFollowed) : UsersFollowed
+    private function getUsersFollowed(array $usersFollowed): UsersFollowed
     {
         $usersFollowedReturned = new UsersFollowed();
-        foreach($usersFollowed as $userFollowed){
+        foreach ($usersFollowed as $userFollowed) {
             $user = $this->repository->userOfId(new UserId($userFollowed));
-            if($user === null){
+            if ($user === null) {
                 continue;
             }
             $usersFollowedReturned->add($user);

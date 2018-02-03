@@ -12,7 +12,7 @@ services:
     app.http_action.home:
         class: App\Infrastructure\Symfony\HttpAction\HomeAction
     app.http_action.facebook.connect_registration:
-        class: App\Infrastructure\Symfony\HttpAction\FacebookConnectRegistrationAction
+        class: App\Infrastructure\Symfony\HttpAction\Session\FacebookConnectRegistrationAction
         arguments:
             - "@command_bus"
             - "@app.security.authenticator.social"
@@ -23,8 +23,8 @@ services:
             - "@security.authentication.guard_handler"
             - "@router"
     app.http_action.facebook.connect_check:
-        class: App\Infrastructure\Symfony\HttpAction\FacebookConnectCheckAction
+        class: App\Infrastructure\Symfony\HttpAction\Session\FacebookConnectCheckAction
     app.http_action.facebook.connect:
-        class: App\Infrastructure\Symfony\HttpAction\FacebookConnectAction
+        class: App\Infrastructure\Symfony\HttpAction\Session\FacebookConnectAction
         arguments:
             - "@knpu.oauth2.registry"

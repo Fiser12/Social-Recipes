@@ -14,16 +14,17 @@ declare(strict_types=1);
 namespace App\Infrastructure\Symfony\Security;
 
 use App\Application\Command\Session\FacebookLogInClientCommand;
-use BenGorUser\User\Domain\Model\Exception\UserDoesNotExistException;
-use BenGorUser\User\Domain\Model\Exception\UserEmailInvalidException;
-use BenGorUser\User\Domain\Model\Exception\UserInactiveException;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\OAuth2Client;
-use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator as BaseSocialAuthenticator;
+use KnpU\OAuth2ClientBundle\Exception\MissingAuthorizationCodeException;
 use KnpU\OAuth2ClientBundle\Security\Exception\FinishRegistrationException;
+use KnpU\OAuth2ClientBundle\Security\Exception\NoAuthCodeAuthenticationException;
+use KnpU\OAuth2ClientBundle\Security\Helper\FinishRegistrationBehavior;
+use KnpU\OAuth2ClientBundle\Security\Helper\PreviousUrlHelper;
+use KnpU\OAuth2ClientBundle\Security\Helper\SaveAuthFailureMessage;
 use LIN3S\SharedKernel\Application\QueryBus;
 use LIN3S\SharedKernel\Exception\InvalidArgumentException;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
@@ -34,11 +35,12 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 /**
  * @author Beñat Espiña <bespina@lin3s.com>
  */
-class SocialAuthenticator extends BaseSocialAuthenticator
+class SocialAuthenticator extends AbstractGuardAuthenticator
 {
     private $clientRegistry;
     private $urlGenerator;
@@ -62,6 +64,19 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         $this->queryBus = $queryBus;
         $this->facebookClientId = $facebookClientId;
         $this->facebookAppSecret = $facebookAppSecret;
+    }
+
+    use FinishRegistrationBehavior;
+    use PreviousUrlHelper;
+    use SaveAuthFailureMessage;
+
+    protected function fetchAccessToken(OAuth2Client $client)
+    {
+        try {
+            return $client->getAccessToken();
+        } catch (MissingAuthorizationCodeException $e) {
+            throw new NoAuthCodeAuthenticationException();
+        }
     }
 
     public function getCredentials(Request $request) : ?FacebookLogInClientCommand
@@ -193,5 +208,16 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         }
 
         return $usersFollowers;
+    }
+
+    public function checkCredentials($credentials, UserInterface $user)
+    {
+        // do nothing - the fact that the access token works is enough
+        return true;
+    }
+
+    public function supportsRememberMe()
+    {
+        return true;
     }
 }

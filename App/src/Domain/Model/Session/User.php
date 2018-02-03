@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace App\Domain\Model\Session;
 
-use App\Domain\Model\User\UserRegisteredWithFacebook;
 use BenGorUser\User\Domain\Model\Event\UserLoggedIn;
 use BenGorUser\User\Domain\Model\User as BaseUser;
 use BenGorUser\User\Domain\Model\UserEmail;
 use BenGorUser\User\Domain\Model\UserId;
 use BenGorUser\User\Domain\Model\UserPassword;
+use BenGorUser\User\Domain\Model\UserRole;
 
 class User extends BaseUser
 {
@@ -31,8 +31,8 @@ class User extends BaseUser
 
     public function __construct(
         UserId $anId,
-        FullName $fullName,
         UserEmail $anEmail,
+        ?FullName $fullName = null,
         UserPassword $aPassword = null,
         UserFacebookId $facebookId = null,
         UserFacebookAccessToken $facebookAccessToken = null,
@@ -60,17 +60,19 @@ class User extends BaseUser
 
     public static function signUpWithFacebook(
         UserId $id,
+        FullName $fullName,
         UserFacebookId $facebookId,
         UserEmail $email,
         UserFacebookAccessToken $facebookAccessToken,
         UsersFollowed $usersFollowed
 
     ) : self {
-        $client = new self($id, $email, null, $facebookId, $facebookAccessToken, $usersFollowed);
+        $client = new self($id, $email, $fullName, $facebookId, $facebookAccessToken, $usersFollowed);
 
         $client->publish(
             new UserRegisteredWithFacebook(
                 $client->id(),
+                $fullName,
                 $client->facebookId(),
                 $client->facebookAccessToken(),
                 $client->email()

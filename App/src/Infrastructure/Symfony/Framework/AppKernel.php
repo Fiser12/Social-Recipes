@@ -68,7 +68,6 @@ class AppKernel extends Kernel
 
             // User bundle
             new BenGorUserBundle(),
-
             new KnpUOAuth2ClientBundle(),
             new Lin3sSharedKernelBundle(),
             new SimpleBusCommandBusBundle(),
@@ -97,12 +96,12 @@ class AppKernel extends Kernel
 
     public function getCacheDir() : string
     {
-        return dirname(__DIR__) . '/../../../../var/cache/' . $this->getEnvironment();
+        return dirname(__DIR__) . '/../../../var/cache/' . $this->getEnvironment();
     }
 
     public function getLogDir() : string
     {
-        return dirname(__DIR__) . '/../../../../var/logs';
+        return dirname(__DIR__) . '/../../../var/logs';
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader) : void
