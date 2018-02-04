@@ -1,3 +1,10 @@
+# This file is part of the Social Recipes.
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @author Ruben Garcia <ruben.garcia@opendeusto.es>
+
 services:
     catch_return_message_bus:
         class: Ajgl\SimpleBus\Message\Bus\Middleware\CatchReturnMessageBusSupportingMiddleware
@@ -6,15 +13,18 @@ services:
         class: LIN3S\SharedKernel\Infrastructure\Application\SimpleBus\SimpleBusQueryBus
         arguments: ['@catch_return_message_bus']
 
+    app.command_bus:
+        class: LIN3S\SharedKernel\Infrastructure\Application\SimpleBus\SimpleBusCommandBus
+        arguments: ['@catch_return_message_bus']
+
+
     app.security.authenticator.social:
         class: App\Infrastructure\Symfony\Security\SocialAuthenticator
         arguments:
             - "@knpu.oauth2.registry"
             - "@router"
-            - "@command_bus"
+            - "@app.command_bus"
             - "@app.query_bus"
-            - "%oauth_facebook_client_id%"
-            - "%oauth_facebook_client_secret%"
 
     #Command-Handlers
     app.application.command.user.facebook_login:

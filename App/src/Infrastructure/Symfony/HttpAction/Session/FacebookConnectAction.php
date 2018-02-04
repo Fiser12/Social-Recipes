@@ -33,6 +33,6 @@ class FacebookConnectAction
     {
         $facebookClient = $this->clientRegistry->getClient('facebook');
 
-        return $facebookClient->redirect(['public_profile', 'email']);
+        return $facebookClient->redirect();
     }
 }

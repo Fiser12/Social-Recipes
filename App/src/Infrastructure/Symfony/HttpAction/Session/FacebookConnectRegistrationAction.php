@@ -3,8 +3,6 @@
 /*
  * This file is part of the Social Recipes project.
  *
- * Copyright (c) 2017 LIN3S <ruben@lin3s.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -15,8 +13,8 @@ namespace App\Infrastructure\Symfony\HttpAction\Session;
 
 use App\Application\Command\Session\FacebookLogInClientCommand;
 use App\Infrastructure\Symfony\Security\SocialAuthenticator;
+use BenGorUser\SimpleBusBridge\CommandBus\SimpleBusUserCommandBus;
 use BenGorUser\User\Domain\Model\Exception\UserAlreadyExistException;
-use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +27,7 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
- * @author Beñat Espiña <bespina@lin3s.com>
+ * @author Ruben Garcia <ruben.garcia@opendeusto.es>
  */
 class FacebookConnectRegistrationAction
 {
@@ -43,7 +41,7 @@ class FacebookConnectRegistrationAction
     private $urlGenerator;
 
     public function __construct(
-        MessageBusSupportingMiddleware $commandBus,
+        SimpleBusUserCommandBus $commandBus,
         SocialAuthenticator $socialAuthenticator,
         FormFactoryInterface $formFactory,
         TranslatorInterface $translator,
@@ -74,10 +72,10 @@ class FacebookConnectRegistrationAction
                 new FacebookLogInClientCommand(
                     $facebookUser['id'],
                     $facebookUser['id'],
-                    $facebookUser['id'],
                     $facebookUser['email'],
                     $facebookUser['first_name'],
-                    $facebookUser['last_name']
+                    $facebookUser['last_name'],
+                    []
                 )
             );
 

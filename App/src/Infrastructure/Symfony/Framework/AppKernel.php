@@ -71,8 +71,7 @@ class AppKernel extends Kernel
             new KnpUOAuth2ClientBundle(),
             new Lin3sSharedKernelBundle(),
             new SimpleBusCommandBusBundle(),
-            new SimpleBusEventBusBundle()
-
+            new SimpleBusEventBusBundle(),
 
         );
 

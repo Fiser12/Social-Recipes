@@ -1,12 +1,9 @@
-# This file is part of the Php DDD Standard project.
-#
-# Copyright (c) 2017-present LIN3S <info@lin3s.com>
+# This file is part of the Social Recipes.
 #
 # For the full copyright and license information, please view the LICENSE
 # file that was distributed with this source code.
 #
-# @author Beñat Espiña <benatespina@gmail.com>
-# @author Gorka Laucirica <gorka.lauzirika@gmail.com>
+# @author Ruben Garcia <ruben.garcia@opendeusto.es>
 
 app_homepage:
     path: /
@@ -21,7 +18,7 @@ oauth_facebook:
         - GET
 
 oauth_facebook_check:
-    path: /connect/facebook-check
+    path: /connect/facebook/check
     defaults:
         _controller: "app.http_action.facebook.connect_check:__invoke"
     methods:
