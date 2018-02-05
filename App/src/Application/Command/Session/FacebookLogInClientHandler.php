@@ -48,11 +48,13 @@ class FacebookLogInClientHandler
             )
         );
 
-
         if (null === $user) {
             $user = User::signUpWithFacebook(
                 new UserId(),
-                new FullName(new FirstName($command->firstName()), new LastName($command->lastName())),
+                new FullName(
+                    new FirstName($command->firstName()), 
+                    new LastName($command->lastName())
+                ),
                 new UserFacebookId($command->facebookId()),
                 new UserEmail($command->email()),
                 new UserFacebookAccessToken($command->facebookAccessToken()),
@@ -73,6 +75,7 @@ class FacebookLogInClientHandler
     private function getUsersFollowed(array $usersFollowed): UsersFollowed
     {
         $usersFollowedReturned = new UsersFollowed();
+
         foreach ($usersFollowed as $userFollowed) {
             $user = $this->repository->userOfId(new UserId($userFollowed));
             if ($user === null) {
@@ -80,6 +83,7 @@ class FacebookLogInClientHandler
             }
             $usersFollowedReturned->add($user);
         }
+
         return $usersFollowedReturned;
     }
 }

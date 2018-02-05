@@ -89,10 +89,11 @@ class User extends BaseUser
 
     }
 
-    public function connectToFacebook(UserFacebookId $facebookId): void
+    public function connectToFacebook(UserFacebookId $facebookId, UserFacebookAccessToken $accessToken): void
     {
         $this->facebookId = $facebookId;
         $this->lastLogin = new \DateTimeImmutable();
+        $this->facebookAccessToken = $accessToken;
 
         $this->publish(
             new UserLoggedIn(

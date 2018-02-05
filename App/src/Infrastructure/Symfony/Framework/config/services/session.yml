@@ -26,6 +26,7 @@ services:
             - "@router"
             - "@app.command_bus"
             - "@app.query_bus"
+            - "@app.graph_api.facebook"
 
     #Command-Handlers
     app.application.command.user.facebook_login:
@@ -37,3 +38,11 @@ services:
             -
                 name: command_handler
                 handles: App\Application\Command\Session\FacebookLogInClientCommand
+
+    app.graph_api.facebook:
+      class: Facebook\Facebook
+      arguments:
+        - 'app_id': '%oauth_facebook_client_id%'
+          'app_secret': '%oauth_facebook_client_secret%'
+          'default_graph_version': 'v2.10'
+

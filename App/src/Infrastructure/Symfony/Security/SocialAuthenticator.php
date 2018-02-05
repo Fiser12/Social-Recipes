@@ -17,6 +17,9 @@ use App\Application\Command\Session\FacebookLogInClientCommand;
 use BenGorUser\User\Domain\Model\Exception\UserDoesNotExistException;
 use BenGorUser\User\Domain\Model\Exception\UserEmailInvalidException;
 use BenGorUser\User\Domain\Model\Exception\UserInactiveException;
+use Facebook\Exceptions\FacebookResponseException;
+use Facebook\Exceptions\FacebookSDKException;
+use Facebook\Facebook;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\OAuth2Client;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator as BaseSocialAuthenticator;
@@ -40,18 +43,21 @@ class SocialAuthenticator extends BaseSocialAuthenticator
     private $clientRegistry;
     private $urlGenerator;
     private $commandBus;
-    private $queryBus;
+    private $facebookGraphApi;
 
     public function __construct(
         ClientRegistry $clientRegistry,
         UrlGeneratorInterface $urlGenerator,
         CommandBus $commandBus,
-        QueryBus $queryBus
-    ) {
+        QueryBus $queryBus,
+        Facebook $facebookGraphApi
+    )
+    {
         $this->clientRegistry = $clientRegistry;
         $this->urlGenerator = $urlGenerator;
         $this->commandBus = $commandBus;
         $this->queryBus = $queryBus;
+        $this->facebookGraphApi = $facebookGraphApi;
     }
 
     public function getCredentials(Request $request)
@@ -66,10 +72,17 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         $firstName = $oauthUser->getFirstName();
         $lastName = $oauthUser->getLastName();
 
-        return new FacebookLogInClientCommand($oauthUser->getId(), $accessToken->getToken(), $email, $firstName, $lastName, []);
+        return new FacebookLogInClientCommand(
+            $oauthUser->getId(),
+            $accessToken->getToken(),
+            $email,
+            $firstName,
+            $lastName,
+            $this->getFollowUsers($accessToken->getToken())
+        );
     }
 
-    public function getUser($credentials, UserProviderInterface $userProvider) : UserInterface
+    public function getUser($credentials, UserProviderInterface $userProvider): UserInterface
     {
 
         if (!$credentials instanceof FacebookLogInClientCommand) {
@@ -86,22 +99,22 @@ class SocialAuthenticator extends BaseSocialAuthenticator
             $this->commandBus->handle($credentials);
         } catch (UserEmailInvalidException | UserInactiveException | UserDoesNotExistException $exception) {
             throw new FinishRegistrationException([
-                'id'         => $credentials->id(),
-                'email'      => $credentials->email(),
+                'id' => $credentials->id(),
+                'email' => $credentials->email(),
                 'first_name' => $credentials->firstName(),
-                'last_name'  => $credentials->lastName(),
+                'last_name' => $credentials->lastName(),
             ]);
         }
 
         return $userProvider->loadUserByUsername($credentials->email());
     }
 
-    private function client() : OAuth2Client
+    private function client(): OAuth2Client
     {
         return $this->clientRegistry->getClient('facebook');
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception) : RedirectResponse
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): RedirectResponse
     {
         if ($exception instanceof FinishRegistrationException) {
             $this->saveUserInfoToSession($request, $exception);
@@ -115,7 +128,7 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         return new RedirectResponse($loginUrl);
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey) : RedirectResponse
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): RedirectResponse
     {
         if (!$url = $this->getPreviousUrl($request, $providerKey)) {
             $url = $this->urlGenerator->generate('app_logged');
@@ -124,10 +137,45 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         return new RedirectResponse($url);
     }
 
-    public function start(Request $request, AuthenticationException $authException = null) : RedirectResponse
+    public function start(Request $request, AuthenticationException $authException = null): RedirectResponse
     {
         $url = $this->urlGenerator->generate('app_logged');
 
         return new RedirectResponse($url);
     }
+
+    private function getFollowUsers(string $accessToken): array
+    {
+        $usersFollowersApi = $this->getFollowUsersFromApi($accessToken);
+
+        $usersFollowers = [];
+
+        if (isset($usersFollowersApi["data"])) {
+            return [];
+        }
+
+        foreach ($usersFollowersApi["data"] as $followUser) {
+            if (isset($followUser["id"])) {
+                $usersFollowers[] = $followUser["id"];
+            }
+        }
+
+        return $usersFollowers;
+    }
+
+    private function getFollowUsersFromApi(string $accessToken): array
+    {
+        $this->facebookGraphApi->setDefaultAccessToken($accessToken);
+        try {
+            $response = $this->facebookGraphApi->get('/me/friends');
+            return $response->getDecodedBody();
+        } catch (FacebookResponseException $e) {
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+        } catch (FacebookSDKException $e) {
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+        }
+    }
+
 }
