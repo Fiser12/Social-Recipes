@@ -37,7 +37,8 @@ class User extends BaseUser
         UserFacebookId $facebookId = null,
         UserFacebookAccessToken $facebookAccessToken = null,
         UsersFollowed $usersFollowed = null
-    ) {
+    )
+    {
         $userRoles = array_map(function ($role) {
             return new UserRole($role);
         }, self::availableRoles());
@@ -52,7 +53,7 @@ class User extends BaseUser
         $this->fullName = $fullName;
     }
 
-    public function facebookId() : ?UserFacebookId
+    public function facebookId(): ?UserFacebookId
     {
         return $this->facebookId;
     }
@@ -66,8 +67,9 @@ class User extends BaseUser
         UserFacebookAccessToken $facebookAccessToken,
         UsersFollowed $usersFollowed
 
-    ) : self {
-        $client = new self($id, $email, $fullName, $facebookId, $facebookAccessToken, $usersFollowed);
+    ): self
+    {
+        $client = new self($id, $email, $fullName, null, $facebookId, $facebookAccessToken, $usersFollowed);
 
         $client->publish(
             new UserRegisteredWithFacebook(
@@ -81,11 +83,13 @@ class User extends BaseUser
 
         return $client;
     }
-    public static function signUp(UserId $anId, UserEmail $anEmail, UserPassword $aPassword, array $userRoles){
+
+    public static function signUp(UserId $anId, UserEmail $anEmail, UserPassword $aPassword, array $userRoles)
+    {
 
     }
 
-    public function connectToFacebook(UserFacebookId $facebookId) : void
+    public function connectToFacebook(UserFacebookId $facebookId): void
     {
         $this->facebookId = $facebookId;
         $this->lastLogin = new \DateTimeImmutable();
@@ -98,7 +102,7 @@ class User extends BaseUser
         );
     }
 
-    public static function availableRoles() : array
+    public static function availableRoles(): array
     {
         return [
             self::ROLE_CLIENT,

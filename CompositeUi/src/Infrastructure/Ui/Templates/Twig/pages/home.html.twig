@@ -32,47 +32,61 @@
 
 
 {% block content %}
-    <div id="fb-root"></div>
     <script>
+        function statusChangeCallback(response) {
+            console.log('statusChangeCallback');
+            console.log(response);
+            if (response.status === 'connected') {
+                testAPI();
+            } else {
+                document.getElementById('status').innerHTML = 'Please log ' +
+                    'into this app.';
+            }
+        }
+        function checkLoginState() {
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
+        }
         window.fbAsyncInit = function() {
             FB.init({
-                appId      : '363175497450465',                        // App ID from the app dashboard
-                status     : true,                                 // Check Facebook Login status
-                xfbml      : true                                  // Look for social plugins on the page
+                appId      : '363175497450465',
+                cookie     : true,  // enable cookies to allow the server to access
+                                    // the session
+                xfbml      : true,  // parse social plugins on this page
+                version    : 'v2.12' // use graph api version 2.8
             });
+
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
+
         };
 
-        (function(d, s, id){
+        // Load the SDK asynchronously
+        (function(d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
+            if (d.getElementById(id)) return;
             js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/all.js";
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
 
-        function fb_login() {
-            FB.getLoginStatus(function(response) {
-                if (response.status === 'connected') {
-                    // connected
-                    alert('Already connected, redirect to login page to create token.');
-                    document.location = "{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}";
-                } else {
-                    // not_authorized
-                    FB.login(function(response) {
-                        if (response.authResponse) {
-                            document.location = "{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}";
-                        } else {
-                            alert('Cancelled.');
-                        }
-                    }, {scope: 'email, user_friends'});
-                }
+        // Here we run a very simple test of the Graph API after login is
+        // successful.  See statusChangeCallback() for when this call is made.
+        function testAPI() {
+            console.log('Welcome!  Fetching your information.... ');
+            FB.api('/me', function(response) {
+                console.log('Successful login for: ' + response.name);
+                document.getElementById('status').innerHTML =
+                    'Thanks for logging in, ' + response.name + '!';
             });
         }
     </script>
 
-    <h1 class="title">Hello!</h1>
-    <p>
-        <a href="#" onclick="fb_login();">Facebook Connect Button (Dialog)</a>
-    </p>
+    <fb:login-button scope="public_profile,email,user_friends" onlogin="checkLoginState();">
+    </fb:login-button>
 
+    <div id="status">
+    </div>
 {% endblock %}

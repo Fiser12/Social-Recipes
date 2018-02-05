@@ -86,7 +86,7 @@ class FacebookConnectRegistrationAction
                 $this->clientProvider->loadUserByUsername($facebookUser['email']),
                 $request,
                 $this->socialAuthenticator,
-                'client'
+                'user'
             );
         } catch (UserAlreadyExistException $exception) {
             $this->flashBag->add('error', $this->translator->trans(
@@ -94,6 +94,6 @@ class FacebookConnectRegistrationAction
             ));
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('app_home'));
+        return new RedirectResponse($this->urlGenerator->generate('home-redirection'));
     }
 }

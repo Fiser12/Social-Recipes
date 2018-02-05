@@ -42,23 +42,25 @@ class FacebookLogInClientHandler
 
     public function __invoke(FacebookLogInClientCommand $command): void
     {
-        $email = new UserEmail($command->email());
-        $user = $this->repository->userOfEmail($email);
-        $facebookId = new UserFacebookId($command->facebookId());
+        $user = $this->repository->userOfEmail(
+            new UserEmail(
+                $command->email()
+            )
+        );
 
 
         if (null === $user) {
             $user = User::signUpWithFacebook(
-                new UserId($command->facebookId()),
+                new UserId(),
                 new FullName(new FirstName($command->firstName()), new LastName($command->lastName())),
-                $facebookId,
-                $email,
+                new UserFacebookId($command->facebookId()),
+                new UserEmail($command->email()),
                 new UserFacebookAccessToken($command->facebookAccessToken()),
                 $this->getUsersFollowed($command->usersFollowers())
             );
         } else {
             /** @var User $user */
-            $user->connectToFacebook($facebookId);
+            $user->connectToFacebook(new UserFacebookId($command->facebookId()));
         }
 
         try {

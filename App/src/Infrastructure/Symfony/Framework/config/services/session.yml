@@ -15,7 +15,8 @@ services:
 
     app.command_bus:
         class: LIN3S\SharedKernel\Infrastructure\Application\SimpleBus\SimpleBusCommandBus
-        arguments: ['@catch_return_message_bus']
+        arguments:
+            - "@command_bus"
 
 
     app.security.authenticator.social:

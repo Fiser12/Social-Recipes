@@ -32,7 +32,6 @@ class FacebookConnectAction
     public function __invoke(Request $request) : RedirectResponse
     {
         $facebookClient = $this->clientRegistry->getClient('facebook');
-
         return $facebookClient->redirect();
     }
 }

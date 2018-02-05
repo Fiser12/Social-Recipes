@@ -33,17 +33,17 @@ oauth_facebook_registration:
         - GET
         - POST
 
-app_logged:
-    path: /home
-    defaults:
-        _controller: "app.http_action.home:__invoke"
-    methods:
-        - GET
-
-
-app_home:
+home-redirection:
     path: /
     defaults:
-        _controller: "app.http_action.page:__invoke"
-    methods:
-        - GET
+        _url: "http://socialrecipes.com/"
+
+app_logged:
+    path: /
+    defaults:
+        _url: "http://socialrecipes.com/"
+
+facebook-check-redirection:
+    path: /connect/facebook/check
+    defaults:
+        _url: "http://socialrecipes.com/api/connect/facebook/check"

@@ -19,3 +19,18 @@ _errors:
 
 _main:
     resource: routing.yml
+
+home-redirection:
+    path: /
+    defaults:
+        _url: "http://socialrecipes.com:8080/"
+
+app_logged:
+    path: /
+    defaults:
+        _url: "http://socialrecipes.com:8080/"
+
+facebook-check-redirection:
+    path: /connect/facebook/check
+    defaults:
+        _url: "http://socialrecipes.com:8080/api/connect/facebook/check"

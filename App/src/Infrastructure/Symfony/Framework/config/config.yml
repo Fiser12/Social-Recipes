@@ -13,6 +13,8 @@ imports:
 
 parameters:
     locale: en
+    router.options.generator_class: "App\\Infrastructure\\Symfony\\Framework\\Component\\Routing\\UrlGenerator"
+    router.options.generator_base_class: "App\\Infrastructure\\Symfony\\Framework\\Component\\Routing\\UrlGenerator"
 
 framework:
     translator: { fallbacks: ["%locale%"] }
@@ -83,5 +85,5 @@ knpu_oauth2_client:
             type: facebook
             client_id: "%oauth_facebook_client_id%"
             client_secret: "%oauth_facebook_client_secret%"
-            graph_api_version: v2.10
-            redirect_route: oauth_facebook_check
+            graph_api_version: v2.12
+            redirect_route: facebook-check-redirection

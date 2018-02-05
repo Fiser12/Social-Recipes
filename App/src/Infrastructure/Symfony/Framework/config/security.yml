@@ -12,15 +12,13 @@ security:
         bengor_user:
             id: bengor_user.user.provider
         oauth:
-            id: bengor_user.user.provider
+            id: knpu.oauth2.user_provider
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: ~
-        user:
             anonymous: ~
             pattern: ^/
             guard:

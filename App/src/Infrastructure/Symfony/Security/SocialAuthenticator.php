@@ -66,11 +66,12 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         $firstName = $oauthUser->getFirstName();
         $lastName = $oauthUser->getLastName();
 
-        return new FacebookLogInClientCommand($oauthUser->getId(), $oauthUser->getId(), $email, $firstName, $lastName, []);
+        return new FacebookLogInClientCommand($oauthUser->getId(), $accessToken->getToken(), $email, $firstName, $lastName, []);
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider) : UserInterface
     {
+
         if (!$credentials instanceof FacebookLogInClientCommand) {
             throw new InvalidArgumentException(
                 sprintf(
@@ -109,7 +110,7 @@ class SocialAuthenticator extends BaseSocialAuthenticator
             return new RedirectResponse($registrationUrl);
         }
         $this->saveAuthenticationErrorToSession($request, $exception);
-        $loginUrl = $this->urlGenerator->generate('app_home');
+        $loginUrl = $this->urlGenerator->generate('home-redirection');
 
         return new RedirectResponse($loginUrl);
     }
@@ -117,7 +118,7 @@ class SocialAuthenticator extends BaseSocialAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey) : RedirectResponse
     {
         if (!$url = $this->getPreviousUrl($request, $providerKey)) {
-            $url = $this->urlGenerator->generate('app_my_projects');
+            $url = $this->urlGenerator->generate('app_logged');
         }
 
         return new RedirectResponse($url);
@@ -125,9 +126,7 @@ class SocialAuthenticator extends BaseSocialAuthenticator
 
     public function start(Request $request, AuthenticationException $authException = null) : RedirectResponse
     {
-        // not called in our app, but if it were, redirecting to the
-        // login page makes sense
-        $url = $this->urlGenerator->generate('app_my_projects');
+        $url = $this->urlGenerator->generate('app_logged');
 
         return new RedirectResponse($url);
     }
