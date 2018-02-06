@@ -6,19 +6,19 @@
 # @author Ruben Garcia <ruben.garcia@opendeusto.es>
 
 app_homepage:
-    path: /
+    path: /session/
     defaults:
         _controller: "app.http_action.home:__invoke"
 
 oauth_facebook:
-    path: /connect/facebook
+    path: /session/connect/facebook
     defaults:
         _controller: "app.http_action.facebook.connect:__invoke"
     methods:
         - GET
 
 oauth_facebook_check:
-    path: /connect/facebook/check
+    path: /session/connect/facebook/check
     defaults:
         _controller: "app.http_action.facebook.connect_check:__invoke"
     methods:
@@ -26,24 +26,15 @@ oauth_facebook_check:
         - POST
 
 oauth_facebook_registration:
-    path: /connect/facebook/registration
+    path: /session/connect/facebook/registration
     defaults:
         _controller: "app.http_action.facebook.connect_registration:__invoke"
     methods:
         - GET
-        - POST
-
-home-redirection:
-    path: /
-    defaults:
-        _url: "http://socialrecipes.com/"
 
 app_logged:
-    path: /
+    path: /session/logged
     defaults:
-        _url: "http://socialrecipes.com/"
-
-facebook-check-redirection:
-    path: /connect/facebook/check
-    defaults:
-        _url: "http://socialrecipes.com/session/connect/facebook/check"
+        _controller: "app.http_action.logged:__invoke"
+    methods:
+        - GET

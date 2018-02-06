@@ -119,11 +119,10 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         if ($exception instanceof FinishRegistrationException) {
             $this->saveUserInfoToSession($request, $exception);
             $registrationUrl = $this->urlGenerator->generate('oauth_facebook_registration');
-
             return new RedirectResponse($registrationUrl);
         }
         $this->saveAuthenticationErrorToSession($request, $exception);
-        $loginUrl = $this->urlGenerator->generate('home-redirection');
+        $loginUrl = $this->urlGenerator->generate('app_homepage');
 
         return new RedirectResponse($loginUrl);
     }

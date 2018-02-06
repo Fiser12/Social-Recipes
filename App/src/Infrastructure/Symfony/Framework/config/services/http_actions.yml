@@ -8,6 +8,8 @@
 services:
     app.http_action.home:
         class: App\Infrastructure\Symfony\HttpAction\HomeAction
+    app.http_action.logged:
+        class: App\Infrastructure\Symfony\HttpAction\LoggedAction
     app.http_action.facebook.connect_check:
         class: App\Infrastructure\Symfony\HttpAction\Session\FacebookConnectCheckAction
         arguments:

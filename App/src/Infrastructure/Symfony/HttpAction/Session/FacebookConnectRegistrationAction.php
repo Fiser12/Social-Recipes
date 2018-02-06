@@ -94,6 +94,6 @@ class FacebookConnectRegistrationAction
             ));
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('home-redirection'));
+        return new RedirectResponse($this->urlGenerator->generate('app_homepage'));
     }
 }
