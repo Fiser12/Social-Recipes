@@ -93,7 +93,7 @@ ADD . /app
 RUN chown -R www-data:www-data /app
 
 RUN chmod -R 777 /app
-RUN composer install -d=/app/App --no-dev --no-interaction
+RUN composer install -d=/app/Session --no-dev --no-interaction
 RUN composer install -d=/app/CompositeUi --no-dev --no-interaction
 RUN (cd /app/CompositeUi/src/Infrastructure/Ui/Assets && yarn install)
 RUN (cd /app/CompositeUi/src/Infrastructure/Ui/Assets && yarn build:prod)
@@ -117,7 +117,7 @@ CMD sed \
         -e "s/\${secret-app}/${SECRET_KEY_APP}/" \
         -e "s/\${secret-compositeui}/${SECRET_KEY_COMPOSITE_UI}/" \
         -e "s/\${env}/prod/" \
-        /app/Docker/php/app-parameters.yml.dist > /app/App/parameters.yml  && \
+        /app/Docker/php/app-parameters.yml.dist > /app/Session/parameters.yml  && \
     sed \
         -e "s/\${database_host}/${DB_HOST}/" \
         -e "s/\${database_port}/${DB_PORT}/" \
@@ -138,6 +138,6 @@ CMD sed \
         -e "s/\${facebook_client_secret}/${OAUTH_FACEBOOK_CLIENT_SECRET}/" \
         -e "s/\${env}/prod/" \
         /app/Docker/php/.compositeui-env.dist > /app/CompositeUi/.env && \
-        php /app/App/etc/bin/symfony-console doctrine:database:create --if-not-exists && \
-        php /app/App/etc/bin/symfony-console do:mi:mi -v --no-interaction --allow-no-migration && \
+        php /app/Session/etc/bin/symfony-console doctrine:database:create --if-not-exists && \
+        php /app/Session/etc/bin/symfony-console do:mi:mi -v --no-interaction --allow-no-migration && \
         php-fpm -F

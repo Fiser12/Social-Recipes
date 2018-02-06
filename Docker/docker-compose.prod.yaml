@@ -33,8 +33,8 @@ services:
     restart: always
     volumes:
       - app_data:/app:rw
-      - ./volumes/log/prod/App:/app/App/var/logs
-      - ./volumes/cache/prod/App:/app/App/var/cache
+      - ./volumes/log/prod/Session:/app/Session/var/logs
+      - ./volumes/cache/prod/Session:/app/Session/var/cache
       - ./volumes/log/prod/CompositeUi:/app/CompositeUi/var/log
       - ./volumes/cache/prod/CompositeUi:/app/CompositeUi/var/cache
     networks:

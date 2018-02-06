@@ -1,4 +1,0 @@
-App\Domain\Model\Session\LastName:
-    type: embeddable
-    fields:
-        lastName: { type: string }

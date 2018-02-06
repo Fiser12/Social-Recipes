@@ -1,0 +1,32 @@
+# This file is part of the Social Recipes.
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @author Ruben Garcia <ruben.garcia@opendeusto.es>
+
+services:
+    session.http_action.home:
+        class: Session\Infrastructure\Symfony\HttpAction\HomeAction
+    session.http_action.logged:
+        class: Session\Infrastructure\Symfony\HttpAction\LoggedAction
+    session.http_action.facebook.connect_check:
+        class: Session\Infrastructure\Symfony\HttpAction\Session\FacebookConnectCheckAction
+        arguments:
+            - "@knpu.oauth2.registry"
+
+    session.http_action.facebook.connect:
+        class: Session\Infrastructure\Symfony\HttpAction\Session\FacebookConnectAction
+        arguments:
+            - "@knpu.oauth2.registry"
+    session.http_action.facebook.connect_registration:
+        class: Session\Infrastructure\Symfony\HttpAction\Session\FacebookConnectRegistrationAction
+        arguments:
+            - "@bengor_user.user.command_bus"
+            - "@session.security.authenticator.social"
+            - "@form.factory"
+            - "@translator"
+            - "@session.flash_bag"
+            - "@bengor_user.user.provider"
+            - "@security.authentication.guard_handler"
+            - "@router"
