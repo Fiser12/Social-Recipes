@@ -103,6 +103,10 @@ class User extends BaseUser
         );
     }
 
+    public function updateUsersFollowed(UsersFollowed $usersFollowed) {
+        $this->usersFollowed = $usersFollowed;
+    }
+
     public static function availableRoles(): array
     {
         return [

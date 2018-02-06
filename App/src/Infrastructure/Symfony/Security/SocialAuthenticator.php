@@ -150,7 +150,7 @@ class SocialAuthenticator extends BaseSocialAuthenticator
 
         $usersFollowers = [];
 
-        if (isset($usersFollowersApi["data"])) {
+        if (!isset($usersFollowersApi["data"])) {
             return [];
         }
 

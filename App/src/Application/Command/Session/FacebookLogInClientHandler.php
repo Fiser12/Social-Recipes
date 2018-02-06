@@ -50,7 +50,7 @@ class FacebookLogInClientHandler
 
         if (null === $user) {
             $user = User::signUpWithFacebook(
-                new UserId(),
+                new UserId($command->facebookId()),
                 new FullName(
                     new FirstName($command->firstName()), 
                     new LastName($command->lastName())
@@ -67,6 +67,7 @@ class FacebookLogInClientHandler
                 new UserFacebookAccessToken($command->facebookAccessToken()
                 )
             );
+            $user->updateUsersFollowed($this->getUsersFollowed($command->usersFollowers()));
         }
 
         try {
