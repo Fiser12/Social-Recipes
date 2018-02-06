@@ -46,7 +46,7 @@ class User extends BaseUser
         parent::__construct($anId, $anEmail, $userRoles, $aPassword);
 
         if (null !== $facebookId) {
-            $this->connectToFacebook($facebookId);
+            $this->connectToFacebook($facebookId, $facebookAccessToken);
         }
         $this->usersFollowed = $usersFollowed;
         $this->facebookAccessToken = $facebookAccessToken;

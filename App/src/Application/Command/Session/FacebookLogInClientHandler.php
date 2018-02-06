@@ -62,7 +62,11 @@ class FacebookLogInClientHandler
             );
         } else {
             /** @var User $user */
-            $user->connectToFacebook(new UserFacebookId($command->facebookId()));
+            $user->connectToFacebook(
+                new UserFacebookId($command->facebookId()),
+                new UserFacebookAccessToken($command->facebookAccessToken()
+                )
+            );
         }
 
         try {

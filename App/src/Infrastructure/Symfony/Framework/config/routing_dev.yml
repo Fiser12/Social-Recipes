@@ -33,4 +33,4 @@ app_logged:
 facebook-check-redirection:
     path: /connect/facebook/check
     defaults:
-        _url: "http://socialrecipes.com:8080/api/connect/facebook/check"
+        _url: "http://socialrecipes.com:8080/session/connect/facebook/check"
