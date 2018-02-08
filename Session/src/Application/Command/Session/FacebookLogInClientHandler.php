@@ -28,6 +28,7 @@ use Doctrine\ORM\ORMException;
 
 /**
  * @author José Elías Gutiérrez <jose@lin3s.com>
+ * @author Ruben Garcia <ruben@lin3s.com>
  */
 class FacebookLogInClientHandler
 {
@@ -52,7 +53,7 @@ class FacebookLogInClientHandler
             $user = User::signUpWithFacebook(
                 new UserId($command->facebookId()),
                 new FullName(
-                    new FirstName($command->firstName()), 
+                    new FirstName($command->firstName()),
                     new LastName($command->lastName())
                 ),
                 new UserFacebookId($command->facebookId()),
@@ -60,20 +61,21 @@ class FacebookLogInClientHandler
                 new UserFacebookAccessToken($command->facebookAccessToken()),
                 $this->getUsersFollowed($command->usersFollowers())
             );
-        } else {
-            /** @var User $user */
-            $user->connectToFacebook(
-                new UserFacebookId($command->facebookId()),
-                new UserFacebookAccessToken($command->facebookAccessToken()
-                )
-            );
-            $user->updateUsersFollowed($this->getUsersFollowed($command->usersFollowers()));
         }
+
+        /** @var User $user */
+        $user->connectToFacebook(
+            new UserFacebookId($command->facebookId()),
+            new UserFacebookAccessToken($command->facebookAccessToken()
+            )
+        );
+        $user->updateUsersFollowed($this->getUsersFollowed($command->usersFollowers()));
 
         try {
             $this->entityManager->persist($user);
             $this->entityManager->flush();
         } catch (ORMException $e) {
+            return;
         }
     }
 

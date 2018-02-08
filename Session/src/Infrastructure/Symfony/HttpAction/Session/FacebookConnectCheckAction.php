@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Session\Infrastructure\Symfony\HttpAction\Session;
 
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

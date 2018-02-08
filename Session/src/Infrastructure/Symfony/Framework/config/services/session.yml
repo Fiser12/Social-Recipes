@@ -18,6 +18,12 @@ services:
         arguments:
             - "@command_bus"
 
+    session.graph_api.facebook:
+      class: Facebook\Facebook
+      arguments:
+        - 'app_id': '%oauth_facebook_client_id%'
+          'app_secret': '%oauth_facebook_client_secret%'
+          'default_graph_version': 'v2.10'
 
     session.security.authenticator.social:
         class: Session\Infrastructure\Symfony\Security\SocialAuthenticator
@@ -27,6 +33,8 @@ services:
             - "@session.command_bus"
             - "@session.query_bus"
             - "@session.graph_api.facebook"
+            - "@lexik_jwt_authentication.encoder.default"
+            - "@session.security.cookie_generator"
 
     #Command-Handlers
     session.application.command.user.facebook_login:
@@ -39,10 +47,8 @@ services:
                 name: command_handler
                 handles: Session\Application\Command\Session\FacebookLogInClientCommand
 
-    session.graph_api.facebook:
-      class: Facebook\Facebook
-      arguments:
-        - 'app_id': '%oauth_facebook_client_id%'
-          'app_secret': '%oauth_facebook_client_secret%'
-          'default_graph_version': 'v2.10'
 
+    session.security.cookie_generator:
+        class: Session\Infrastructure\Symfony\Security\SessionCookieGenerator
+        arguments:
+            - "@router"

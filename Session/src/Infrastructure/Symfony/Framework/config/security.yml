@@ -23,16 +23,14 @@ security:
             pattern: ^/
             guard:
                 authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
                     - session.security.authenticator.social
                 entry_point: bengor_user.user.form_login_authenticator
             provider: bengor_user
-            form_login:
-                check_path: bengor_user_client_login_check
-                failure_path: /?login=true
-                login_path: /?login=true
-            logout:
-                path: bengor_user_client_logout
-                target: /
+            form_login: ~
+            logout: ~
+            http_basic: ~
+
 
     encoders:
         Session\Domain\Model\Session\User: bcrypt

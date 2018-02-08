@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Session\Infrastructure\Symfony\Security;
 
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\DefaultEncoder;
+use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
 use Session\Application\Command\Session\FacebookLogInClientCommand;
 use BenGorUser\User\Domain\Model\Exception\UserDoesNotExistException;
 use BenGorUser\User\Domain\Model\Exception\UserEmailInvalidException;
@@ -27,6 +29,7 @@ use KnpU\OAuth2ClientBundle\Security\Exception\FinishRegistrationException;
 use LIN3S\SharedKernel\Application\CommandBus;
 use LIN3S\SharedKernel\Application\QueryBus;
 use LIN3S\SharedKernel\Exception\InvalidArgumentException;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -44,13 +47,19 @@ class SocialAuthenticator extends BaseSocialAuthenticator
     private $urlGenerator;
     private $commandBus;
     private $facebookGraphApi;
+    private $encoder;
+
+    private $jwt;
+    private $messageTimer;
 
     public function __construct(
         ClientRegistry $clientRegistry,
         UrlGeneratorInterface $urlGenerator,
         CommandBus $commandBus,
         QueryBus $queryBus,
-        Facebook $facebookGraphApi
+        Facebook $facebookGraphApi,
+        DefaultEncoder $encoder,
+        SessionCookieGenerator $messageTimer
     )
     {
         $this->clientRegistry = $clientRegistry;
@@ -58,6 +67,8 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         $this->commandBus = $commandBus;
         $this->queryBus = $queryBus;
         $this->facebookGraphApi = $facebookGraphApi;
+        $this->encoder = $encoder;
+        $this->messageTimer = $messageTimer;
     }
 
     public function getCredentials(Request $request)
@@ -97,9 +108,16 @@ class SocialAuthenticator extends BaseSocialAuthenticator
 
         try {
             $this->commandBus->handle($credentials);
-        } catch (UserEmailInvalidException | UserInactiveException | UserDoesNotExistException $exception) {
+
+            $this->jwt = $this->encoder->encode(
+                [
+                    'id' => $credentials->facebookId(),
+                    'email' => $credentials->email()
+                ]
+            );
+        } catch (UserEmailInvalidException | JWTEncodeFailureException $exception) {
             throw new FinishRegistrationException([
-                'id' => $credentials->id(),
+                'id' => $credentials->facebookId(),
                 'email' => $credentials->email(),
                 'first_name' => $credentials->firstName(),
                 'last_name' => $credentials->lastName(),
@@ -129,11 +147,7 @@ class SocialAuthenticator extends BaseSocialAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): RedirectResponse
     {
-        if (!$url = $this->getPreviousUrl($request, $providerKey)) {
-            $url = $this->urlGenerator->generate('app_logged');
-        }
-
-        return new RedirectResponse($url);
+        return $this->messageTimer->processRequest($request, $this->jwt);
     }
 
     public function start(Request $request, AuthenticationException $authException = null): RedirectResponse
@@ -168,9 +182,6 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         try {
             $response = $this->facebookGraphApi->get('/me/friends');
             return $response->getDecodedBody();
-        } catch (FacebookResponseException $e) {
-            echo 'Graph returned an error: ' . $e->getMessage();
-            exit;
         } catch (FacebookSDKException $e) {
             echo 'Facebook SDK returned an error: ' . $e->getMessage();
             exit;

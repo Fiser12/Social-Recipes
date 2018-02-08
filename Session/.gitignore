@@ -35,4 +35,6 @@ src/Infrastructure/Ui/Assets/.stylelintrc.js
 !var/logs/.gitkeep
 /var/cache/*
 !var/cache/.gitkeep
+/var/jwt/*
+!var/jwt/.gitkeep
 
