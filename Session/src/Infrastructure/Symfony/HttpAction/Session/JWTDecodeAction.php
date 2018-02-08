@@ -28,10 +28,13 @@ class JWTDecodeAction
 
     public function __invoke(Request $request): JsonResponse
     {
+        if (!$jwt = $request->get('jwt')) {
+            return new JsonResponse('JWT query not exist', 400);
+        }
+
         try {
             $user = $this->handler->__invoke(
-                new JWTDecodeQuery($request->get('jwt')
-                )
+                new JWTDecodeQuery($request->get('jwt'))
             );
 
             $result = [
@@ -42,6 +45,7 @@ class JWTDecodeAction
             $result = $exception->getMessage();
             $code = 400;
         }
+
         return new JsonResponse($result, $code);
     }
 }
