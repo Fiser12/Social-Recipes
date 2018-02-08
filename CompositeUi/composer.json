@@ -2,6 +2,7 @@
     "require": {
         "php": "^7.1",
         "ext-iconv": "*",
+        "guzzlehttp/guzzle": "^6.3",
         "incenteev/composer-parameter-handler": "^2.1",
         "lin3s/cs": "^0.7.4",
         "lin3s/distribution": "^4.2",

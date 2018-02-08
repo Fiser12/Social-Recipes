@@ -13,22 +13,25 @@ declare(strict_types=1);
 
 namespace CompositeUi\Infrastructure\Symfony\HttpAction;
 
+use CompositeUi\Application\Query\Session\GetUserByJWTHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class TimelineAction
 {
     private $twig;
+    private $getJwtHandler;
 
-    public function __construct(\Twig_Environment $twig)
+    public function __construct(\Twig_Environment $twig, GetUserByJWTHandler $getJwtHandler)
     {
         $this->twig = $twig;
+        $this->getJwtHandler = $getJwtHandler;
     }
 
     public function __invoke(Request $request) : Response
     {
         return new Response(
-            $this->twig->render('pages/timeline.html.twig')
+            $this->twig->render('pages/timeline.html.twig', ['user' => 'fiser'])
         );
     }
 }

@@ -7,8 +7,8 @@
 
 app_home:
     path: /
-    controller: CompositeUi\Infrastructure\Symfony\HttpAction\HomeAction::__invoke
+    controller: "compositeui.http_action.home_action:__invoke"
 
 app_timeline:
     path: /timeline
-    controller: CompositeUi\Infrastructure\Symfony\HttpAction\TimelineAction::__invoke
+    controller: "compositeui.http_action.timeline_action:__invoke"
