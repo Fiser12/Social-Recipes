@@ -107,21 +107,16 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         }
 
         try {
-            $this->commandBus->handle($credentials);
-
-            $this->jwt = $this->encoder->encode(
-                [
-                    'id' => $credentials->facebookId(),
-                    'email' => $credentials->email()
-                ]
-            );
-        } catch (UserEmailInvalidException | JWTEncodeFailureException $exception) {
-            throw new FinishRegistrationException([
+            $userValues = [
                 'id' => $credentials->facebookId(),
                 'email' => $credentials->email(),
                 'first_name' => $credentials->firstName(),
-                'last_name' => $credentials->lastName(),
-            ]);
+                'last_name' => $credentials->lastName()
+            ];
+            $this->jwt = $this->encoder->encode($userValues);
+            $this->commandBus->handle($credentials);
+        } catch (UserEmailInvalidException | JWTEncodeFailureException $exception) {
+            throw new FinishRegistrationException($userValues);
         }
 
         return $userProvider->loadUserByUsername($credentials->email());
@@ -147,7 +142,7 @@ class SocialAuthenticator extends BaseSocialAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): RedirectResponse
     {
-        return $this->messageTimer->processRequest($request, $this->jwt);
+        return $this->messageTimer->processRequest($this->jwt);
     }
 
     public function start(Request $request, AuthenticationException $authException = null): RedirectResponse

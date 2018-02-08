@@ -52,3 +52,9 @@ services:
         class: Session\Infrastructure\Symfony\Security\SessionCookieGenerator
         arguments:
             - "@router"
+
+    #Query-Handlers
+    session.application.query.jwt_decode_handler:
+        class: Session\Application\Query\Session\JWTDecodeHandler
+        arguments:
+            - "@lexik_jwt_authentication.encoder.default"

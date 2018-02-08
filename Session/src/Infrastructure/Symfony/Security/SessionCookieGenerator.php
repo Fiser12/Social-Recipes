@@ -18,17 +18,11 @@ class SessionCookieGenerator
         $this->router = $router;
     }
 
-    public function processRequest(Request $request, string $jwt)
+    public function processRequest(string $jwt)
     {
-        $session = $request->cookies->get('Authorization');
-
-        if ($session) {
-            return new RedirectResponse($this->router->generate('app_logged'));
-        } else {
-            $cookie = new Cookie('Authorization', $jwt);
-            $response = new RedirectResponse($this->router->generate('app_logged'));
-            $response->headers->setCookie($cookie);
-            return $response;
-        }
+        $response = new RedirectResponse($this->router->generate('app_logged'));
+        $cookie = new Cookie('Authorization', $jwt);
+        $response->headers->setCookie($cookie);
+        return $response;
     }
 }

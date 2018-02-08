@@ -6,8 +6,10 @@
 # @author Ruben Garcia <ruben.garcia@opendeusto.es>
 
 services:
-    session.http_action.home:
-        class: Session\Infrastructure\Symfony\HttpAction\HomeAction
+    session.http_action.jwt_decode_action:
+        class: Session\Infrastructure\Symfony\HttpAction\Session\JWTDecodeAction
+        arguments:
+            - "@session.application.query.jwt_decode_handler"
 
     session.http_action.facebook.connect_check:
         class: Session\Infrastructure\Symfony\HttpAction\Session\FacebookConnectCheckAction
