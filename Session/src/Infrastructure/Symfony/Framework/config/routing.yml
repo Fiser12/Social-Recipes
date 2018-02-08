@@ -31,10 +31,3 @@ oauth_facebook_registration:
         _controller: "session.http_action.facebook.connect_registration:__invoke"
     methods:
         - GET
-
-app_logged:
-    path: /session/logged
-    defaults:
-        _controller: "session.http_action.logged:__invoke"
-    methods:
-        - GET

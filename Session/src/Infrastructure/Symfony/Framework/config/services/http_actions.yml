@@ -8,8 +8,7 @@
 services:
     session.http_action.home:
         class: Session\Infrastructure\Symfony\HttpAction\HomeAction
-    session.http_action.logged:
-        class: Session\Infrastructure\Symfony\HttpAction\LoggedAction
+
     session.http_action.facebook.connect_check:
         class: Session\Infrastructure\Symfony\HttpAction\Session\FacebookConnectCheckAction
         arguments:
@@ -19,6 +18,7 @@ services:
         class: Session\Infrastructure\Symfony\HttpAction\Session\FacebookConnectAction
         arguments:
             - "@knpu.oauth2.registry"
+
     session.http_action.facebook.connect_registration:
         class: Session\Infrastructure\Symfony\HttpAction\Session\FacebookConnectRegistrationAction
         arguments:
