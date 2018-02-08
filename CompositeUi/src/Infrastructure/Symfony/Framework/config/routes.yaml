@@ -8,3 +8,7 @@
 app_home:
     path: /
     controller: CompositeUi\Infrastructure\Symfony\HttpAction\HomeAction::__invoke
+
+app_timeline:
+    path: /timeline
+    controller: CompositeUi\Infrastructure\Symfony\HttpAction\TimelineAction::__invoke

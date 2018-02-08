@@ -6,9 +6,10 @@
 # @author Ruben Garcia <ruben.garcia@opendeusto.es>
 
 app_homepage:
-    path: /session/
-    defaults:
-        _controller: "session.http_action.home:__invoke"
+    path: /
+
+app_logged:
+    path: /timeline
 
 oauth_facebook:
     path: /session/connect/facebook
