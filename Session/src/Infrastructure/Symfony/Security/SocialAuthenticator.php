@@ -76,7 +76,7 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         if ($request->getPathInfo() !== $this->urlGenerator->generate('oauth_facebook_check')) {
             return;
         }
-
+        $this->client()->setAsStateless();
         $accessToken = $this->fetchAccessToken($this->client());
         $oauthUser = $this->client()->fetchUserFromToken($accessToken);
         $email = $oauthUser->getEmail();
