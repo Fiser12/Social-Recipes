@@ -19,7 +19,7 @@ use CompositeUi\Application\Query\Session\GetUserByJWTQuery;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
 class TimelineAction
 {
@@ -30,7 +30,7 @@ class TimelineAction
     public function __construct(
         \Twig_Environment $twig,
         GetUserByJWTHandler $getJwtHandler,
-        Router $router
+        RouterInterface $router
     )
     {
         $this->twig = $twig;
