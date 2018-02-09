@@ -14,28 +14,27 @@ declare(strict_types=1);
 namespace CompositeUi\Infrastructure\Symfony\HttpAction;
 
 use CompositeUi\Application\Query\Session\APISessionErrorException;
-use CompositeUi\Application\Query\Session\GetUserByJWTHandler;
-use CompositeUi\Application\Query\Session\GetUserByJWTQuery;
+use CompositeUi\Domain\Model\Session\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
-class TimelineAction
+class TimelineAction extends \Symfony\Bundle\FrameworkBundle\Controller\Controller
 {
     private $twig;
-    private $getJwtHandler;
     private $router;
+    private $tokenStorage;
 
     public function __construct(
         \Twig_Environment $twig,
-        GetUserByJWTHandler $getJwtHandler,
-        RouterInterface $router
-    )
-    {
+        RouterInterface $router,
+        TokenStorage $tokenStorage
+    ) {
         $this->twig = $twig;
-        $this->getJwtHandler = $getJwtHandler;
         $this->router = $router;
+        $this->tokenStorage = $tokenStorage;
     }
 
     public function __invoke(Request $request): Response
@@ -46,11 +45,12 @@ class TimelineAction
         }
 
         try {
-            $response = $this->getJwtHandler->__invoke(new GetUserByJWTQuery($jwt));
+            $user = $this->getUser();
+            /**@var User $user  */
             return new Response(
                 $this->twig->render(
                     'pages/timeline.html.twig',
-                    ['user' => $response['user']['first_name'] . ' ' . $response['user']['last_name']]
+                    ['user' => $user->fullName()->firstName()->firstName() . ' ' . $user->fullName()->lastName()->lastName()]
                 )
             );
         } catch (APISessionErrorException $exception) {
