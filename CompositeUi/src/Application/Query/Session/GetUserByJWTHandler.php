@@ -24,7 +24,7 @@ class GetUserByJWTHandler
         $this->client = $client;
     }
 
-    public function __invoke(GetUserByJWTQuery $query): array
+    public function __invoke(GetUserByJWTQuery $query) : array
     {
         $response = $this->client->request(
             GetUserByJWTQuery::METHOD,
@@ -33,6 +33,12 @@ class GetUserByJWTHandler
                 'query' => ['jwt' => $query->jwt()]
             ]
         );
-        return $response;
+        if($response->getStatusCode() !== 200) {
+            throw new APISessionErrorException(
+                $response->getBody()->getContents(),
+                $response->getStatusCode()
+            );
+        }
+        return json_decode($response->getBody()->getContents(), true);
     }
 }

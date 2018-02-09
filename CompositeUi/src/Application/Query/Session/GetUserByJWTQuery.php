@@ -16,7 +16,7 @@ namespace CompositeUi\Application\Query\Session;
 class GetUserByJWTQuery
 {
     private $jwt;
-    const URI = 'http://127.0.0.1:80/session/user/decode';
+    const URI = 'http://nginx/session/user/decode';
     const METHOD = 'GET';
 
     public function __construct(string $jwt)
