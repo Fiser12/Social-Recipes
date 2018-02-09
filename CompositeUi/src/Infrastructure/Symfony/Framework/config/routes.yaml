@@ -16,3 +16,7 @@ app_timeline:
 app_logout:
     path: /logout
     controller: CompositeUi\Infrastructure\Symfony\HttpAction\Session\LogoutAction::__invoke
+
+app_login:
+    path: /session/connect/facebook
+    controller: CompositeUi\Infrastructure\Symfony\HttpAction\Session\LogoutAction::__invoke
