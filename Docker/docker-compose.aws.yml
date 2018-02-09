@@ -65,7 +65,6 @@ services:
     restart: always
     ports:
       - '80'
-      - '81'
     volumes:
       - 'app_data:/app:rw'
     depends_on:

@@ -1,4 +1,4 @@
-DIR ?= App
+DIR ?= Session
 ENV ?= dev
 SERVICE ?= app-$(ENV)
 IMAGE ?= symfony-app-$(ENV)
@@ -50,13 +50,13 @@ start:
 
 build:
 	@rsync --ignore-existing Docker/.env.dist Docker/.env && \
-	        chmod -R 777 App/var CompositeUi/var && \
+	        chmod -R 777 Session/var CompositeUi/var && \
 	        docker-compose -f Docker/docker-compose.$(ENV).yaml down && \
         	docker-compose -f Docker/docker-compose.$(ENV).yaml build --pull --no-cache && \
             docker-compose -f Docker/docker-compose.$(ENV).yaml up -d
 
 composer-install-all:
-	@docker-compose -f Docker/docker-compose.$(ENV).yaml exec app-$(ENV) bash -c "composer install -d=/app/App --$(ENV_COMPOSER)" && \
+	@docker-compose -f Docker/docker-compose.$(ENV).yaml exec app-$(ENV) bash -c "composer install -d=/app/Session --$(ENV_COMPOSER)" && \
         docker-compose -f Docker/docker-compose.$(ENV).yaml exec app-$(ENV) bash -c "composer install -d=/app/CompositeUi --$(ENV_COMPOSER)"
 
 docker-connect:

@@ -1,4 +1,0 @@
-App\Domain\Model\Session\FirstName:
-    type: embeddable
-    fields:
-        firstName: { type: string }

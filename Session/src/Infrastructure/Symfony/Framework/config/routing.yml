@@ -1,0 +1,44 @@
+# This file is part of the Social Recipes.
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @author Ruben Garcia <ruben.garcia@opendeusto.es>
+
+#Redirections to CompositeUI
+app_homepage:
+    path: /
+
+app_logged:
+    path: /timeline
+
+#Facebook url connections
+oauth_facebook:
+    path: /session/connect/facebook
+    defaults:
+        _controller: "session.http_action.facebook.connect:__invoke"
+    methods:
+        - GET
+
+oauth_facebook_check:
+    path: /session/connect/facebook/check
+    defaults:
+        _controller: "session.http_action.facebook.connect_check:__invoke"
+    methods:
+        - GET
+        - POST
+
+oauth_facebook_registration:
+    path: /session/connect/facebook/registration
+    defaults:
+        _controller: "session.http_action.facebook.connect_registration:__invoke"
+    methods:
+        - GET
+
+#JWT URLs
+session.http_action.session.jwt_decode:
+    path: /session/user/decode
+    defaults:
+        _controller: "session.http_action.jwt_decode_action:__invoke"
+    methods:
+        - GET

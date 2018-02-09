@@ -20,6 +20,9 @@
             "ref": "cb4152ebcadbe620ea2261da1a1c5a9b8cea7672"
         }
     },
+    "doctrine/collections": {
+        "version": "v1.5.0"
+    },
     "doctrine/instantiator": {
         "version": "1.1.0"
     },
@@ -41,6 +44,24 @@
     "gecko-packages/gecko-php-unit": {
         "version": "v3.1"
     },
+    "giggsey/libphonenumber-for-php": {
+        "version": "8.8.11"
+    },
+    "giggsey/locale": {
+        "version": "1.4"
+    },
+    "guzzlehttp/guzzle": {
+        "version": "6.3.0"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.4.2"
+    },
+    "keyvanakbary/slugifier": {
+        "version": "v4.0.0"
+    },
     "lin3s/cs": {
         "version": "v0.7.4"
     },
@@ -50,11 +71,17 @@
     "lin3s/php-cs-fixer-config": {
         "version": "v1.0.2"
     },
+    "lin3s/shared-kernel": {
+        "version": "v0.6.0"
+    },
     "monolog/monolog": {
         "version": "1.23.0"
     },
     "neronmoon/scriptsdev": {
         "version": "v0.1.1"
+    },
+    "paragonie/random_compat": {
+        "version": "v2.0.11"
     },
     "pdepend/pdepend": {
         "version": "2.5.2"
@@ -92,11 +119,17 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/log": {
         "version": "1.0.2"
     },
     "psr/simple-cache": {
         "version": "1.0.0"
+    },
+    "ramsey/uuid": {
+        "version": "3.7.3"
     },
     "sebastian/comparator": {
         "version": "2.1.2"
@@ -253,6 +286,9 @@
     },
     "twig/twig": {
         "version": "v2.4.4"
+    },
+    "uvinum/zipcodevalidator": {
+        "version": "1.0"
     },
     "webmozart/assert": {
         "version": "1.2.0"

@@ -1,0 +1,60 @@
+# This file is part of the Social Recipes.
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @author Ruben Garcia <ruben.garcia@opendeusto.es>
+
+services:
+    catch_return_message_bus:
+        class: Ajgl\SimpleBus\Message\Bus\Middleware\CatchReturnMessageBusSupportingMiddleware
+
+    session.query_bus:
+        class: LIN3S\SharedKernel\Infrastructure\Application\SimpleBus\SimpleBusQueryBus
+        arguments: ['@catch_return_message_bus']
+
+    session.command_bus:
+        class: LIN3S\SharedKernel\Infrastructure\Application\SimpleBus\SimpleBusCommandBus
+        arguments:
+            - "@command_bus"
+
+    session.graph_api.facebook:
+      class: Facebook\Facebook
+      arguments:
+        - 'app_id': '%oauth_facebook_client_id%'
+          'app_secret': '%oauth_facebook_client_secret%'
+          'default_graph_version': 'v2.10'
+
+    session.security.authenticator.social:
+        class: Session\Infrastructure\Symfony\Security\SocialAuthenticator
+        arguments:
+            - "@knpu.oauth2.registry"
+            - "@router"
+            - "@session.command_bus"
+            - "@session.query_bus"
+            - "@session.graph_api.facebook"
+            - "@lexik_jwt_authentication.encoder.default"
+            - "@session.security.cookie_generator"
+
+    #Command-Handlers
+    session.application.command.user.facebook_login:
+        class: Session\Application\Command\Session\FacebookLogInClientHandler
+        arguments:
+            - "@bengor_user.user.repository"
+            - "@doctrine.orm.entity_manager"
+        tags:
+            -
+                name: command_handler
+                handles: Session\Application\Command\Session\FacebookLogInClientCommand
+
+
+    session.security.cookie_generator:
+        class: Session\Infrastructure\Symfony\Security\SessionCookieGenerator
+        arguments:
+            - "@router"
+
+    #Query-Handlers
+    session.application.query.jwt_decode_handler:
+        class: Session\Application\Query\Session\JWTDecodeHandler
+        arguments:
+            - "@lexik_jwt_authentication.encoder.default"
