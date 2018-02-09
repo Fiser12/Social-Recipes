@@ -17,3 +17,7 @@ security:
                 authenticators:
                     - CompositeUi\Infrastructure\Symfony\Security\Session\JWTAuthenticator
             provider: user_api_provider
+
+    access_control:
+        - { path: ^/timeline, roles: ROLE_USER }
+        - { path: ^/logout, roles: ROLE_USER }

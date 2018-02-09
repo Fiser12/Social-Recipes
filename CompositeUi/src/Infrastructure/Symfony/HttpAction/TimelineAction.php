@@ -15,13 +15,14 @@ namespace CompositeUi\Infrastructure\Symfony\HttpAction;
 
 use CompositeUi\Application\Query\Session\APISessionErrorException;
 use CompositeUi\Domain\Model\Session\User;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
-class TimelineAction extends \Symfony\Bundle\FrameworkBundle\Controller\Controller
+class TimelineAction extends Controller
 {
     private $twig;
     private $router;
@@ -31,7 +32,8 @@ class TimelineAction extends \Symfony\Bundle\FrameworkBundle\Controller\Controll
         \Twig_Environment $twig,
         RouterInterface $router,
         TokenStorage $tokenStorage
-    ) {
+    )
+    {
         $this->twig = $twig;
         $this->router = $router;
         $this->tokenStorage = $tokenStorage;
@@ -39,22 +41,13 @@ class TimelineAction extends \Symfony\Bundle\FrameworkBundle\Controller\Controll
 
     public function __invoke(Request $request): Response
     {
-        if (!$jwt = $request->cookies->get('Authorization')) {
-            $this->router->generate('app_home');
-            return new RedirectResponse($this->router->generate('app_home', ['removeCookie' => 1]));
-        }
-
-        try {
-            $user = $this->getUser();
-            /**@var User $user  */
-            return new Response(
-                $this->twig->render(
-                    'pages/timeline.html.twig',
-                    ['user' => $user->fullName()->firstName()->firstName() . ' ' . $user->fullName()->lastName()->lastName()]
-                )
-            );
-        } catch (APISessionErrorException $exception) {
-            return new RedirectResponse($this->router->generate('app_home', ['removeCookie' => 1]));
-        }
+        $user = $this->getUser();
+        /**@var User $user */
+        return new Response(
+            $this->twig->render(
+                'pages/timeline.html.twig',
+                ['user' => $user->fullName()->firstName()->firstName() . ' ' . $user->fullName()->lastName()->lastName()]
+            )
+        );
     }
 }

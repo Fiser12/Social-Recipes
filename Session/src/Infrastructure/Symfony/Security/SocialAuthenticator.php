@@ -59,7 +59,7 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         QueryBus $queryBus,
         Facebook $facebookGraphApi,
         DefaultEncoder $encoder,
-        SessionCookieGenerator $messageTimer
+        SessionCookieGenerator $sessionCookieGenerator
     )
     {
         $this->clientRegistry = $clientRegistry;
@@ -68,7 +68,7 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         $this->queryBus = $queryBus;
         $this->facebookGraphApi = $facebookGraphApi;
         $this->encoder = $encoder;
-        $this->messageTimer = $messageTimer;
+        $this->messageTimer = $sessionCookieGenerator;
     }
 
     public function getCredentials(Request $request)

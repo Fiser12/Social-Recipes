@@ -12,3 +12,7 @@ app_home:
 app_timeline:
     path: /timeline
     controller: CompositeUi\Infrastructure\Symfony\HttpAction\TimelineAction::__invoke
+
+app_logout:
+    path: /logout
+    controller: CompositeUi\Infrastructure\Symfony\HttpAction\Session\LogoutAction::__invoke

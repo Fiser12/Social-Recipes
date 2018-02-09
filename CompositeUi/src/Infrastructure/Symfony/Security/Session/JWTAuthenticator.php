@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace CompositeUi\Infrastructure\Symfony\Security\Session;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -15,6 +15,13 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class JWTAuthenticator extends AbstractGuardAuthenticator
 {
+    private $urlGenerator;
+
+    public function __construct(UrlGeneratorInterface $urlGenerator)
+    {
+        $this->urlGenerator = $urlGenerator;
+    }
+
     public function supports(Request $request)
     {
         return $request->cookies->get('Authorization') !== null;
@@ -32,7 +39,7 @@ class JWTAuthenticator extends AbstractGuardAuthenticator
         $apiKey = $credentials['token'];
 
         if (null === $apiKey) {
-            return;
+            return null;
         }
 
         return $userProvider->loadUserByUsername($apiKey);
@@ -50,20 +57,16 @@ class JWTAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        $data = array(
-            'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
-        );
+        $loginUrl = $this->urlGenerator->generate('app_home');
 
-        return new JsonResponse($data, Response::HTTP_FORBIDDEN);
+        return new RedirectResponse($loginUrl);
     }
 
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        $data = array(
-            'message' => 'Authentication Required'
-        );
+        $loginUrl = $this->urlGenerator->generate('app_home');
 
-        return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
+        return new RedirectResponse($loginUrl);
     }
 
     public function supportsRememberMe()

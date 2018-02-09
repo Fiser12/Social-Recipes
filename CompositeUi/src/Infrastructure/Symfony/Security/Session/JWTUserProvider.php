@@ -25,11 +25,11 @@ class JWTUserProvider implements UserProviderInterface
         $this->getJwtHandler = $getJwtHandler;
     }
 
-    public function loadUserByUsername($jwt)
+    public function loadUserByUsername($jwt): User
     {
         $response = $this->getJwtHandler->__invoke(new GetUserByJWTQuery($jwt));
 
-        $user =  new User(
+        $user = new User(
             new UserFacebookId($response['user']['id']),
             new UserEmail($response['user']['email']),
             new FullName(
@@ -42,7 +42,7 @@ class JWTUserProvider implements UserProviderInterface
         return $user;
     }
 
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): User
     {
         if (!$user instanceof User) {
             throw new UnsupportedUserException(
@@ -53,7 +53,7 @@ class JWTUserProvider implements UserProviderInterface
         return $this->loadUserByUsername($user->jwt());
     }
 
-    public function supportsClass($class)
+    public function supportsClass($class): string
     {
         return User::class;
     }
