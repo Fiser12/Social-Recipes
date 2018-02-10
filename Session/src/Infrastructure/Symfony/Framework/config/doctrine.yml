@@ -8,7 +8,7 @@
 doctrine_migrations:
     dir_name: "%kernel.root_dir%/../../Persistence/Doctrine/Migrations"
     namespace: Session\Infrastructure\Persistence\Doctrine\Migrations
-    table_name: migration_versions
+    table_name: session_migration_versions
     name: Session migrations
 
 doctrine:

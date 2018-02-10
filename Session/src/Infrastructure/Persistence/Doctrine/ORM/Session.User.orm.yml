@@ -1,6 +1,6 @@
 Session\Domain\Model\Session\User:
     type: entity
-    table: user
+    table: session_user
     lifecycleCallbacks: {  }
     repositoryClass: BenGorUser\DoctrineORMBridge\Infrastructure\Persistence\DoctrineORMUserRepository
     embedded:
@@ -20,7 +20,7 @@ Session\Domain\Model\Session\User:
         targetEntity: Session\Domain\Model\Session\User
         inversedBy: usersFollowMe
         joinTable:
-          name: users_followed
+          name: session_users_followed
           joinColumns:
             user_id:
               onDelete: CASCADE
