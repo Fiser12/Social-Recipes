@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace CompositeUi\Infrastructure\Symfony\HttpAction;
+namespace CompositeUi\Infrastructure\Symfony\HttpAction\Session;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class HomeAction extends Controller
+class LogoutAction extends Controller
 {
     private $twig;
     private $urlGenerator;
@@ -34,14 +34,10 @@ class HomeAction extends Controller
 
     public function __invoke() : Response
     {
-        if($user = $this->getUser()){
-            $loginUrl = $this->urlGenerator->generate('app_timeline');
-            return new RedirectResponse($loginUrl);
-        }
+        $loginUrl = $this->urlGenerator->generate('app_home');
+        $response = new RedirectResponse($loginUrl);
+        $response->headers->clearCookie('Authorization');
 
-        $response = new Response(
-            $this->twig->render('pages/home.html.twig')
-        );
         return $response;
     }
 }

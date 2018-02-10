@@ -59,7 +59,7 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         QueryBus $queryBus,
         Facebook $facebookGraphApi,
         DefaultEncoder $encoder,
-        SessionCookieGenerator $messageTimer
+        SessionCookieGenerator $sessionCookieGenerator
     )
     {
         $this->clientRegistry = $clientRegistry;
@@ -68,7 +68,7 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         $this->queryBus = $queryBus;
         $this->facebookGraphApi = $facebookGraphApi;
         $this->encoder = $encoder;
-        $this->messageTimer = $messageTimer;
+        $this->messageTimer = $sessionCookieGenerator;
     }
 
     public function getCredentials(Request $request)
@@ -76,7 +76,7 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         if ($request->getPathInfo() !== $this->urlGenerator->generate('oauth_facebook_check')) {
             return;
         }
-
+        $this->client()->setAsStateless();
         $accessToken = $this->fetchAccessToken($this->client());
         $oauthUser = $this->client()->fetchUserFromToken($accessToken);
         $email = $oauthUser->getEmail();

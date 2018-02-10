@@ -2,7 +2,6 @@
 
 namespace CompositeUi\Application\Query\Session;
 
-
 use LIN3S\SharedKernel\Exception\DomainException;
 use Throwable;
 
