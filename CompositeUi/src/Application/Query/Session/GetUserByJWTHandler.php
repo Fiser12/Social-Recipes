@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace CompositeUi\Application\Query\Session;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 class GetUserByJWTHandler
 {
@@ -24,16 +25,24 @@ class GetUserByJWTHandler
         $this->client = $client;
     }
 
-    public function __invoke(GetUserByJWTQuery $query) : array
+    public function __invoke(GetUserByJWTQuery $query): array
     {
-        $response = $this->client->request(
-            GetUserByJWTQuery::METHOD,
-            GetUserByJWTQuery::URI,
-            [
-                'query' => ['jwt' => $query->jwt()]
-            ]
-        );
-        if($response->getStatusCode() !== 200) {
+        try {
+            $response = $this->client->request(
+                GetUserByJWTQuery::METHOD,
+                GetUserByJWTQuery::URI,
+                [
+                    'query' => ['jwt' => $query->jwt()]
+                ]
+            );
+        } catch (ClientException $exception) {
+            throw new APISessionErrorException(
+                $exception->getMessage(),
+                400
+            );
+        }
+
+        if ($response->getStatusCode() !== 200) {
             throw new APISessionErrorException(
                 $response->getBody()->getContents(),
                 $response->getStatusCode()

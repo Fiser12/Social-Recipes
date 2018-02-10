@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CompositeUi\Infrastructure\Symfony\Security\Session;
 
+use CompositeUi\Application\Query\Session\APISessionErrorException;
 use CompositeUi\Application\Query\Session\GetUserByJWTHandler;
 use CompositeUi\Application\Query\Session\GetUserByJWTQuery;
 use CompositeUi\Domain\Model\Session\FirstName;
@@ -25,9 +26,13 @@ class JWTUserProvider implements UserProviderInterface
         $this->getJwtHandler = $getJwtHandler;
     }
 
-    public function loadUserByUsername($jwt): User
+    public function loadUserByUsername($jwt): ?User
     {
-        $response = $this->getJwtHandler->__invoke(new GetUserByJWTQuery($jwt));
+        try {
+            $response = $this->getJwtHandler->__invoke(new GetUserByJWTQuery($jwt));
+        } catch (APISessionErrorException $exception) {
+            return null;
+        }
 
         $user = new User(
             new UserFacebookId($response['user']['id']),
@@ -42,7 +47,7 @@ class JWTUserProvider implements UserProviderInterface
         return $user;
     }
 
-    public function refreshUser(UserInterface $user): User
+    public function refreshUser(UserInterface $user): ?User
     {
         if (!$user instanceof User) {
             throw new UnsupportedUserException(
