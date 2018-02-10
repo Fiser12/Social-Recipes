@@ -20,10 +20,13 @@ class FacebookLogInClientCommandSpec extends ObjectBehavior
         );
     }
 
-    function it_is_initializable()
+    function it_is_type()
     {
         $this->shouldHaveType(FacebookLogInClientCommand::class);
+    }
 
+    function it_is_initializable()
+    {
         $this->facebookId()->shouldReturn('facebookId');
         $this->facebookAccessToken()->shouldReturn('accessToken');
         $this->email()->shouldReturn('email');
