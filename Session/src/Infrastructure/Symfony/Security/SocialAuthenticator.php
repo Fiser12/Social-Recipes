@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Session\Infrastructure\Symfony\Security;
 
+use CompositeUi\Domain\Model\Session\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\DefaultEncoder;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
 use Session\Application\Command\Session\FacebookLogInClientCommand;
@@ -74,8 +75,9 @@ class SocialAuthenticator extends BaseSocialAuthenticator
     public function getCredentials(Request $request)
     {
         if ($request->getPathInfo() !== $this->urlGenerator->generate('oauth_facebook_check')) {
-            return;
+            return null;
         }
+
         $this->client()->setAsStateless();
         $accessToken = $this->fetchAccessToken($this->client());
         $oauthUser = $this->client()->fetchUserFromToken($accessToken);
@@ -129,11 +131,6 @@ class SocialAuthenticator extends BaseSocialAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): RedirectResponse
     {
-        if ($exception instanceof FinishRegistrationException) {
-            $this->saveUserInfoToSession($request, $exception);
-            $registrationUrl = $this->urlGenerator->generate('oauth_facebook_registration');
-            return new RedirectResponse($registrationUrl);
-        }
         $this->saveAuthenticationErrorToSession($request, $exception);
         $loginUrl = $this->urlGenerator->generate('app_homepage');
 

@@ -42,12 +42,12 @@ class User implements UserInterface
 
     public function getPassword()
     {
-
+        return;
     }
 
     public function getSalt()
     {
-
+        return;
     }
 
     public function getUsername()
