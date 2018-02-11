@@ -115,6 +115,7 @@ CMD sed \
         -e "s/\${facebook_client_id}/${OAUTH_FACEBOOK_CLIENT_ID}/" \
         -e "s/\${facebook_client_secret}/${OAUTH_FACEBOOK_CLIENT_SECRET}/" \
         -e "s/\${secret-app}/${SECRET_KEY_APP}/" \
+        -e "s/\${jwt}/${JWT_PASSPHRASE}/" \
         -e "s/\${secret-compositeui}/${SECRET_KEY_COMPOSITE_UI}/" \
         -e "s/\${env}/prod/" \
         /app/Docker/php/app-parameters.yml.dist > /app/Session/parameters.yml  && \
@@ -133,7 +134,6 @@ CMD sed \
         -e "s/\${router_request_context_host}/${REQUEST_CONTEXT_HOST}/" \
         -e "s/\${router_request_context_scheme}/${REQUEST_CONTEXT_SCHEME}/" \
         -e "s/\${secret-app}/${SECRET_KEY_APP}/" \
-        -e "s/\${jwt}/${JWT_PASSPHRASE}/" \
         -e "s/\${secret-compositeui}/${SECRET_KEY_COMPOSITE_UI}/" \
         -e "s/\${facebook_client_id}/${OAUTH_FACEBOOK_CLIENT_ID}/" \
         -e "s/\${facebook_client_secret}/${OAUTH_FACEBOOK_CLIENT_SECRET}/" \
