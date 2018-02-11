@@ -37,7 +37,7 @@ services:
 
   nginx-dev:
     container_name: nginx-server-dev
-    image: fiser/fiser/social-recipes-app:dev
+    image: fiser/social-recipes-app:dev
 # For locale image deploy
 #    build:
 #      context: nginx/dev
