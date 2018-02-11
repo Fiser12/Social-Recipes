@@ -23,6 +23,9 @@
 /Session/var/sessions/*
 !Session/var/sessions/dev/.gitkeep
 !Session/var/sessions/prod/.gitkeep
+/Session/var/jwt/*
+!Session/var/jwt/.gitkeep
+
 /Session/vendor
 /Session/src/Infrastructure/Ui/Assets/.eslintrc.js
 /Session/src/Infrastructure/Ui/Assets/.stylelintrc.js

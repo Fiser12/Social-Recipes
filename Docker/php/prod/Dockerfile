@@ -133,11 +133,14 @@ CMD sed \
         -e "s/\${router_request_context_host}/${REQUEST_CONTEXT_HOST}/" \
         -e "s/\${router_request_context_scheme}/${REQUEST_CONTEXT_SCHEME}/" \
         -e "s/\${secret-app}/${SECRET_KEY_APP}/" \
+        -e "s/\${jwt}/${JWT_PASSPHRASE}/" \
         -e "s/\${secret-compositeui}/${SECRET_KEY_COMPOSITE_UI}/" \
         -e "s/\${facebook_client_id}/${OAUTH_FACEBOOK_CLIENT_ID}/" \
         -e "s/\${facebook_client_secret}/${OAUTH_FACEBOOK_CLIENT_SECRET}/" \
         -e "s/\${env}/prod/" \
         /app/Docker/php/.compositeui-env.dist > /app/CompositeUi/.env && \
+        openssl genrsa -out /app/Session/var/jwt/private.pem -aes256 -passout pass:${JWT_PASSPHRASE} 4096 && \
+        openssl rsa -pubout -in /app/Session/var/jwt/private.pem -out /app/Session/var/jwt/public.pem -passin pass:${JWT_PASSPHRASE} && \
         php /app/Session/etc/bin/symfony-console doctrine:database:create --if-not-exists && \
         php /app/Session/etc/bin/symfony-console do:mi:mi -v --no-interaction --allow-no-migration && \
         php-fpm -F

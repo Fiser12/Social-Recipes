@@ -7,3 +7,4 @@
 
 APP_ENV=${env}
 APP_SECRET=${secret-compositeui}
+JWT_PASSPHRASE=${jwt}

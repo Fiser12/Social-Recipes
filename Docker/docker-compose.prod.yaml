@@ -34,9 +34,7 @@ services:
     volumes:
       - app_data:/app:rw
       - ./volumes/log/prod/Session:/app/Session/var/logs
-      - ./volumes/cache/prod/Session:/app/Session/var/cache
       - ./volumes/log/prod/CompositeUi:/app/CompositeUi/var/log
-      - ./volumes/cache/prod/CompositeUi:/app/CompositeUi/var/cache
     networks:
       crv_prod_network:
         aliases:
@@ -48,7 +46,7 @@ services:
 
   nginx-prod:
     container_name: nginx-server-prod
-    image: fiser/phpdddstandar-nginx:latest
+    image: fiser/social-recipes-nginx:latest
 # For locale image deploy
 #    build:
 #      context: nginx/prod

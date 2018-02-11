@@ -31,3 +31,4 @@ parameters:
 
     oauth_facebook_client_id:           ${facebook_client_id}
     oauth_facebook_client_secret:       ${facebook_client_secret}
+    secret-jwt:                         ${jwt}
