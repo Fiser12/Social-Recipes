@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CompositeUi\Domain\Model\Session;
 
-final class UserEmail
+class UserEmail
 {
     private $email;
     private $domain;

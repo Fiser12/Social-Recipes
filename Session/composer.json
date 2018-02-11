@@ -29,6 +29,7 @@
         "symfony/symfony": "3.3.*"
     },
     "require-dev": {
+        "behat/behat": "^3.4",
         "lin3s/cs": "^0.6",
         "phpspec/phpspec": "^3.2"
     },
@@ -70,7 +71,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Spec\\": "tests/Spec",
+            "Behat\\": "tests/Behat"
         }
     },
     "config": {

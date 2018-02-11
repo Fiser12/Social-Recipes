@@ -61,16 +61,15 @@ class FacebookLogInClientHandler
                 new UserFacebookAccessToken($command->facebookAccessToken()),
                 $this->getUsersFollowed($command->usersFollowers())
             );
+        } else {
+            /** @var User $user */
+            $user->connectToFacebook(
+                new UserFacebookId($command->facebookId()),
+                new UserFacebookAccessToken($command->facebookAccessToken()
+                )
+            );
+            $user->updateUsersFollowed($this->getUsersFollowed($command->usersFollowers()));
         }
-
-        /** @var User $user */
-        $user->connectToFacebook(
-            new UserFacebookId($command->facebookId()),
-            new UserFacebookAccessToken($command->facebookAccessToken()
-            )
-        );
-        $user->updateUsersFollowed($this->getUsersFollowed($command->usersFollowers()));
-
         try {
             $this->entityManager->persist($user);
             $this->entityManager->flush();

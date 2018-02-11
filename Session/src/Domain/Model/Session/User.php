@@ -29,7 +29,7 @@ class User extends BaseUser
     private $facebookAccessToken;
     private $fullName;
 
-    public function __construct(
+    protected function __construct(
         UserId $anId,
         UserEmail $anEmail,
         ?FullName $fullName = null,
@@ -52,12 +52,6 @@ class User extends BaseUser
         $this->facebookAccessToken = $facebookAccessToken;
         $this->fullName = $fullName;
     }
-
-    public function facebookId(): ?UserFacebookId
-    {
-        return $this->facebookId;
-    }
-
 
     public static function signUpWithFacebook(
         UserId $id,
@@ -84,9 +78,25 @@ class User extends BaseUser
         return $client;
     }
 
-    public static function signUp(UserId $anId, UserEmail $anEmail, UserPassword $aPassword, array $userRoles)
-    {
 
+    public function facebookId(): ?UserFacebookId
+    {
+        return $this->facebookId;
+    }
+
+    public function usersFollowed(): ?UsersFollowed
+    {
+        return $this->usersFollowed;
+    }
+
+    public function facebookAccessToken(): ?UserFacebookAccessToken
+    {
+        return $this->facebookAccessToken;
+    }
+
+    public function fullName(): ?FullName
+    {
+        return $this->fullName;
     }
 
     public function connectToFacebook(UserFacebookId $facebookId, UserFacebookAccessToken $accessToken): void
@@ -114,14 +124,9 @@ class User extends BaseUser
         ];
     }
 
-    public function usersFollowed(): ?UsersFollowed
+    public static function signUp(UserId $anId, UserEmail $anEmail, UserPassword $aPassword, array $userRoles)
     {
-        return $this->usersFollowed;
-    }
 
-    public function facebookAccessToken(): ?UserFacebookAccessToken
-    {
-        return $this->facebookAccessToken;
     }
 }
 
