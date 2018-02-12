@@ -6,5 +6,5 @@
 # file that was distributed with this source code.
 
 APP_ENV=${env}
-APP_SECRET=${secret-compositeui}
+APP_SECRET=${secret-api}
 JWT_PASSPHRASE=${jwt}

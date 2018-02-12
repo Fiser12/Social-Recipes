@@ -10,6 +10,7 @@ services:
         class: Session\Infrastructure\Symfony\HttpAction\Session\JWTDecodeAction
         arguments:
             - "@session.application.query.jwt_decode_handler"
+            - "@service_container"
 
     session.http_action.facebook.connect_check:
         class: Session\Infrastructure\Symfony\HttpAction\Session\FacebookConnectCheckAction
@@ -20,15 +21,3 @@ services:
         class: Session\Infrastructure\Symfony\HttpAction\Session\FacebookConnectAction
         arguments:
             - "@knpu.oauth2.registry"
-
-    session.http_action.facebook.connect_registration:
-        class: Session\Infrastructure\Symfony\HttpAction\Session\FacebookConnectRegistrationAction
-        arguments:
-            - "@bengor_user.user.command_bus"
-            - "@session.security.authenticator.social"
-            - "@form.factory"
-            - "@translator"
-            - "@session.flash_bag"
-            - "@bengor_user.user.provider"
-            - "@security.authentication.guard_handler"
-            - "@router"
