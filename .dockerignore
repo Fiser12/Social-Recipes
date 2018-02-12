@@ -95,3 +95,4 @@ Readme.md
 .idea
 .editorconfig
 .DS_Store
+!var/public_keys/.gitkeep

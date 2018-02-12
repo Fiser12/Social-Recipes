@@ -117,9 +117,8 @@ CMD sed \
         -e "s/\${router_request_context_scheme}/${REQUEST_CONTEXT_SCHEME}/" \
         -e "s/\${facebook_client_id}/${OAUTH_FACEBOOK_CLIENT_ID}/" \
         -e "s/\${facebook_client_secret}/${OAUTH_FACEBOOK_CLIENT_SECRET}/" \
-        -e "s/\${secret-app}/${SECRET_KEY_APP}/" \
+        -e "s/\${secret-session}/${SECRET_KEY_SESSION}/" \
         -e "s/\${jwt}/${JWT_PASSPHRASE}/" \
-        -e "s/\${secret-compositeui}/${SECRET_KEY_COMPOSITE_UI}/" \
         -e "s/\${env}/prod/" \
         /app/Docker/php/session-parameters.yml.dist > /app/Session/parameters.yml  && \
     sed \
@@ -136,7 +135,7 @@ CMD sed \
         -e "s/\${mail_delivery_address}/${MAILER_DELIVERY_ADDRESS}/" \
         -e "s/\${router_request_context_host}/${REQUEST_CONTEXT_HOST}/" \
         -e "s/\${router_request_context_scheme}/${REQUEST_CONTEXT_SCHEME}/" \
-        -e "s/\${secret-app}/${SECRET_KEY_APP}/" \
+        -e "s/\${secret-recipes}/${SECRET_KEY_RECIPES}/" \
         -e "s/\${env}/prod/" \
         /app/Docker/php/recipes-parameters.yml.dist > /app/Recipes/parameters.yml  && \
     sed \
@@ -153,7 +152,6 @@ CMD sed \
         -e "s/\${mail_delivery_address}/${MAILER_DELIVERY_ADDRESS}/" \
         -e "s/\${router_request_context_host}/${REQUEST_CONTEXT_HOST}/" \
         -e "s/\${router_request_context_scheme}/${REQUEST_CONTEXT_SCHEME}/" \
-        -e "s/\${secret-app}/${SECRET_KEY_APP}/" \
         -e "s/\${secret-compositeui}/${SECRET_KEY_COMPOSITE_UI}/" \
         -e "s/\${facebook_client_id}/${OAUTH_FACEBOOK_CLIENT_ID}/" \
         -e "s/\${facebook_client_secret}/${OAUTH_FACEBOOK_CLIENT_SECRET}/" \
@@ -162,6 +160,11 @@ CMD sed \
 
         openssl genrsa -out /app/Session/var/jwt/private.pem -aes256 -passout pass:${JWT_PASSPHRASE} 4096 && \
         openssl rsa -pubout -in /app/Session/var/jwt/private.pem -out /app/Session/var/jwt/public.pem -passin pass:${JWT_PASSPHRASE} && \
+
+        openssl genrsa -out /app/Session/var/jwt/private-api.pem -aes256 -passout pass:${SECRET_KEY_SESSION} 4096 && \
+        openssl rsa -pubout -in /app/Session/var/jwt/private-api.pem -out /var/public_keys/public-api.pem -passin pass:${SECRET_KEY_SESSION} && \
+        openssl genrsa -out /app/Recipes/var/jwt/private-api.pem -aes256 -passout pass:${SECRET_KEY_RECIPES} 4096 && \
+        openssl rsa -pubout -in /app/Recipes/var/jwt/private-api.pem -out /var/public_keys/public-api.pem -passin pass:${SECRET_KEY_RECIPES} && \
 
         php /app/Session/etc/bin/symfony-console doctrine:database:create --if-not-exists && \
         php /app/Session/etc/bin/symfony-console do:mi:mi -v --no-interaction --allow-no-migration && \
