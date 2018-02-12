@@ -93,8 +93,11 @@ ADD . /app
 RUN chown -R www-data:www-data /app
 
 RUN chmod -R 777 /app
+
 RUN composer install -d=/app/Session --no-dev --no-interaction
+RUN composer install -d=/app/Recipes --no-dev --no-interaction
 RUN composer install -d=/app/CompositeUi --no-dev --no-interaction
+
 RUN (cd /app/CompositeUi/src/Infrastructure/Ui/Assets && yarn install)
 RUN (cd /app/CompositeUi/src/Infrastructure/Ui/Assets && yarn build:prod)
 
@@ -118,7 +121,24 @@ CMD sed \
         -e "s/\${jwt}/${JWT_PASSPHRASE}/" \
         -e "s/\${secret-compositeui}/${SECRET_KEY_COMPOSITE_UI}/" \
         -e "s/\${env}/prod/" \
-        /app/Docker/php/app-parameters.yml.dist > /app/Session/parameters.yml  && \
+        /app/Docker/php/session-parameters.yml.dist > /app/Session/parameters.yml  && \
+    sed \
+        -e "s/\${database_host}/${DB_HOST}/" \
+        -e "s/\${database_port}/${DB_PORT}/" \
+        -e "s/\${database_name}/${DB_DATABASE}/" \
+        -e "s/\${database_user}/${DB_ROOT}/" \
+        -e "s/\${database_password}/${MYSQL_ROOT_PASSWORD}/" \
+        -e "s/\${database_server_version}/${MYSQL_DATABASE_SERVER_VERSION}/" \
+        -e "s/\${mailer_transport}/${MAILER_TRANSPORT}/" \
+        -e "s/\${mailer_host}/${MAILER_HOST}/" \
+        -e "s/\${mailer_user}/${MAILER_USER}/" \
+        -e "s/\${mailer_password}/${MAILER_PASSWORD}/" \
+        -e "s/\${mail_delivery_address}/${MAILER_DELIVERY_ADDRESS}/" \
+        -e "s/\${router_request_context_host}/${REQUEST_CONTEXT_HOST}/" \
+        -e "s/\${router_request_context_scheme}/${REQUEST_CONTEXT_SCHEME}/" \
+        -e "s/\${secret-app}/${SECRET_KEY_APP}/" \
+        -e "s/\${env}/prod/" \
+        /app/Docker/php/recipes-parameters.yml.dist > /app/Recipes/parameters.yml  && \
     sed \
         -e "s/\${database_host}/${DB_HOST}/" \
         -e "s/\${database_port}/${DB_PORT}/" \
@@ -139,8 +159,13 @@ CMD sed \
         -e "s/\${facebook_client_secret}/${OAUTH_FACEBOOK_CLIENT_SECRET}/" \
         -e "s/\${env}/prod/" \
         /app/Docker/php/.compositeui-env.dist > /app/CompositeUi/.env && \
+
         openssl genrsa -out /app/Session/var/jwt/private.pem -aes256 -passout pass:${JWT_PASSPHRASE} 4096 && \
         openssl rsa -pubout -in /app/Session/var/jwt/private.pem -out /app/Session/var/jwt/public.pem -passin pass:${JWT_PASSPHRASE} && \
+
         php /app/Session/etc/bin/symfony-console doctrine:database:create --if-not-exists && \
         php /app/Session/etc/bin/symfony-console do:mi:mi -v --no-interaction --allow-no-migration && \
+        php /app/Recipes/etc/bin/symfony-console doctrine:database:create --if-not-exists && \
+        php /app/Recipes/etc/bin/symfony-console do:mi:mi -v --no-interaction --allow-no-migration && \
+
         php-fpm -F
