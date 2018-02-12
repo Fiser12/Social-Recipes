@@ -23,7 +23,7 @@ parameters:
 
     mail_delivery_address:              ${mail_delivery_address}
 
-    secret:                             ${secret-app}
+    secret:                             ${secret-api}
 
     router.request_context.host:        ${router_request_context_host}
     router.request_context.scheme:      ${router_request_context_scheme}

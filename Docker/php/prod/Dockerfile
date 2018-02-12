@@ -117,9 +117,8 @@ CMD sed \
         -e "s/\${router_request_context_scheme}/${REQUEST_CONTEXT_SCHEME}/" \
         -e "s/\${facebook_client_id}/${OAUTH_FACEBOOK_CLIENT_ID}/" \
         -e "s/\${facebook_client_secret}/${OAUTH_FACEBOOK_CLIENT_SECRET}/" \
-        -e "s/\${secret-app}/${SECRET_KEY_APP}/" \
+        -e "s/\${secret-api}/${SECRET_KEY_API}/" \
         -e "s/\${jwt}/${JWT_PASSPHRASE}/" \
-        -e "s/\${secret-compositeui}/${SECRET_KEY_COMPOSITE_UI}/" \
         -e "s/\${env}/prod/" \
         /app/Docker/php/session-parameters.yml.dist > /app/Session/parameters.yml  && \
     sed \
@@ -136,7 +135,7 @@ CMD sed \
         -e "s/\${mail_delivery_address}/${MAILER_DELIVERY_ADDRESS}/" \
         -e "s/\${router_request_context_host}/${REQUEST_CONTEXT_HOST}/" \
         -e "s/\${router_request_context_scheme}/${REQUEST_CONTEXT_SCHEME}/" \
-        -e "s/\${secret-app}/${SECRET_KEY_APP}/" \
+        -e "s/\${secret-api}/${SECRET_KEY_API}/" \
         -e "s/\${env}/prod/" \
         /app/Docker/php/recipes-parameters.yml.dist > /app/Recipes/parameters.yml  && \
     sed \
@@ -153,8 +152,7 @@ CMD sed \
         -e "s/\${mail_delivery_address}/${MAILER_DELIVERY_ADDRESS}/" \
         -e "s/\${router_request_context_host}/${REQUEST_CONTEXT_HOST}/" \
         -e "s/\${router_request_context_scheme}/${REQUEST_CONTEXT_SCHEME}/" \
-        -e "s/\${secret-app}/${SECRET_KEY_APP}/" \
-        -e "s/\${secret-compositeui}/${SECRET_KEY_COMPOSITE_UI}/" \
+        -e "s/\${secret-api}/${SECRET_KEY_API}/" \
         -e "s/\${facebook_client_id}/${OAUTH_FACEBOOK_CLIENT_ID}/" \
         -e "s/\${facebook_client_secret}/${OAUTH_FACEBOOK_CLIENT_SECRET}/" \
         -e "s/\${env}/prod/" \

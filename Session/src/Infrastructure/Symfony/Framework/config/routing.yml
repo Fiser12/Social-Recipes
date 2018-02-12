@@ -28,13 +28,6 @@ oauth_facebook_check:
         - GET
         - POST
 
-oauth_facebook_registration:
-    path: /session/connect/facebook/registration
-    defaults:
-        _controller: "session.http_action.facebook.connect_registration:__invoke"
-    methods:
-        - GET
-
 #JWT URLs
 session.http_action.session.jwt_decode:
     path: /session/user/decode

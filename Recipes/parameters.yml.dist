@@ -18,7 +18,7 @@ parameters:
     mailer_host:                        127.0.0.1
     mailer_user:                        ruben.garcia@opendeusto.es
     mailer_password:                    effceqvq
-    secret:                             12344321
+    secret:                             HOWIFHBAVAFIOF672FNDKFGAJjJjeq2nN
     router.request_context.host:        php-ddd-standard.com
     router.request_context.scheme:      https
     router.request_context.base_url:    my/path
