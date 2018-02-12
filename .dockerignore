@@ -1,5 +1,7 @@
-.editorconfig
-.DS_Store
+/Docker/*
+!Docker/php/.compositeui-env.dist
+!Docker/php/session-parameters.yml.dist
+!Docker/php/recipes-parameters.yml.dist
 
 /Session/.lin3s_cs.yml
 /Session/.php_cs*
@@ -25,20 +27,37 @@
 !Session/var/sessions/prod/.gitkeep
 /Session/var/jwt/*
 !Session/var/jwt/.gitkeep
-
 /Session/vendor
 /Session/src/Infrastructure/Ui/Assets/.eslintrc.js
 /Session/src/Infrastructure/Ui/Assets/.stylelintrc.js
-/Docker/*
-!Docker/php/.compositeui-env.dist
-!Docker/php/app-parameters.yml.dist
-!Docker/php/docker-entrypoint.sh
 
-.git
-.gitignore
-Makefile
-Readme.md
-.idea
+/Recipes/.lin3s_cs.yml
+/Recipes/.php_cs*
+/Recipes/.phpspec_cs*
+/Recipes/.web-server-pid
+/Recipes/composer.phar
+/Recipes/parameters.yml
+/Recipes/src/Infrastructure/Ui/Assets/.eslint.yml
+/Recipes/src/Infrastructure/Ui/Assets/.scss_lint.yml
+/Recipes/src/Infrastructure/Ui/Assets/node_modules
+/Recipes/src/Infrastructure/Ui/Assets/build
+/Recipes/src/Infrastructure/Ui/Http/Symfony/.htaccess
+/Recipes/src/Infrastructure/Ui/Http/Symfony/bundles
+/Recipes/src/Infrastructure/Ui/Http/Symfony/robots.txt
+/Recipes/src/Infrastructure/Ui/manifest.json
+/Recipes/var/bootstrap.php.cache
+/Recipes/var/cache/*
+!Recipes var/cache/.gitkeep
+/Recipes/var/logs/*
+!Recipes/var/logs/.gitkeep
+/Recipes/var/Recipess/*
+!Recipes/var/Recipess/dev/.gitkeep
+!Recipes/var/Recipess/prod/.gitkeep
+/Recipes/var/jwt/*
+!Recipes/var/jwt/.gitkeep
+/Recipes/vendor
+/Recipes/src/Infrastructure/Ui/Assets/.eslintrc.js
+/Recipes/src/Infrastructure/Ui/Assets/.stylelintrc.js
 
 CompositeUi/.env
 /CompositeUi/.lin3s_cs.yml
@@ -66,5 +85,13 @@ CompositeUi/.env
 !CompositeUi/var/sessions/dev/.gitkeep
 !CompositeUi/var/sessions/prod/.gitkeep
 /CompositeUi/vendor
+
 .php_cs
 .php_cs.cache
+.git
+.gitignore
+Makefile
+Readme.md
+.idea
+.editorconfig
+.DS_Store

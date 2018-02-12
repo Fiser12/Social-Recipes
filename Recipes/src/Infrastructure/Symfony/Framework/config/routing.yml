@@ -1,0 +1,13 @@
+# This file is part of the Social Recipes.
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @author Ruben Garcia <ruben.garcia@opendeusto.es>
+
+recipes_index:
+    path: /recipes/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\IndexAction::__invoke
+    methods:
+        - GET
