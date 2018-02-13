@@ -25,3 +25,6 @@ services:
     Recipes\Infrastructure\Symfony\HttpAction\:
         resource: '../../../HttpAction'
         tags: ['controller.service_arguments']
+
+    GuzzleHttp\Client:
+    Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage:
