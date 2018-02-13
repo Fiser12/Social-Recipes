@@ -21,3 +21,6 @@ framework:
     #fragments: ~
     php_errors:
         log: true
+
+parameters:
+    secret: '%env(APP_SECRET)%'

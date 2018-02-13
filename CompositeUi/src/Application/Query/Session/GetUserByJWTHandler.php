@@ -15,14 +15,17 @@ namespace CompositeUi\Application\Query\Session;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class GetUserByJWTHandler
 {
     private $client;
+    private $container;
 
-    public function __construct(Client $client)
+    public function __construct(Client $client, ContainerInterface $container)
     {
         $this->client = $client;
+        $this->container = $container;
     }
 
     public function __invoke(GetUserByJWTQuery $query): array
@@ -32,6 +35,9 @@ class GetUserByJWTHandler
                 GetUserByJWTQuery::METHOD,
                 GetUserByJWTQuery::URI,
                 [
+                    'headers' => [
+                        'token-api' => $this->container->getParameter('secret'),
+                    ],
                     'query' => ['jwt' => $query->jwt()]
                 ]
             );
