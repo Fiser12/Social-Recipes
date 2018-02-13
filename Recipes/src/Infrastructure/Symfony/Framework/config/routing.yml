@@ -5,6 +5,10 @@
 #
 # @author Ruben Garcia <ruben.garcia@opendeusto.es>
 
+#Redirections to CompositeUI
+app_home:
+    path: /
+
 recipes_index:
     path: /recipes/
     defaults:

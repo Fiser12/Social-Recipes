@@ -7,12 +7,16 @@
 
 security:
     providers:
-        in_memory:
-            memory: ~
+        user_api_provider:
+            id: Recipes\Infrastructure\Symfony\Security\Session\JWTUserProvider
+
     firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
         main:
             anonymous: ~
-            pattern: ^/
+            guard:
+                authenticators:
+                    - Recipes\Infrastructure\Symfony\Security\Session\JWTAuthenticator
+            provider: user_api_provider
+
+    access_control:
+        - { path: ^/recipes/, roles: ROLE_USER }

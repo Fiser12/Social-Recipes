@@ -1,10 +1,10 @@
 <?php
 
-namespace Spec\CompositeUi\Application\Query\Session;
+namespace Spec\Recipes\Application\Query\Session;
 
-use CompositeUi\Application\Query\Session\APISessionErrorException;
-use CompositeUi\Application\Query\Session\GetUserByJWTHandler;
-use CompositeUi\Application\Query\Session\GetUserByJWTQuery;
+use Recipes\Application\Query\Session\APISessionErrorException;
+use Recipes\Application\Query\Session\GetUserByJWTHandler;
+use Recipes\Application\Query\Session\GetUserByJWTQuery;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
