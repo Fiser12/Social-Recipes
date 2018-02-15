@@ -29,6 +29,9 @@
     "doctrine/lexer": {
         "version": "v1.0.1"
     },
+    "fiser/microservices-internal-authentication": {
+        "version": "dev-master"
+    },
     "friendsofphp/php-cs-fixer": {
         "version": "2.2",
         "recipe": {
@@ -277,6 +280,9 @@
     },
     "symfony/stopwatch": {
         "version": "v4.0.3"
+    },
+    "symfony/symfony": {
+        "version": "v2.0.0-rc6"
     },
     "symfony/twig-bridge": {
         "version": "v4.0.2"
