@@ -12,11 +12,12 @@
 declare(strict_types=1);
 
 return [
-    SmartCore\Bundle\AcceleratorCacheBundle\AcceleratorCacheBundle::class => ['all' => true],
-    LIN3S\Distribution\Php\Symfony\Lin3sDistributionBundle::class         => ['all' => true],
-    Symfony\Bundle\FrameworkBundle\FrameworkBundle::class                 => ['all' => true],
-    Symfony\Bundle\MonologBundle\MonologBundle::class                     => ['all' => true],
-    Symfony\Bundle\TwigBundle\TwigBundle::class                           => ['all' => true],
-    Symfony\Bundle\SecurityBundle\SecurityBundle::class                   => ['all' => true],
-    Symfony\Bundle\WebServerBundle\WebServerBundle::class                 => ['dev' => true],
+    SmartCore\Bundle\AcceleratorCacheBundle\AcceleratorCacheBundle::class                            => ['all' => true],
+    LIN3S\Distribution\Php\Symfony\Lin3sDistributionBundle::class                                    => ['all' => true],
+    Symfony\Bundle\FrameworkBundle\FrameworkBundle::class                                            => ['all' => true],
+    Symfony\Bundle\MonologBundle\MonologBundle::class                                                => ['all' => true],
+    Symfony\Bundle\TwigBundle\TwigBundle::class                                                      => ['all' => true],
+    Symfony\Bundle\SecurityBundle\SecurityBundle::class                                              => ['all' => true],
+    Fiser\MicroservicesInternalAuthenticationBundle\MicroservicesInternalAuthenticationBundle::class => ['all' => true],
+    Symfony\Bundle\WebServerBundle\WebServerBundle::class                                            => ['dev' => true],
 ];
