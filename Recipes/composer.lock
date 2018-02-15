@@ -1148,12 +1148,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Fiser12/MicroservicesInternalAuthenticationBundle.git",
-                "reference": "058ad15edc25ed18090f2f02dbcdedda6f0803c7"
+                "reference": "6c86f5ccb589e01f129ed73bf6423e49fef32a9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Fiser12/MicroservicesInternalAuthenticationBundle/zipball/058ad15edc25ed18090f2f02dbcdedda6f0803c7",
-                "reference": "058ad15edc25ed18090f2f02dbcdedda6f0803c7",
+                "url": "https://api.github.com/repos/Fiser12/MicroservicesInternalAuthenticationBundle/zipball/6c86f5ccb589e01f129ed73bf6423e49fef32a9d",
+                "reference": "6c86f5ccb589e01f129ed73bf6423e49fef32a9d",
                 "shasum": ""
             },
             "require": {
@@ -1182,7 +1182,7 @@
                 }
             ],
             "description": "Symfony MicroservicesInternalAuthenticationBundle",
-            "time": "2018-02-14T00:59:47+00:00"
+            "time": "2018-02-15T00:04:09+00:00"
         },
         {
             "name": "fullpipe/twig-webpack-extension",
