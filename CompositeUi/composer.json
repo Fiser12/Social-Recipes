@@ -2,7 +2,7 @@
     "require": {
         "php": "^7.1",
         "ext-iconv": "*",
-        "fiser/microservices-internal-authentication": "dev-master",
+        "fiser/microservices-internal-authentication": "^1.1",
         "guzzlehttp/guzzle": "^6.3",
         "incenteev/composer-parameter-handler": "^2.1",
         "lin3s/cs": "^0.7.4",

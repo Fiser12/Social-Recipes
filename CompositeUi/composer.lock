@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b10f462d9ad19cc654dea99a84367a2",
+    "content-hash": "670b2fe78bb90e25321716406738ba22",
     "packages": [
         {
             "name": "allocine/twigcs",
@@ -685,16 +685,16 @@
         },
         {
             "name": "fiser/microservices-internal-authentication",
-            "version": "dev-master",
+            "version": "1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Fiser12/MicroservicesInternalAuthenticationBundle.git",
-                "reference": "116fa138866614a5353a83a6b7f8c4b6e34ff33a"
+                "reference": "a8a705dcf54a3b6af2099a0ded4a9868be8801ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Fiser12/MicroservicesInternalAuthenticationBundle/zipball/116fa138866614a5353a83a6b7f8c4b6e34ff33a",
-                "reference": "116fa138866614a5353a83a6b7f8c4b6e34ff33a",
+                "url": "https://api.github.com/repos/Fiser12/MicroservicesInternalAuthenticationBundle/zipball/a8a705dcf54a3b6af2099a0ded4a9868be8801ba",
+                "reference": "a8a705dcf54a3b6af2099a0ded4a9868be8801ba",
                 "shasum": ""
             },
             "require": {
@@ -723,7 +723,7 @@
                 }
             ],
             "description": "Symfony MicroservicesInternalAuthenticationBundle",
-            "time": "2018-02-15T03:39:49+00:00"
+            "time": "2018-02-15T18:36:49+00:00"
         },
         {
             "name": "friendsofphp/php-cs-fixer",
@@ -4332,7 +4332,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "fiser/microservices-internal-authentication": 20,
         "symfony/lts": 20
     },
     "prefer-stable": true,
