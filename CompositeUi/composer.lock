@@ -689,12 +689,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Fiser12/MicroservicesInternalAuthenticationBundle.git",
-                "reference": "454564b32610fc74962977ab632172b86d62c150"
+                "reference": "116fa138866614a5353a83a6b7f8c4b6e34ff33a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Fiser12/MicroservicesInternalAuthenticationBundle/zipball/454564b32610fc74962977ab632172b86d62c150",
-                "reference": "454564b32610fc74962977ab632172b86d62c150",
+                "url": "https://api.github.com/repos/Fiser12/MicroservicesInternalAuthenticationBundle/zipball/116fa138866614a5353a83a6b7f8c4b6e34ff33a",
+                "reference": "116fa138866614a5353a83a6b7f8c4b6e34ff33a",
                 "shasum": ""
             },
             "require": {
@@ -723,7 +723,7 @@
                 }
             ],
             "description": "Symfony MicroservicesInternalAuthenticationBundle",
-            "time": "2018-02-15T02:15:33+00:00"
+            "time": "2018-02-15T03:39:49+00:00"
         },
         {
             "name": "friendsofphp/php-cs-fixer",
