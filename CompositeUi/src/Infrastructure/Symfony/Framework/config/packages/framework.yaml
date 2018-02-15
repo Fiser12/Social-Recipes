@@ -24,6 +24,8 @@ framework:
 
 microservices_internal_authentication:
     redirection: app_home
+    headers:
+      token-api: '%env(APP_SECRET)%'
 
 parameters:
     secret: '%env(APP_SECRET)%'
