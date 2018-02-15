@@ -22,5 +22,8 @@ framework:
     php_errors:
         log: true
 
+microservices_internal_authentication:
+    redirection: app_home
+
 parameters:
     secret: '%env(APP_SECRET)%'

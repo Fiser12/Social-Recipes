@@ -8,14 +8,14 @@
 security:
     providers:
         user_api_provider:
-            id: CompositeUi\Infrastructure\Symfony\Security\Session\JWTUserProvider
+            id: "fiser.microservices_internal_authentication.security.user_provider"
 
     firewalls:
         main:
             anonymous: ~
             guard:
                 authenticators:
-                    - CompositeUi\Infrastructure\Symfony\Security\Session\JWTAuthenticator
+                    - "fiser.microservices_internal_authentication.security.authenticator"
             provider: user_api_provider
 
     access_control:

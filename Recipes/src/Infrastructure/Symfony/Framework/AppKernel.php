@@ -15,6 +15,7 @@ namespace Recipes\Infrastructure\Symfony\Framework;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
+use Fiser\MicroservicesInternalAuthenticationBundle\MicroservicesInternalAuthenticationBundle;
 use LIN3S\Distribution\Php\Symfony\Lin3sDistributionBundle;
 use LIN3S\SharedKernel\Infrastructure\Symfony\Bundle\Lin3sSharedKernelBundle;
 use Sensio\Bundle\DistributionBundle\SensioDistributionBundle;
@@ -46,7 +47,8 @@ class AppKernel extends Kernel
             new SensioFrameworkExtraBundle(),
             new SwiftmailerBundle(),
             new TwigBundle(),
-            new Lin3sSharedKernelBundle()
+            new Lin3sSharedKernelBundle(),
+            new MicroservicesInternalAuthenticationBundle()
         );
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
