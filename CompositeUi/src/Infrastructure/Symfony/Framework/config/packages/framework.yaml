@@ -8,7 +8,7 @@
 framework:
     secret: '%env(APP_SECRET)%'
     assets: ~
-    #default_locale: en
+    default_locale: "%locale%"
     #csrf_protection: ~
     #http_method_override: true
 
@@ -29,3 +29,5 @@ microservices_internal_authentication:
 
 parameters:
     secret: '%env(APP_SECRET)%'
+    locales: en|es
+    locale: es
