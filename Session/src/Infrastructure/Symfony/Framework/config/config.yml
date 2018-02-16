@@ -12,7 +12,7 @@ imports:
     - { resource: services/, type: directory }
 
 parameters:
-    locale: en
+    locale: es
 
 framework:
     translator: { fallbacks: ["%locale%"] }

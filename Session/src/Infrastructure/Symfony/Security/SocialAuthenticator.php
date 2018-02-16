@@ -144,7 +144,7 @@ class SocialAuthenticator extends BaseSocialAuthenticator
 
     public function start(Request $request, AuthenticationException $authException = null): RedirectResponse
     {
-        $url = $this->urlGenerator->generate('app_logged');
+        $url = $this->urlGenerator->generate('app_logged', ['_locale' => $request->getLocale()]);
 
         return new RedirectResponse($url);
     }

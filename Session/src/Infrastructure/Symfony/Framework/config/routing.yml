@@ -10,7 +10,7 @@ app_homepage:
     path: /
 
 app_logged:
-    path: /timeline
+    path: /{_locale}/timeline
 
 #Facebook url connections
 oauth_facebook:

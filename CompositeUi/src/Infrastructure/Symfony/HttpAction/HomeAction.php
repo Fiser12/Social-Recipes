@@ -15,6 +15,7 @@ namespace CompositeUi\Infrastructure\Symfony\HttpAction;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -32,10 +33,10 @@ class HomeAction extends Controller
         $this->urlGenerator = $urlGenerator;
     }
 
-    public function __invoke() : Response
+    public function __invoke(Request $request) : Response
     {
         if($user = $this->getUser()){
-            $loginUrl = $this->urlGenerator->generate('app_timeline');
+            $loginUrl = $this->urlGenerator->generate('app_timeline', ['_locale' => $request->getLocale()]);
             return new RedirectResponse($loginUrl);
         }
 
