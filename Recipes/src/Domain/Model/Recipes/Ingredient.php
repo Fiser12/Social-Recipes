@@ -2,27 +2,29 @@
 
 namespace Recipes\Domain\Model\Recipes;
 
-use Recipes\Domain\Model\Name;
 use Recipes\Domain\Model\Quantity;
+use Recipes\Domain\Model\Translation\Translatable;
 
-class Ingredient
+/**
+ * @author Rubén García <ruben.garcia@opendeusto.es>
+ */
+class Ingredient extends Translatable
 {
-    private $name;
     private $quantity;
 
-    private function __construct(Name $name, Quantity $quantity)
+    public function __construct(Quantity $quantity)
     {
-        $this->name = $name;
+        parent::__construct();
         $this->quantity = $quantity;
-    }
-
-    public function name(): Name
-    {
-        return $this->name;
     }
 
     public function quantity(): Quantity
     {
         return $this->quantity;
+    }
+
+    protected function translationClass(): string
+    {
+        return IngredientTranslation::class;
     }
 }

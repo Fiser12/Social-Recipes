@@ -2,20 +2,20 @@
 
 namespace Recipes\Domain\Model\Recipes;
 
+use LIN3S\SharedKernel\Domain\Model\Locale\Locale;
 use Recipes\Domain\Model\Name;
 use Recipes\Domain\Model\Quantity;
+use Recipes\Domain\Model\Translation\Translatable;
 
-class Tool
+class Tool extends Translatable
 {
-    private $name;
-
-    private function __construct(Name $name)
+    public function __construct()
     {
-        $this->name = $name;
+        parent::__construct();
     }
 
-    public function name(): Name
+    protected function translationClass(): string
     {
-        return $this->name;
+        return ToolTranslation::class;
     }
 }
