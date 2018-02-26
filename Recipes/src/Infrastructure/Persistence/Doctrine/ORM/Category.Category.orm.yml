@@ -1,0 +1,21 @@
+Recipes\Domain\Model\Category\Category:
+  type: entity
+  table: recipe_category
+  lifecycleCallbacks: {  }
+  id:
+    id:
+      column: id
+      type: CategoryId
+
+  oneToMany:
+    translations:
+      targetEntity: CategoryTranslation
+      mappedBy: origin
+
+  manyToOne:
+    parent:
+      targetEntity: Category
+      joinColumn:
+        name: parent_id
+        referencedColumnName: id
+        inversedBy: children

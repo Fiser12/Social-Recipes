@@ -1,0 +1,16 @@
+Recipes\Domain\Model\Category\CategoryTranslation:
+  type: entity
+  table: recipe_category_translation
+  id:
+    origin:
+      associationKey: true
+    locale:
+      type: string
+  embedded:
+    name:
+      class: "Recipes\\Domain\\Model\\Name"
+
+  manyToOne:
+    origin:
+      targetEntity: "Recipes\\Domain\\Model\\Category\\Category"
+      inversedBy: translations

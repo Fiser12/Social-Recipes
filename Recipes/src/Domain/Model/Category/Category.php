@@ -10,14 +10,14 @@ class Category extends Translatable implements AggregateRoot
 {
     private $parent;
     private $children;
-    private $categoryId;
+    private $id;
 
     use AggregateRootCapabilities;
 
-    public function __construct(CategoryId $categoryId, ?Category $parent = null, CategoriesCollection $children)
+    public function __construct(CategoryId $id, ?Category $parent = null, CategoriesCollection $children)
     {
         parent::__construct();
-        $this->categoryId = $categoryId;
+        $this->id = $id;
         $this->parent = $parent;
         $this->children = $children;
     }
@@ -29,7 +29,7 @@ class Category extends Translatable implements AggregateRoot
 
     public function id(): CategoryId
     {
-        return $this->categoryId;
+        return $this->id;
     }
 
     public function children(): CategoriesCollection
