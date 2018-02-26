@@ -16,16 +16,24 @@ class Book extends Translatable implements AggregateRoot
     private $owner;
     private $follow;
     private $scope;
+    private $create;
 
     use AggregateRootCapabilities;
 
-    public function __construct(BookId $id, UserId $owner, Scope $scope, UsersCollection $follow)
+    public function __construct(
+        BookId $id,
+        UserId $owner,
+        Scope $scope,
+        UsersCollection $follow,
+        UsersCollection $create
+    )
     {
         parent::__construct();
         $this->id = $id;
         $this->owner = $owner;
         $this->follow = $follow;
         $this->scope = $scope;
+        $this->create = $create;
     }
 
     public function id(): BookId
@@ -46,6 +54,11 @@ class Book extends Translatable implements AggregateRoot
     public function scope(): Scope
     {
         return $this->scope;
+    }
+
+    public function create(): UsersCollection
+    {
+        return $this->create;
     }
 
     protected function translationClass(): string

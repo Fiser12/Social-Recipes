@@ -1,0 +1,18 @@
+Recipes\Domain\Model\Book\BookTranslation:
+  type: entity
+  table: recipe_book_translation
+  id:
+    origin:
+      associationKey: true
+    locale:
+      type: string
+  embedded:
+    title:
+      class: "Recipes\\Domain\\Model\\Title"
+    subtitle:
+      class: "Recipes\\Domain\\Model\\Subtitle"
+
+  manyToOne:
+    origin:
+      targetEntity: "Recipes\\Domain\\Model\\Book\\Book"
+      inversedBy: translations
