@@ -7,6 +7,7 @@ use LIN3S\SharedKernel\Domain\Model\AggregateRootCapabilities;
 use Recipes\Domain\Model\Book\BooksCollection;
 use Recipes\Domain\Model\Category\CategoriesCollection;
 use Recipes\Domain\Model\Difficulty;
+use Recipes\Domain\Model\Scope;
 use Recipes\Domain\Model\Time;
 use Recipes\Domain\Model\Translation\Translatable;
 use Recipes\Domain\Model\User\CommentsCollection;
@@ -23,11 +24,11 @@ class Recipe extends Translatable implements AggregateRoot
     private $time;
     private $difficulty;
     private $owner;
-    private $follow;
     private $books;
     private $categories;
     private $hashtags;
     private $comments;
+    private $scope;
 
     use AggregateRootCapabilities;
 
@@ -37,15 +38,15 @@ class Recipe extends Translatable implements AggregateRoot
         IngredientsCollection $ingredients,
         ToolsCollection $tools,
         StepsCollection $steps,
-        CategoriesCollection $categories,
         HashtagCollection $hashtags,
         CommentsCollection $comments,
+        CategoriesCollection $categories,
         Servings $servings,
         Time $time,
         Difficulty $difficulty,
+        Scope $scope,
         UserId $owner,
-        BooksCollection $books,
-        UsersCollection $follow
+        BooksCollection $books
     )
     {
         parent::__construct();
@@ -57,11 +58,11 @@ class Recipe extends Translatable implements AggregateRoot
         $this->time = $time;
         $this->difficulty = $difficulty;
         $this->owner = $owner;
-        $this->follow = $follow;
         $this->books = $books;
         $this->categories = $categories;
         $this->hashtags = $hashtags;
         $this->comments = $comments;
+        $this->scope = $scope;
     }
 
     public function id(): RecipeId
@@ -104,11 +105,6 @@ class Recipe extends Translatable implements AggregateRoot
         return $this->owner;
     }
 
-    public function follow(): UsersCollection
-    {
-        return $this->follow;
-    }
-
     public function books(): BooksCollection
     {
         return $this->books;
@@ -127,6 +123,11 @@ class Recipe extends Translatable implements AggregateRoot
     public function comments(): CommentsCollection
     {
         return $this->comments;
+    }
+
+    public function scope(): Scope
+    {
+        return $this->scope;
     }
 
     protected function translationClass(): string

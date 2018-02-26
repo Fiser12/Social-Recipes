@@ -1,0 +1,4 @@
+Recipes\Domain\Model\Recipes\Servings:
+    type: embeddable
+    fields:
+        servings: { type: integer }
