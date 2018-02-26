@@ -1,0 +1,8 @@
+Recipes\Domain\Model\User\User:
+  type: entity
+  table: recipe_user
+  lifecycleCallbacks: {  }
+  id:
+    id:
+      column: id
+      type: UserId

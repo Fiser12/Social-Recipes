@@ -10,3 +10,22 @@ Recipes\Domain\Model\Book\Book:
   embedded:
     scope:
       class: "Recipes\\Domain\\Model\\Scope"
+
+  manyToOne:
+    owner:
+      targetEntity: "Recipes\\Domain\\Model\\User\\User"
+      joinColumn:
+        name: owner_id
+        referencedColumnName: id
+
+  manyToMany:
+    follow:
+      targetEntity: "Recipes\\Domain\\Model\\User\\User"
+      joinTable:
+        name: recipe_user_books
+        joinColumns:
+          book_id:
+            referencedColumnName: id
+        inverseJoinColumns:
+          user_id:
+            referencedColumnName: id
