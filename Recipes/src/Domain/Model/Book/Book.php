@@ -4,6 +4,7 @@ namespace Recipes\Domain\Model\Book;
 
 use LIN3S\SharedKernel\Domain\Model\AggregateRoot;
 use LIN3S\SharedKernel\Domain\Model\AggregateRootCapabilities;
+use Recipes\Domain\Model\Scope;
 use Recipes\Domain\Model\Translation\Translatable;
 use Recipes\Domain\Model\User\UserId;
 use Recipes\Domain\Model\User\UsersCollection;

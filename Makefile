@@ -28,6 +28,9 @@ create-database:
 migrations:
 	@docker-compose -f Docker/docker-compose.$(ENV).yaml exec $(SERVICE) bash -c "php /app/$(DIR)/etc/bin/symfony-console do:mi:mi -v --no-interaction --allow-no-migration"
 
+migrations-create:
+	@docker-compose -f Docker/docker-compose.$(ENV).yaml exec $(SERVICE) bash -c "php /app/$(DIR)/etc/bin/symfony-console do:mi:d -v"
+
 cache-clear:
 	@docker-compose -f Docker/docker-compose.$(ENV).yaml exec $(SERVICE) bash -c "php /app/$(DIR)/etc/bin/symfony-console cache:clear -e $(ENV)"
 

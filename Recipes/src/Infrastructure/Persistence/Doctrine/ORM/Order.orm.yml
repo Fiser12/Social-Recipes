@@ -1,0 +1,4 @@
+Recipes\Domain\Model\Order:
+    type: embeddable
+    fields:
+        order: { type: integer }

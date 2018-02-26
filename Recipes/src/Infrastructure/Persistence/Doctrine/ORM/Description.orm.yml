@@ -1,0 +1,4 @@
+Recipes\Domain\Model\Description:
+    type: embeddable
+    fields:
+        description: { type: string }

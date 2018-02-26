@@ -48,7 +48,8 @@ abstract class Translatable
     {
         foreach ($this->translations as $translation) {
             if ($locale->equals($translation->locale())) {
-                return $this->translations->removeElement($translation);
+                $this->translations->removeElement($translation);
+                return;
             }
         }
         throw new TranslationDoesNotExistException($locale->locale());

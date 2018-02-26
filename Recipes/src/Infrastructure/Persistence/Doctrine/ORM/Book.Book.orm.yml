@@ -1,0 +1,12 @@
+Recipes\Domain\Model\Book\Book:
+  type: entity
+  table: recipe_book
+  lifecycleCallbacks: {  }
+  id:
+    id:
+      column: id
+      type: BookId
+
+  embedded:
+    scope:
+      class: "Recipes\\Domain\\Model\\Scope"

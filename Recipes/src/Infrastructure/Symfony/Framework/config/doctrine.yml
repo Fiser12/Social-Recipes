@@ -21,6 +21,12 @@ doctrine:
         password: "%database_password%"
         server_version: "%database_server_version%"
         charset: UTF8
+        types:
+          UserId:  Recipes\Infrastructure\Persistence\Doctrine\Types\UserId
+          BookId:  Recipes\Infrastructure\Persistence\Doctrine\Types\BookId
+          CategoryId:  Recipes\Infrastructure\Persistence\Doctrine\Types\CategoryId
+          RecipeId:  Recipes\Infrastructure\Persistence\Doctrine\Types\RecipeId
+
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
