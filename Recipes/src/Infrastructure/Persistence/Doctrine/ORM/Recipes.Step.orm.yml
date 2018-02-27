@@ -17,3 +17,8 @@ Recipes\Domain\Model\Recipes\Step:
       type: json_object
     tools:
       type: json_object
+
+  manyToOne:
+    recipe:
+      targetEntity: "Recipes\\Domain\\Model\\Recipes\\Step"
+      inversedBy: steps

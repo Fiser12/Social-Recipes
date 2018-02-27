@@ -12,14 +12,22 @@ class Step extends Translatable
     private $id;
     private $ingredients;
     private $tools;
+    private $recipe;
+
     //TODO Agregar imagen
 
-    public function __construct(StepId $id, IngredientsCollection $ingredients, ToolsCollection $tools)
+    public function __construct(
+        StepId $id,
+        IngredientsCollection $ingredients,
+        ToolsCollection $tools,
+        Recipe $recipe
+    )
     {
         parent::__construct();
         $this->id = $id;
         $this->ingredients = $ingredients;
         $this->tools = $tools;
+        $this->recipe = $recipe;
     }
 
     public function id(): StepId
@@ -35,6 +43,11 @@ class Step extends Translatable
     public function tools(): ToolsCollection
     {
         return $this->tools;
+    }
+
+    public function recipe(): Recipe
+    {
+        return $this->recipe;
     }
 
     protected function translationClass(): string
