@@ -8,5 +8,5 @@ interface BookRepository
 
     public function persist(Book $book) : void;
 
-    public function remove(Book $book) : void;
+    public function remove(BookId $bookId) : void;
 }

@@ -22,11 +22,11 @@ doctrine:
         server_version: "%database_server_version%"
         charset: UTF8
         types:
-          UserId:  Recipes\Infrastructure\Persistence\Doctrine\Types\UserIdType
-          BookId:  Recipes\Infrastructure\Persistence\Doctrine\Types\BookIdType
-          CategoryId:  Recipes\Infrastructure\Persistence\Doctrine\Types\CategoryIdType
-          RecipeId:  Recipes\Infrastructure\Persistence\Doctrine\Types\RecipeIdType
-          StepId:  Recipes\Infrastructure\Persistence\Doctrine\Types\StepIdType
+          UserId:  Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\User\UserIdType
+          BookId:  Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Book\BookIdType
+          CategoryId:  Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Category\CategoryIdType
+          RecipeId:  Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Recipes\RecipeIdType
+          StepId:  Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Recipes\StepIdType
           json_object: AurimasNiekis\DoctrineJsonObjectType\JsonObjectType
 
     orm:

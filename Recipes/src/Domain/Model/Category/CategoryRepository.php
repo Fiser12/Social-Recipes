@@ -8,5 +8,5 @@ interface CategoryRepository
 
     public function persist(Category $category) : void;
 
-    public function remove(Category $category) : void;
+    public function remove(CategoryId $categoryId) : void;
 }

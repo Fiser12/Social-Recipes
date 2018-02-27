@@ -8,5 +8,5 @@ interface RecipeRepository
 
     public function persist(Recipe $recipe) : void;
 
-    public function remove(Recipe $recipe) : void;
+    public function remove(RecipeId $recipe) : void;
 }

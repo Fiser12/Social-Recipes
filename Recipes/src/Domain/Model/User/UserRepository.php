@@ -8,5 +8,5 @@ interface UserRepository
 
     public function persist(User $user) : void;
 
-    public function remove(User $user) : void;
+    public function remove(UserId $userId) : void;
 }

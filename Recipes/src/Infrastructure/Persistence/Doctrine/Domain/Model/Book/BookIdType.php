@@ -1,6 +1,8 @@
 <?php
 
-namespace Recipes\Infrastructure\Persistence\Doctrine\Types;
+namespace Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Book;
+
+use Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\DoctrineEntityIdType;
 
 class BookIdType extends DoctrineEntityIdType
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Recipes\Infrastructure\Persistence\Doctrine\Types;
+namespace Recipes\Infrastructure\Persistence\Doctrine\Domain\Model;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\GuidType;
