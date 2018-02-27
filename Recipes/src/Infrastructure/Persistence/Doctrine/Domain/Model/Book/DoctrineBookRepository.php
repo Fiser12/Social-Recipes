@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Recipes;
+namespace Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Book;
 
 use Doctrine\ORM\EntityRepository;
 use Recipes\Domain\Model\Book\Book;
@@ -32,9 +32,9 @@ class DoctrineBookRepository extends EntityRepository implements BookRepository
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         return $queryBuilder
-            ->select('r')
-            ->from('Recipe', 'r')
-            ->where('r.id = :id')
+            ->select('b')
+            ->from('Book', 'b')
+            ->where('b.id = :id')
             ->setParameter('id', $bookId->id())
             ->getQuery()
             ->getSingleResult();

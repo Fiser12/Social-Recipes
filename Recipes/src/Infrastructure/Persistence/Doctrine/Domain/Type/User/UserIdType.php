@@ -1,8 +1,8 @@
 <?php
 
-namespace Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\User;
+namespace Recipes\Infrastructure\Persistence\Doctrine\Domain\Type\User;
 
-use Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\DoctrineEntityIdType;
+use Recipes\Infrastructure\Persistence\Doctrine\Domain\Type\DoctrineEntityIdType;
 
 class UserIdType extends DoctrineEntityIdType
 {

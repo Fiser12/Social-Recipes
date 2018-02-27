@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Recipes;
+namespace Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\User;
 
 use Doctrine\ORM\EntityRepository;
 use Recipes\Domain\Model\User\User;

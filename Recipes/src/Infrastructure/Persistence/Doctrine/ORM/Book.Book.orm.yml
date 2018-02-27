@@ -1,7 +1,7 @@
 Recipes\Domain\Model\Book\Book:
   type: entity
   table: recipe_book
-  lifecycleCallbacks: {  }
+  repositoryClass: Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Book\DoctrineBookRepository
   id:
     id:
       column: id

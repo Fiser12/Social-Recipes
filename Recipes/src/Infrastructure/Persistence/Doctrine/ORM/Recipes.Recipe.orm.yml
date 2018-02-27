@@ -1,7 +1,7 @@
 Recipes\Domain\Model\Recipes\Recipe:
   type: entity
   table: recipe_recipe
-
+  repositoryClass: Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Recipes\DoctrineRecipeRepository
   id:
     id:
       column: id

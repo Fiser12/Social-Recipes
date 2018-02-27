@@ -1,8 +1,8 @@
 <?php
 
-namespace Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Category;
+namespace Recipes\Infrastructure\Persistence\Doctrine\Domain\Type\Category;
 
-use Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\DoctrineEntityIdType;
+use Recipes\Infrastructure\Persistence\Doctrine\Domain\Type\DoctrineEntityIdType;
 
 class CategoryIdType extends DoctrineEntityIdType
 {

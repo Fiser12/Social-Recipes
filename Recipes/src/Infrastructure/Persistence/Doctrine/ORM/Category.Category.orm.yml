@@ -1,7 +1,7 @@
 Recipes\Domain\Model\Category\Category:
   type: entity
   table: recipe_category
-  lifecycleCallbacks: {  }
+  repositoryClass: Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Category\DoctrineCategoryRepository
   id:
     id:
       column: id
