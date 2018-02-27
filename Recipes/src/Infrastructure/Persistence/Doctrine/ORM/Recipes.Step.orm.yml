@@ -1,0 +1,19 @@
+Recipes\Domain\Model\Recipes\Step:
+  type: entity
+  table: recipe_step
+
+  id:
+    id:
+      column: id
+      type: StepId
+
+  oneToMany:
+    translations:
+      targetEntity: StepTranslation
+      mappedBy: origin
+
+  fields:
+    ingredients:
+      type: json_object
+    tools:
+      type: json_object

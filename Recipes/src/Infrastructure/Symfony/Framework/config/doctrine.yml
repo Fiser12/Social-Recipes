@@ -26,6 +26,7 @@ doctrine:
           BookId:  Recipes\Infrastructure\Persistence\Doctrine\Types\BookIdType
           CategoryId:  Recipes\Infrastructure\Persistence\Doctrine\Types\CategoryIdType
           RecipeId:  Recipes\Infrastructure\Persistence\Doctrine\Types\RecipeIdType
+          StepId:  Recipes\Infrastructure\Persistence\Doctrine\Types\StepIdType
           json_object: AurimasNiekis\DoctrineJsonObjectType\JsonObjectType
 
     orm:

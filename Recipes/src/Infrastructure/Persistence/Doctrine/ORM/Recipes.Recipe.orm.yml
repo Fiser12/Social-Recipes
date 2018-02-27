@@ -25,6 +25,11 @@ Recipes\Domain\Model\Recipes\Recipe:
     hashtags:
       type: json_object
 
+  oneToMany:
+    translations:
+      targetEntity: RecipeTranslation
+      mappedBy: origin
+
   manyToOne:
     owner:
       targetEntity: "Recipes\\Domain\\Model\\User\\User"
