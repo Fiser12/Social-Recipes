@@ -2,7 +2,7 @@
 
 namespace Recipes\Infrastructure\Persistence\Doctrine\Types;
 
-class RecipeId extends DoctrineEntityId
+class RecipeIdType extends DoctrineEntityIdType
 {
     public function className(): string
     {

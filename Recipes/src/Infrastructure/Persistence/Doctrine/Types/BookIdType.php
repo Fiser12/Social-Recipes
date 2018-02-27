@@ -2,7 +2,7 @@
 
 namespace Recipes\Infrastructure\Persistence\Doctrine\Types;
 
-class BookId extends DoctrineEntityId
+class BookIdType extends DoctrineEntityIdType
 {
     public function className(): string
     {

@@ -5,7 +5,7 @@ namespace Recipes\Infrastructure\Persistence\Doctrine\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\GuidType;
 
-abstract class DoctrineEntityId extends GuidType
+abstract class DoctrineEntityIdType extends GuidType
 {
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {

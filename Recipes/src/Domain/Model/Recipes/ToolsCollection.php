@@ -11,15 +11,55 @@
 
 namespace Recipes\Domain\Model\Recipes;
 
-use Recipes\Domain\Model\Translation\TranslationCollection;
+use AurimasNiekis\DoctrineJsonObjectType\JsonObject;
+use LIN3S\SharedKernel\Domain\Model\Collection\Collection;
 
 /**
  * @author Rubén García <ruben.garcia@opendeusto.es>
  */
-class ToolsCollection extends TranslationCollection
+class ToolsCollection extends Collection implements JsonObject
 {
     protected function type()
     {
         return Tool::class;
+    }
+
+    public static function fromJson(array $data)
+    {
+        $collections = new self();
+
+        foreach ($data as $item) {
+            $tool = new Tool();
+            foreach ($item as $translation) {
+                $tool->addTranslation(
+                    new ToolTranslation(
+                        new Locale($translation['locale']),
+                        new Name($translation['name'])
+                    )
+                );
+            }
+            $collections->add($tool);
+        }
+
+        return $collections;
+    }
+
+    public function jsonSerialize()
+    {
+        $jsonCollection = [];
+
+        foreach ($this->toArray() as $item) {
+            $jsonObject = [];
+
+            foreach ($item->translations() as $translation) {
+                $jsonObject[] = [
+                    'name' => $translation->name()->name(),
+                    'locale' => $translation->locale()->locale()
+                ];
+            }
+            $jsonCollection[] = $jsonObject;
+        }
+
+        return $jsonCollection;
     }
 }

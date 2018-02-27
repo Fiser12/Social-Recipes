@@ -11,12 +11,12 @@
 
 namespace Recipes\Domain\Model\Recipes;
 
-use Recipes\Domain\Model\Translation\TranslationCollection;
+use LIN3S\SharedKernel\Domain\Model\Collection\Collection;
 
 /**
  * @author Rubén García <ruben.garcia@opendeusto.es>
  */
-class StepsCollection extends TranslationCollection
+class StepsCollection extends Collection
 {
     protected function type()
     {

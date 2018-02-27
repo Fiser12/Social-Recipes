@@ -35,10 +35,10 @@ class Recipe extends Translatable implements AggregateRoot
     //TODO agregar imagen
     public function __construct(
         RecipeId $id,
-        IngredientsCollection $ingredients,
-        ToolsCollection $tools,
         StepsCollection $steps,
         HashtagCollection $hashtags,
+        IngredientsCollection $ingredients,
+        ToolsCollection $tools,
         CommentsCollection $comments,
         CategoriesCollection $categories,
         Servings $servings,

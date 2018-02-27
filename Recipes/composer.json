@@ -2,10 +2,12 @@
     "require": {
         "php": "^7.1",
         "ajgl/simple-bus-query-bus": "^0.1.0",
+        "aurimasniekis/doctrine-json-object-type": "^1.0",
+        "doctrine/dbal": "2.6.x-dev",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-cache-bundle": "^1.2",
         "doctrine/doctrine-migrations-bundle": "^1.2",
-        "doctrine/orm": "^2.5",
+        "doctrine/orm": "^2.6",
         "fiser/microservices-internal-authentication": "1.1",
         "incenteev/composer-parameter-handler": "^2.0",
         "lin3s/distribution": "^4.0.1",

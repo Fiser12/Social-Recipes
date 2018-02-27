@@ -1,7 +1,7 @@
 Recipes\Domain\Model\Recipes\Recipe:
   type: entity
   table: recipe_recipe
-  lifecycleCallbacks: {  }
+
   id:
     id:
       column: id
@@ -16,6 +16,14 @@ Recipes\Domain\Model\Recipes\Recipe:
       class: "Recipes\\Domain\\Model\\Time"
     difficulty:
       class: "Recipes\\Domain\\Model\\Difficulty"
+
+  fields:
+    ingredients:
+      type: json_object
+    tools:
+      type: json_object
+    hashtags:
+      type: json_object
 
   manyToOne:
     owner:

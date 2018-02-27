@@ -2,10 +2,10 @@
 
 namespace Recipes\Infrastructure\Persistence\Doctrine\Types;
 
-class UserId extends DoctrineEntityId
+class CategoryIdType extends DoctrineEntityIdType
 {
     public function className(): string
     {
-        return \Recipes\Domain\Model\User\UserId::class;
+        return \Recipes\Domain\Model\Category\CategoryId::class;
     }
 }
