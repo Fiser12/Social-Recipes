@@ -1,0 +1,39 @@
+services:
+    _defaults:
+        autowire: false
+        autoconfigure: true
+        public: true
+
+    recipes.infrastructure.persistence.generated_hydrator_hydrator.user:
+        class: Recipes\Infrastructure\Persistence\GeneratedHydratorHydrator
+        arguments:
+            - Recipes\Domain\Model\User\User
+    recipes.infrastructure.persistence.generated_hydrator_hydrator.recipe:
+        class: Recipes\Infrastructure\Persistence\GeneratedHydratorHydrator
+        arguments:
+            - Recipes\Domain\Model\Recipes\Recipe
+    recipes.infrastructure.persistence.generated_hydrator_hydrator.book:
+        class: Recipes\Infrastructure\Persistence\GeneratedHydratorHydrator
+        arguments:
+            - Recipes\Domain\Model\Book\Book
+    recipes.infrastructure.persistence.generated_hydrator_hydrator.category:
+        class: Recipes\Infrastructure\Persistence\GeneratedHydratorHydrator
+        arguments:
+            - Recipes\Domain\Model\Category\Category
+
+    recipes.infrastructure.persistence.sql.domain.model.book.sql_book_hydrator:
+        class: Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book\SqlBookHydrator
+        arguments:
+            - "@recipes.infrastructure.persistence.generated_hydrator_hydrator.book"
+    recipes.infrastructure.persistence.sql.domain.model.category.sql_category_hydrator:
+        class: Recipes\Infrastructure\Persistence\Sql\Domain\Model\Category\SqlCategoryHydrator
+        arguments:
+            - "@recipes.infrastructure.persistence.generated_hydrator_hydrator.category"
+    recipes.infrastructure.persistence.sql.domain.model.recipes.sql_recipe_hydrator:
+        class: Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipe\SqlRecipeHydrator
+        arguments:
+            - "@recipes.infrastructure.persistence.generated_hydrator_hydrator.recipe"
+    recipes.infrastructure.persistence.sql.domain.model.user.sql_user_hydrator:
+        class: Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipe\SqlUserHydrator
+        arguments:
+            - "@recipes.infrastructure.persistence.generated_hydrator_hydrator.user"

@@ -1,6 +1,6 @@
 <?php
 
-namespace Recipes\Infrastructure\Symfony\Domain\Model\Recipes;
+namespace Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes;
 
 use LIN3S\SharedKernel\Infrastructure\Persistence\Sql\Pdo;
 use Recipes\Domain\Model\Recipes\Recipe;
@@ -10,10 +10,11 @@ use Recipes\Domain\Model\Recipes\RecipeTranslation;
 use Recipes\Domain\Model\Recipes\Step;
 use Recipes\Domain\Model\Recipes\StepId;
 use Recipes\Domain\Model\Recipes\StepTranslation;
+use Recipes\Infrastructure\Persistence\Hydrator;
 
-class SQLRecipeRepository implements RecipeRepository
+class SqlRecipeRepository implements RecipeRepository
 {
-/*    private $pdo;
+    private $pdo;
     private $hydrator;
 
     public function __construct(Pdo $pdo, Hydrator $hydrator)
@@ -21,7 +22,6 @@ class SQLRecipeRepository implements RecipeRepository
         $this->pdo = $pdo;
         $this->hydrator = $hydrator;
     }
-*/
 
     public function remove(RecipeId $recipeId): void
     {
@@ -45,9 +45,7 @@ FROM `recipe_recipe`
   LEFT JOIN `recipe_step_translation` ON `recipe_step_translation`.origin_id = `recipe_step`.id
 WHERE `recipe_recipe`.id = :id
 SQL;
-        //TODO Rename colision fields
         $recipeRow = $this->pdo->query($sql, ['id' => $recipeId->id()]);
-        //TODO Create hydrator
         return !$recipeRow ? null : $this->hydrator->build($recipeRow);
 
     }

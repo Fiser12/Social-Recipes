@@ -23,3 +23,23 @@ services:
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
             - Recipes\Domain\Model\Category\Category
+    Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book\SqlBookRepository:
+        class: Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Book\SqlBookRepository
+        arguments:
+            - '@lin3s.persistence.sql.pdo'
+            - '@recipes.infrastructure.persistence.sql.domain.model.book.sql_book_hydrator'
+    Recipes\Infrastructure\Persistence\Sql\Domain\Model\User\SqlUserRepository:
+        class: Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\User\SqlUserRepository
+        arguments:
+            - '@lin3s.persistence.sql.pdo'
+            - '@recipes.infrastructure.persistence.sql.domain.model.user.sql_user_hydrator'
+    Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes\SqlRecipeRepository:
+        class: Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Recipes\SqlRecipeRepository
+        arguments:
+            - '@lin3s.persistence.sql.pdo'
+            - '@recipes.infrastructure.persistence.sql.domain.model.recipes.sql_recipe_hydrator'
+    Recipes\Infrastructure\Persistence\Sql\Domain\Model\Category\SqlCategoryRepository:
+        class: Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Category\SqlCategoryRepository
+        arguments:
+            - '@lin3s.persistence.sql.pdo'
+            - '@recipes.infrastructure.persistence.sql.domain.model.category.sql_category_hydrator'

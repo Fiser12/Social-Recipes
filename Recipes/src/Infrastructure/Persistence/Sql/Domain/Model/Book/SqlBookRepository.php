@@ -1,6 +1,6 @@
 <?php
 
-namespace Recipes\Infrastructure\Symfony\Domain\Model\Recipes;
+namespace Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book;
 
 use LIN3S\SharedKernel\Infrastructure\Persistence\Sql\Pdo;
 use Recipes\Domain\Model\Book\Book;
@@ -9,10 +9,11 @@ use Recipes\Domain\Model\Book\BookRepository;
 use Recipes\Domain\Model\Book\BookTranslation;
 use Recipes\Domain\Model\Recipes\RecipeId;
 use Recipes\Domain\Model\User\UserId;
+use Recipes\Infrastructure\Persistence\Hydrator;
 
-class SQLBookRepository implements BookRepository
+class SqlBookRepository implements BookRepository
 {
-/*    private $pdo;
+    private $pdo;
     private $hydrator;
 
     public function __construct(Pdo $pdo, Hydrator $hydrator)
@@ -20,7 +21,6 @@ class SQLBookRepository implements BookRepository
         $this->pdo = $pdo;
         $this->hydrator = $hydrator;
     }
-*/
 
     public function remove(BookId $bookId): void
     {
@@ -42,9 +42,7 @@ FROM `recipe_recipe`
   INNER JOIN `recipe_book_translation` ON `recipe_book`.id=`recipe_book_translation`.origin_id
 WHERE `recipe_recipe`.id = :id
 SQL;
-        //TODO Rename colision fields
         $bookRow = $this->pdo->query($sql, ['id' => $bookId->id()]);
-        //TODO Create hydrator
         return !$bookRow ? null : $this->hydrator->build($bookRow);
 
     }
