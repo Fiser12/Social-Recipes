@@ -1,0 +1,4 @@
+Recipes\Domain\Model\Quantity:
+    type: embeddable
+    fields:
+        quantity: { type: integer }

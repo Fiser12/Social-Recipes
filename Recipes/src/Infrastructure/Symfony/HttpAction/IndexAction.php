@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Recipes\Infrastructure\Symfony\HttpAction;
 
+use Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes\SqlRecipeRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,18 +21,19 @@ use Symfony\Component\HttpFoundation\Request;
 class IndexAction
 {
     private $container;
+    private $categoryRepository;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(
+        ContainerInterface $container,
+        SqlRecipeRepository $categoryRepository
+    )
     {
         $this->container = $container;
+        $this->categoryRepository = $categoryRepository;
     }
 
     public function __invoke(Request $request)
     {
-        if ($this->container->getParameter('secret') !== $request->headers->get('token-api')) {
-            return new JsonResponse('Secret doesnt exist', 401);
-        }
-
         return new JsonResponse('Hello recipes');
     }
 }

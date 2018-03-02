@@ -1,0 +1,6 @@
+Recipes\Domain\Model\User\UserEmail:
+    type: embeddable
+    fields:
+        email: { type: string }
+        localPart: { type: string }
+        domain: { type: string }

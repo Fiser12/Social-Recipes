@@ -1,0 +1,4 @@
+Recipes\Domain\Model\Time:
+    type: embeddable
+    fields:
+        seconds: { type: integer }

@@ -1,0 +1,4 @@
+Recipes\Domain\Model\Title:
+    type: embeddable
+    fields:
+        title: { type: string }

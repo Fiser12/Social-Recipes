@@ -1,0 +1,4 @@
+Recipes\Domain\Model\Difficulty:
+    type: embeddable
+    fields:
+        difficulty: { type: string }

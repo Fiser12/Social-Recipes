@@ -1,0 +1,34 @@
+Recipes\Domain\Model\Book\Book:
+  type: entity
+  table: recipe_book
+  repositoryClass: Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Book\DoctrineBookRepository
+  id:
+    id:
+      column: id
+      type: BookId
+
+  embedded:
+    scope:
+      class: "Recipes\\Domain\\Model\\Scope"
+  fields:
+     owner:
+       type: UserId
+       column: owner_id
+
+  oneToMany:
+    translations:
+      targetEntity: BookTranslation
+      mappedBy: origin
+
+#  manyToMany:
+#    recipes:
+#      targetEntity: "Recipes\\Domain\\Model\\Recipes\\Recipe"
+#      joinTable:
+#        name: recipe_recipe_book_owner
+#        inversedBy: books
+#        joinColumns:
+#          book_id:
+#            referencedColumnName: id
+#        inverseJoinColumns:
+#          recipe_id:
+#            referencedColumnName: id

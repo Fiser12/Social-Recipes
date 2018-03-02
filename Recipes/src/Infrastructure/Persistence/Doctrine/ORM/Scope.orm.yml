@@ -1,0 +1,4 @@
+Recipes\Domain\Model\Scope:
+    type: embeddable
+    fields:
+        scope: { type: string }

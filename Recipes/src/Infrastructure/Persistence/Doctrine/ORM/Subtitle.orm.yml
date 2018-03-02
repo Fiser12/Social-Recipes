@@ -1,0 +1,4 @@
+Recipes\Domain\Model\Subtitle:
+    type: embeddable
+    fields:
+        subtitle: { type: string }

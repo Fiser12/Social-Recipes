@@ -1,0 +1,11 @@
+Recipes\Domain\Model\Recipes\StepTranslation:
+  type: entity
+  table: recipe_step_translation
+  id:
+    origin:
+      associationKey: true
+    locale:
+      type: string
+  embedded:
+    description:
+      class: "Recipes\\Domain\\Model\\Description"
