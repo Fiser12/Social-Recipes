@@ -24,15 +24,11 @@ Recipes\Domain\Model\Recipes\Recipe:
       type: json_object
     hashtags:
       type: json_object
+    owner:
+      type: UserId
+      column: owner_id
 
   oneToMany:
     translations:
       targetEntity: RecipeTranslation
       mappedBy: origin
-
-  manyToOne:
-    owner:
-      targetEntity: "Recipes\\Domain\\Model\\User\\User"
-      joinColumn:
-        name: owner_id
-        referencedColumnName: id

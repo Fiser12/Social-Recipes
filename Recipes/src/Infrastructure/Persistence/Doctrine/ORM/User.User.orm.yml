@@ -11,27 +11,15 @@ Recipes\Domain\Model\User\User:
     email:
       class: "Recipes\\Domain\\Model\\User\\UserEmail"
 
-  manyToMany:
-    followBooks:
-      targetEntity: "Recipes\\Domain\\Model\\Book\\Book"
-      joinTable:
-        name: recipe_user_follow_book
-        inversedBy: follow
-        joinColumns:
-          user_id:
-            referencedColumnName: id
-        inverseJoinColumns:
-          book_id:
-            referencedColumnName: id
-  manyToMany:
-    createBooks:
-      targetEntity: "Recipes\\Domain\\Model\\Book\\Book"
-      joinTable:
-        name: recipe_user_create_book
-        inversedBy: create
-        joinColumns:
-          user_id:
-            referencedColumnName: id
-        inverseJoinColumns:
-          book_id:
-            referencedColumnName: id
+#  manyToMany:
+#    followBooks:
+#      targetEntity: "Recipes\\Domain\\Model\\Book\\Book"
+#      joinTable:
+#        name: recipe_user_follow_book
+#        inversedBy: follow
+#        joinColumns:
+#          user_id:
+#            referencedColumnName: id
+#        inverseJoinColumns:
+#          book_id:
+#            referencedColumnName: id

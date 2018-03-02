@@ -17,7 +17,6 @@ class Book extends Translatable implements AggregateRoot
     private $owner;
     private $follow;
     private $scope;
-    private $create;
     private $recipes;
 
     use AggregateRootCapabilities;
@@ -27,7 +26,6 @@ class Book extends Translatable implements AggregateRoot
         UserId $owner,
         Scope $scope,
         UsersCollection $follow,
-        UsersCollection $create,
         RecipeCollection $recipes
     )
     {
@@ -36,7 +34,6 @@ class Book extends Translatable implements AggregateRoot
         $this->owner = $owner;
         $this->follow = $follow;
         $this->scope = $scope;
-        $this->create = $create;
         $this->recipes = $recipes;
     }
 
@@ -58,11 +55,6 @@ class Book extends Translatable implements AggregateRoot
     public function scope(): Scope
     {
         return $this->scope;
-    }
-
-    public function create(): UsersCollection
-    {
-        return $this->create;
     }
 
     public function recipes(): RecipeCollection

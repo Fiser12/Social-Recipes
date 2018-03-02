@@ -9,8 +9,3 @@ Recipes\Domain\Model\Category\CategoryTranslation:
   embedded:
     name:
       class: "Recipes\\Domain\\Model\\Name"
-
-  manyToOne:
-    origin:
-      targetEntity: "Recipes\\Domain\\Model\\Category\\Category"
-      inversedBy: translations

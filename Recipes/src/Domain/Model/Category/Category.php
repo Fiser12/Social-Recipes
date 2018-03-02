@@ -30,7 +30,7 @@ class Category extends Translatable implements AggregateRoot
         $this->recipes = $recipes;
     }
 
-    public function parent(): ?Category
+    public function parent()
     {
         return $this->parent;
     }

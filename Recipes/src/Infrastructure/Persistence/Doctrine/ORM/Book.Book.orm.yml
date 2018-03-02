@@ -10,28 +10,25 @@ Recipes\Domain\Model\Book\Book:
   embedded:
     scope:
       class: "Recipes\\Domain\\Model\\Scope"
-
-  manyToOne:
-    owner:
-      targetEntity: "Recipes\\Domain\\Model\\User\\User"
-      joinColumn:
-        name: owner_id
-        referencedColumnName: id
+  fields:
+     owner:
+       type: UserId
+       column: owner_id
 
   oneToMany:
     translations:
       targetEntity: BookTranslation
       mappedBy: origin
 
-  manyToMany:
-    recipes:
-      targetEntity: "Recipes\\Domain\\Model\\Recipes\\Recipe"
-      joinTable:
-        name: recipe_recipe_book_owner
-        inversedBy: books
-        joinColumns:
-          book_id:
-            referencedColumnName: id
-        inverseJoinColumns:
-          recipe_id:
-            referencedColumnName: id
+#  manyToMany:
+#    recipes:
+#      targetEntity: "Recipes\\Domain\\Model\\Recipes\\Recipe"
+#      joinTable:
+#        name: recipe_recipe_book_owner
+#        inversedBy: books
+#        joinColumns:
+#          book_id:
+#            referencedColumnName: id
+#        inverseJoinColumns:
+#          recipe_id:
+#            referencedColumnName: id
