@@ -34,7 +34,6 @@ class IndexAction
 
     public function __invoke(Request $request)
     {
-
         return new JsonResponse('Hello recipes');
     }
 }
