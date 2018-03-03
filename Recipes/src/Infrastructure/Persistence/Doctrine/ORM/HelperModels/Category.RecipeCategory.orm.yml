@@ -13,8 +13,10 @@ Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Category\RecipeCategory
       joinColumn:
         name: recipe_id
         referencedColumnName: id
+        onDelete: cascade
     category:
       targetEntity: Recipes\Domain\Model\Category\Category
       joinColumn:
         name: category_id
         referencedColumnName: id
+        onDelete: cascade

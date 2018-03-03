@@ -10,16 +10,3 @@ Recipes\Domain\Model\User\User:
   embedded:
     email:
       class: "Recipes\\Domain\\Model\\User\\UserEmail"
-
-#  manyToMany:
-#    followBooks:
-#      targetEntity: "Recipes\\Domain\\Model\\Book\\Book"
-#      joinTable:
-#        name: recipe_user_follow_book
-#        inversedBy: follow
-#        joinColumns:
-#          user_id:
-#            referencedColumnName: id
-#        inverseJoinColumns:
-#          book_id:
-#            referencedColumnName: id

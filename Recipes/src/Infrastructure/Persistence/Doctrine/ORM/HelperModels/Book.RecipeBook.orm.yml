@@ -13,8 +13,11 @@ Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Book\RecipeBook:
       joinColumn:
         name: recipe_id
         referencedColumnName: id
+        onDelete: cascade
+
     book:
       targetEntity: Recipes\Domain\Model\Book\Book
       joinColumn:
         name: book_id
         referencedColumnName: id
+        onDelete: cascade

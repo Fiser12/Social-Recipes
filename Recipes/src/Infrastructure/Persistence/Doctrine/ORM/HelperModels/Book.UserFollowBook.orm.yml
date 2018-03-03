@@ -13,8 +13,10 @@ Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Book\UserFollowBook:
       joinColumn:
         name: user_id
         referencedColumnName: id
+        onDelete: cascade
     book:
       targetEntity: Recipes\Domain\Model\Book\Book
       joinColumn:
         name: book_id
         referencedColumnName: id
+        onDelete: cascade
