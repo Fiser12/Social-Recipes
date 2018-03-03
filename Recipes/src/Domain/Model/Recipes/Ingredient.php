@@ -8,13 +8,13 @@ use Recipes\Domain\Model\Translation\Translatable;
 /**
  * @author Rubén García <ruben.garcia@opendeusto.es>
  */
-class Ingredient extends Translatable
+class Ingredient
 {
     private $quantity;
 
+    use Translatable;
     public function __construct(Quantity $quantity)
     {
-        parent::__construct();
         $this->quantity = $quantity;
     }
 

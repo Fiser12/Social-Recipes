@@ -3,7 +3,6 @@
 namespace Recipes\Domain\Model\Recipes;
 
 use LIN3S\SharedKernel\Domain\Model\AggregateRoot;
-use LIN3S\SharedKernel\Domain\Model\AggregateRootCapabilities;
 use Recipes\Domain\Model\Book\BooksCollection;
 use Recipes\Domain\Model\Category\CategoriesCollection;
 use Recipes\Domain\Model\Difficulty;
@@ -12,9 +11,8 @@ use Recipes\Domain\Model\Time;
 use Recipes\Domain\Model\Translation\Translatable;
 use Recipes\Domain\Model\User\CommentsCollection;
 use Recipes\Domain\Model\User\UserId;
-use Recipes\Domain\Model\User\UsersCollection;
 
-class Recipe extends Translatable implements AggregateRoot
+class Recipe extends AggregateRoot
 {
     private $id;
     private $ingredients;
@@ -30,8 +28,7 @@ class Recipe extends Translatable implements AggregateRoot
     private $comments;
     private $scope;
 
-    use AggregateRootCapabilities;
-
+    use Translatable;
     //TODO agregar imagen
     public function __construct(
         RecipeId $id,
@@ -49,7 +46,6 @@ class Recipe extends Translatable implements AggregateRoot
         BooksCollection $books
     )
     {
-        parent::__construct();
         $this->id = $id;
         $this->ingredients = $ingredients;
         $this->tools = $tools;

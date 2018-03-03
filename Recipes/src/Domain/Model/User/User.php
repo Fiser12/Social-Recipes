@@ -3,18 +3,15 @@
 namespace Recipes\Domain\Model\User;
 
 use LIN3S\SharedKernel\Domain\Model\AggregateRoot;
-use LIN3S\SharedKernel\Domain\Model\AggregateRootCapabilities;
 use Recipes\Domain\Model\Book\BooksCollection;
 
-class User implements AggregateRoot
+class User extends AggregateRoot
 {
     private $id;
     private $email;
     private $comments;
     private $createBooks;
     private $followBooks;
-
-    use AggregateRootCapabilities;
 
     public function __construct(
         UserId $id,
