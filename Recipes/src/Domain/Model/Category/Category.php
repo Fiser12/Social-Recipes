@@ -18,7 +18,7 @@ class Category extends AggregateRoot
     public function __construct(
         CategoryId $id,
         RecipeCollection $recipes,
-        ?Category $parent = null,
+        ?CategoryId $parent = null,
         CategoriesCollection $children
     )
     {
@@ -28,7 +28,7 @@ class Category extends AggregateRoot
         $this->recipes = $recipes;
     }
 
-    public function parent()
+    public function parent(): CategoryId
     {
         return $this->parent;
     }

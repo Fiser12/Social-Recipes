@@ -24,7 +24,7 @@ class TranslationCollection extends Collection
         return Translation::class;
     }
 
-    public function add($translation) : void
+    public function add($translation): void
     {
         $translations = $this->toArray();
         foreach ($translations as $trans) {
@@ -34,4 +34,16 @@ class TranslationCollection extends Collection
         }
         parent::add($translation);
     }
+
+    public function contains($element): bool
+    {
+        foreach ($this->toArray() as $el) {
+            if ($element->locale()->equals($el->locale())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

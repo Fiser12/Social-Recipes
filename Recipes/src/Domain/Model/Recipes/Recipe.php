@@ -25,7 +25,6 @@ class Recipe extends AggregateRoot
     private $books;
     private $categories;
     private $hashtags;
-    private $comments;
     private $scope;
 
     use Translatable;
@@ -36,7 +35,6 @@ class Recipe extends AggregateRoot
         HashtagCollection $hashtags,
         IngredientsCollection $ingredients,
         ToolsCollection $tools,
-        CommentsCollection $comments,
         CategoriesCollection $categories,
         Servings $servings,
         Time $time,
@@ -57,7 +55,6 @@ class Recipe extends AggregateRoot
         $this->books = $books;
         $this->categories = $categories;
         $this->hashtags = $hashtags;
-        $this->comments = $comments;
         $this->scope = $scope;
     }
 
@@ -114,11 +111,6 @@ class Recipe extends AggregateRoot
     public function hashtags(): HashtagCollection
     {
         return $this->hashtags;
-    }
-
-    public function comments(): CommentsCollection
-    {
-        return $this->comments;
     }
 
     public function scope(): Scope
