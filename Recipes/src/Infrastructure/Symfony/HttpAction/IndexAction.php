@@ -49,34 +49,52 @@ class IndexAction
 
     public function __invoke(Request $request)
     {
-/*      //Create Book example
+
+        $this->persistBook();
+        $this->persistCategory();
+        return new JsonResponse('Hello recipes');
+    }
+    private function persistBook(
+        string $id = null,
+        string $userId = "1",
+        array $recipesArray = ["1" , "2"],
+        array $followArray = ["1"]
+    )
+    {
         $follow = new UsersCollection();
-        $follow->add(UserId::generate("1"));
+        foreach($followArray as $f) {
+            $follow->add(UserId::generate($f));
+        }
+
         $recipes = new RecipeCollection();
-        $recipes->add(RecipeId::generate("1"));
-        $recipes->add(RecipeId::generate("2"));
+        foreach($recipesArray as $recipe) {
+            $recipes->add(RecipeId::generate($recipe));
+        }
 
         $book = new Book(
-            BookId::generate("1"),
-            UserId::generate("1"),
+            BookId::generate($id),
+            UserId::generate($userId),
             new Scope("private"),
             $follow,
             $recipes
         );
         $this->doctrineBookRepository->persist($book);
-*/
-        $recipes = new RecipeCollection();
-        $recipes->add(RecipeId::generate("1"));
-        $recipes->add(RecipeId::generate("2"));
+    }
 
+    private function persistCategory(
+        string $id = null,
+        array $recipesArray = ["1" , "2"]
+    ) {
+        $recipes = new RecipeCollection();
+        foreach($recipesArray as $recipe) {
+            $recipes->add(RecipeId::generate($recipe));
+        }
         $category = new Category(
-            CategoryId::generate("1"),
+            CategoryId::generate($id),
             $recipes,
             null,
             new CategoriesCollection()
         );
         $this->doctrineCategoryRepository->persist($category);
-
-        return new JsonResponse('Hello recipes');
     }
 }
