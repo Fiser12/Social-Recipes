@@ -8,13 +8,10 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20180302005001 extends AbstractMigration
+class Version20180303173829 extends AbstractMigration
 {
     public function up(Schema $schema)
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('CREATE TABLE recipe_category (id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', parent_id CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\', INDEX IDX_70DCBC5F727ACA70 (parent_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE recipe_book_translation (locale VARCHAR(255) NOT NULL, title_title VARCHAR(255) NOT NULL, subtitle_subtitle VARCHAR(255) NOT NULL, PRIMARY KEY(locale)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE recipe_recipe_translation (locale VARCHAR(255) NOT NULL, title_title VARCHAR(255) NOT NULL, subtitle_subtitle VARCHAR(255) NOT NULL, description_description VARCHAR(255) NOT NULL, PRIMARY KEY(locale)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
@@ -24,8 +21,17 @@ class Version20180302005001 extends AbstractMigration
         $this->addSql('CREATE TABLE recipe_category_translation (locale VARCHAR(255) NOT NULL, name_name VARCHAR(255) NOT NULL, PRIMARY KEY(locale)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE recipe_book (id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', owner_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', scope_scope VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE recipe_step_translation (locale VARCHAR(255) NOT NULL, description_description VARCHAR(255) NOT NULL, PRIMARY KEY(locale)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE recipe_recipe_category (recipe_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', category_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', INDEX IDX_19A8E93359D8A214 (recipe_id), INDEX IDX_19A8E93312469DE2 (category_id), PRIMARY KEY(recipe_id, category_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE recipe_recipe_book (recipe_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', book_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', INDEX IDX_600CB78A59D8A214 (recipe_id), INDEX IDX_600CB78A16A2B381 (book_id), PRIMARY KEY(recipe_id, book_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE recipe_user_follow_book (user_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', book_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', INDEX IDX_1854C0DFA76ED395 (user_id), INDEX IDX_1854C0DF16A2B381 (book_id), PRIMARY KEY(user_id, book_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE recipe_category ADD CONSTRAINT FK_70DCBC5F727ACA70 FOREIGN KEY (parent_id) REFERENCES recipe_category (id)');
         $this->addSql('ALTER TABLE recipe_step ADD CONSTRAINT FK_3CA2A4E359D8A214 FOREIGN KEY (recipe_id) REFERENCES recipe_step (id)');
+        $this->addSql('ALTER TABLE recipe_recipe_category ADD CONSTRAINT FK_19A8E93359D8A214 FOREIGN KEY (recipe_id) REFERENCES recipe_recipe (id)');
+        $this->addSql('ALTER TABLE recipe_recipe_category ADD CONSTRAINT FK_19A8E93312469DE2 FOREIGN KEY (category_id) REFERENCES recipe_category (id)');
+        $this->addSql('ALTER TABLE recipe_recipe_book ADD CONSTRAINT FK_600CB78A59D8A214 FOREIGN KEY (recipe_id) REFERENCES recipe_recipe (id)');
+        $this->addSql('ALTER TABLE recipe_recipe_book ADD CONSTRAINT FK_600CB78A16A2B381 FOREIGN KEY (book_id) REFERENCES recipe_book (id)');
+        $this->addSql('ALTER TABLE recipe_user_follow_book ADD CONSTRAINT FK_1854C0DFA76ED395 FOREIGN KEY (user_id) REFERENCES recipe_user (id)');
+        $this->addSql('ALTER TABLE recipe_user_follow_book ADD CONSTRAINT FK_1854C0DF16A2B381 FOREIGN KEY (book_id) REFERENCES recipe_book (id)');
     }
 
     public function down(Schema $schema)
@@ -34,7 +40,13 @@ class Version20180302005001 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE recipe_category DROP FOREIGN KEY FK_70DCBC5F727ACA70');
+        $this->addSql('ALTER TABLE recipe_recipe_category DROP FOREIGN KEY FK_19A8E93312469DE2');
+        $this->addSql('ALTER TABLE recipe_user_follow_book DROP FOREIGN KEY FK_1854C0DFA76ED395');
         $this->addSql('ALTER TABLE recipe_step DROP FOREIGN KEY FK_3CA2A4E359D8A214');
+        $this->addSql('ALTER TABLE recipe_recipe_category DROP FOREIGN KEY FK_19A8E93359D8A214');
+        $this->addSql('ALTER TABLE recipe_recipe_book DROP FOREIGN KEY FK_600CB78A59D8A214');
+        $this->addSql('ALTER TABLE recipe_recipe_book DROP FOREIGN KEY FK_600CB78A16A2B381');
+        $this->addSql('ALTER TABLE recipe_user_follow_book DROP FOREIGN KEY FK_1854C0DF16A2B381');
         $this->addSql('DROP TABLE recipe_category');
         $this->addSql('DROP TABLE recipe_book_translation');
         $this->addSql('DROP TABLE recipe_recipe_translation');
@@ -44,5 +56,8 @@ class Version20180302005001 extends AbstractMigration
         $this->addSql('DROP TABLE recipe_category_translation');
         $this->addSql('DROP TABLE recipe_book');
         $this->addSql('DROP TABLE recipe_step_translation');
+        $this->addSql('DROP TABLE recipe_recipe_category');
+        $this->addSql('DROP TABLE recipe_recipe_book');
+        $this->addSql('DROP TABLE recipe_user_follow_book');
     }
 }

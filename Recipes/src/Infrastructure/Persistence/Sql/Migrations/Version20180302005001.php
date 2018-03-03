@@ -12,7 +12,6 @@ class Version20180302005001 extends AbstractMigration
 {
     public function up(Schema $schema)
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE recipe_category (id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', parent_id CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\', INDEX IDX_70DCBC5F727ACA70 (parent_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE recipe_book_translation (origin_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', locale VARCHAR(255) NOT NULL, title_title VARCHAR(255) NOT NULL, subtitle_subtitle VARCHAR(255) NOT NULL, PRIMARY KEY(locale, origin_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE recipe_recipe_translation (origin_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', locale VARCHAR(255) NOT NULL, title_title VARCHAR(255) NOT NULL, subtitle_subtitle VARCHAR(255) NOT NULL, description_description VARCHAR(255) NOT NULL, PRIMARY KEY(locale, origin_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');

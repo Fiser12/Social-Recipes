@@ -19,16 +19,3 @@ Recipes\Domain\Model\Category\Category:
         name: parent_id
         referencedColumnName: id
         inversedBy: children
-
-#  manyToMany:
-#    recipes:
-#      targetEntity: "Recipes\\Domain\\Model\\Recipes\\Recipe"
-#      joinTable:
-#        name: recipe_recipe_category
-#        inversedBy: categories
-#        joinColumns:
-#          category_id:
-#            referencedColumnName: id
-#        inverseJoinColumns:
-#          recipe_id:
-#            referencedColumnName: id

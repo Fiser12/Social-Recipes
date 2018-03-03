@@ -1,0 +1,20 @@
+Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Book\UserFollowBook:
+  type: entity
+  table: recipe_user_follow_book
+  id:
+    user:
+      associationKey: true
+    book:
+      associationKey: true
+
+  manyToOne:
+    user:
+      targetEntity: Recipes\Domain\Model\User\User
+      joinColumn:
+        name: user_id
+        referencedColumnName: id
+    book:
+      targetEntity: Recipes\Domain\Model\Book\Book
+      joinColumn:
+        name: book_id
+        referencedColumnName: id
