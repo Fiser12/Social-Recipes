@@ -40,11 +40,12 @@ SELECT
   `recipe_recipe_book`.recipe_id
 FROM `recipe_book`
   INNER JOIN `recipe_book_translation` ON `recipe_book`.id=`recipe_book_translation`.origin_id
-  JOIN `recipe_user_follow_book` ON `recipe_book`.id=`recipe_user_follow_book`.book_id
-  JOIN `recipe_recipe_book` ON `recipe_book`.id=`recipe_recipe_book`.book_id
+  LEFT JOIN `recipe_user_follow_book` ON `recipe_book`.id=`recipe_user_follow_book`.book_id
+  LEFT JOIN `recipe_recipe_book` ON `recipe_book`.id=`recipe_recipe_book`.book_id
 WHERE `recipe_book`.id = :id
 SQL;
         $bookRow = $this->pdo->query($sql, ['id' => $bookId->id()]);
+
         return !$bookRow ? null : $this->hydrator->build($bookRow);
 
     }

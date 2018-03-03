@@ -19,7 +19,6 @@ use LIN3S\SharedKernel\Domain\Model\Locale\Locale;
 abstract class Translation
 {
     protected $locale;
-    protected $origin;
 
     public function __construct(Locale $locale)
     {
@@ -29,10 +28,5 @@ abstract class Translation
     public function locale() : Locale
     {
         return $this->locale;
-    }
-
-    public function origin() : Translatable
-    {
-        return $this->origin;
     }
 }

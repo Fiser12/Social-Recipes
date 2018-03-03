@@ -2,12 +2,12 @@
 
 namespace Recipes\Domain\Model\User;
 
-use Recipes\Domain\Model\Translation\TranslationCollection;
+use LIN3S\SharedKernel\Domain\Model\Collection\Collection;
 
 /**
  * @author Rubén García <ruben.garcia@opendeusto.es>
  */
-class UsersCollection extends TranslationCollection
+class UsersCollection extends Collection
 {
     protected function type()
     {

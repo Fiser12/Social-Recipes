@@ -2,6 +2,8 @@
 
 namespace Recipes\Domain\Model;
 
+use Recipes\Domain\Model\Translation\ScopeIsInvalid;
+
 class Scope
 {
     const PRIVATE = 'private';
