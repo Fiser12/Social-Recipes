@@ -9,14 +9,14 @@ use Recipes\Domain\Model\Book\BookRepository;
 use Recipes\Domain\Model\Book\BookTranslation;
 use Recipes\Domain\Model\Recipes\RecipeId;
 use Recipes\Domain\Model\User\UserId;
-use Recipes\Infrastructure\Persistence\Hydrator;
+use Recipes\Infrastructure\Persistence\Sql\SqlHydrator;
 
 class SqlBookRepository implements BookRepository
 {
     private $pdo;
     private $hydrator;
 
-    public function __construct(Pdo $pdo, Hydrator $hydrator)
+    public function __construct(Pdo $pdo, SqlHydrator $hydrator)
     {
         $this->pdo = $pdo;
         $this->hydrator = $hydrator;
@@ -34,15 +34,18 @@ SQL;
     {
         $sql = <<<SQL
 SELECT
-`recipe_book`.*,
-`recipe_book_translation`.*,
-`recipe_step`.*,
-`recipe_step_translation`.*
-FROM `recipe_recipe`
+  `recipe_book`.*,
+  `recipe_book_translation`.*,
+  `recipe_user_follow_book`.user_id,
+  `recipe_recipe_book`.recipe_id
+FROM `recipe_book`
   INNER JOIN `recipe_book_translation` ON `recipe_book`.id=`recipe_book_translation`.origin_id
-WHERE `recipe_recipe`.id = :id
+  LEFT JOIN `recipe_user_follow_book` ON `recipe_book`.id=`recipe_user_follow_book`.book_id
+  LEFT JOIN `recipe_recipe_book` ON `recipe_book`.id=`recipe_recipe_book`.book_id
+WHERE `recipe_book`.id = :id
 SQL;
         $bookRow = $this->pdo->query($sql, ['id' => $bookId->id()]);
+
         return !$bookRow ? null : $this->hydrator->build($bookRow);
 
     }

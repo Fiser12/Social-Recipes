@@ -7,14 +7,14 @@ use Recipes\Domain\Model\Category\Category;
 use Recipes\Domain\Model\Category\CategoryId;
 use Recipes\Domain\Model\Category\CategoryRepository;
 use Recipes\Domain\Model\Category\CategoryTranslation;
-use Recipes\Infrastructure\Persistence\Hydrator;
+use Recipes\Infrastructure\Persistence\Sql\SqlHydrator;
 
 class SqlCategoryRepository implements CategoryRepository
 {
     private $pdo;
     private $hydrator;
 
-    public function __construct(Pdo $pdo, Hydrator $hydrator)
+    public function __construct(Pdo $pdo, SqlHydrator $hydrator)
     {
         $this->pdo = $pdo;
         $this->hydrator = $hydrator;
@@ -34,13 +34,17 @@ SQL;
 SELECT
 `recipe_category`.*,
 `recipe_category_translation`.*,
+`children`.id as `children_id`,
+`recipe_recipe_category`.recipe_id
+
 FROM `recipe_category`
   INNER JOIN `recipe_category_translation` ON `recipe_category`.id=`recipe_category_translation`.origin_id
+  LEFT JOIN `recipe_category` AS `children` ON `recipe_category`.id=`children`.parent_id
+  LEFT JOIN `recipe_recipe_category` ON `recipe_category`.id=`recipe_recipe_category`.category_id
 WHERE `recipe_category`.id = :id
 SQL;
-        $bookRow = $this->pdo->query($sql, ['id' => $categoryId->id()]);
-        return !$bookRow ? null : $this->hydrator->build($bookRow);
-
+        $categoryRow = $this->pdo->query($sql, ['id' => $categoryId->id()]);
+        return !$categoryRow ? null : $this->hydrator->build($categoryRow);
     }
 
     public function persist(Category $category): void

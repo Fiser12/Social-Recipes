@@ -7,7 +7,7 @@
 
 doctrine_migrations:
     dir_name: "%kernel.root_dir%/../../Persistence/Doctrine/Migrations"
-    namespace: Recipes\Infrastructure\Persistence\Doctrine\Migrations
+    namespace: Recipes\Infrastructure\Persistence\Sql\Migrations
     table_name: recipes_migration_versions
     name: Recipes migrations
 

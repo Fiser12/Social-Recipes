@@ -16,7 +16,7 @@ use LIN3S\SharedKernel\Domain\Model\Locale\Locale;
 /**
  * @author Beñat Espiña <benatespina@gmail.com>
  */
-abstract class Translatable
+trait Translatable
 {
     protected $translations;
 

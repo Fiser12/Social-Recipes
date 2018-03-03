@@ -7,11 +7,15 @@ use Recipes\Domain\Model\Name;
 use Recipes\Domain\Model\Quantity;
 use Recipes\Domain\Model\Translation\Translatable;
 
-class Tool extends Translatable
+class Tool
 {
+    use Translatable{
+        Translatable::__construct as private __translatableConstruct;
+    }
+
     public function __construct()
     {
-        parent::__construct();
+        $this->__translatableConstruct();
     }
 
     protected function translationClass(): string

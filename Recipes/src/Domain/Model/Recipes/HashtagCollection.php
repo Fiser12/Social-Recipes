@@ -18,7 +18,6 @@ class HashtagCollection extends Collection implements JsonObject
     public static function fromJson(array $data)
     {
         $collections = new self();
-
         foreach ($data as $item) {
             $collections->add(new Hashtag($item['hashtag']));
         }

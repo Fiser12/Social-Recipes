@@ -15,7 +15,7 @@ class Time
 
     private function setSeconds(int $seconds): void
     {
-        if ($seconds >= 0) {
+        if ($seconds <= 0) {
             throw new DomainException('Time: It has to be bigger than 0');
         }
         $this->seconds = $seconds;

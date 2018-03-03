@@ -10,14 +10,14 @@ use Recipes\Domain\Model\Recipes\RecipeTranslation;
 use Recipes\Domain\Model\Recipes\Step;
 use Recipes\Domain\Model\Recipes\StepId;
 use Recipes\Domain\Model\Recipes\StepTranslation;
-use Recipes\Infrastructure\Persistence\Hydrator;
+use Recipes\Infrastructure\Persistence\Sql\SqlHydrator;
 
 class SqlRecipeRepository implements RecipeRepository
 {
     private $pdo;
     private $hydrator;
 
-    public function __construct(Pdo $pdo, Hydrator $hydrator)
+    public function __construct(Pdo $pdo, SqlHydrator $hydrator)
     {
         $this->pdo = $pdo;
         $this->hydrator = $hydrator;
@@ -35,17 +35,32 @@ SQL;
     {
         $sql = <<<SQL
 SELECT
-`recipe_recipe`.*,
-`recipe_recipe_translation`.*,
-`recipe_step`.*,
-`recipe_step_translation`.*
+  `recipe_recipe`.id,
+  `recipe_recipe`.owner_id,
+  `recipe_recipe`.ingredients,
+  `recipe_recipe`.difficulty_difficulty,
+  `recipe_recipe`.hashtags,
+  `recipe_recipe`.scope_scope,
+  `recipe_recipe`.servings_servings,
+  `recipe_recipe`.time_seconds,
+  `recipe_recipe`.tools,
+  `recipe_recipe_translation`.description_description,
+  `recipe_recipe_translation`.title_title,
+  `recipe_recipe_translation`.subtitle_subtitle,
+  `recipe_recipe_translation`.locale,
+  `recipe_step`.tools                                   AS tools_step,
+  `recipe_step`.ingredients                             AS ingredients_step,
+  `recipe_step_translation`.locale                      AS step_translation_locale,
+  `recipe_step_translation`.description_description     AS step_translation_description
+
 FROM `recipe_recipe`
   INNER JOIN `recipe_recipe_translation` ON `recipe_recipe`.id=`recipe_recipe_translation`.origin_id
-  LEFT JOIN `recipe_step` ON `recipe_step`.id = `recipe_recipe`.recipe_id
+  LEFT JOIN `recipe_step` ON `recipe_step`.recipe_id = `recipe_recipe`.id
   LEFT JOIN `recipe_step_translation` ON `recipe_step_translation`.origin_id = `recipe_step`.id
 WHERE `recipe_recipe`.id = :id
 SQL;
         $recipeRow = $this->pdo->query($sql, ['id' => $recipeId->id()]);
+
         return !$recipeRow ? null : $this->hydrator->build($recipeRow);
 
     }

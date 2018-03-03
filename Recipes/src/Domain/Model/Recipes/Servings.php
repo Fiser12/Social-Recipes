@@ -15,7 +15,7 @@ class Servings
 
     private function setServings(int $servings): void
     {
-        if ($servings >= 0) {
+        if ($servings <= 0) {
             throw new DomainException('Servings: It has to be bigger than 0');
         }
         $this->servings = $servings;

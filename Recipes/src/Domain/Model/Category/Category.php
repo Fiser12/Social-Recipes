@@ -3,34 +3,32 @@
 namespace Recipes\Domain\Model\Category;
 
 use LIN3S\SharedKernel\Domain\Model\AggregateRoot;
-use LIN3S\SharedKernel\Domain\Model\AggregateRootCapabilities;
 use Recipes\Domain\Model\Recipes\RecipeCollection;
 use Recipes\Domain\Model\Translation\Translatable;
 
-class Category extends Translatable implements AggregateRoot
+class Category extends AggregateRoot
 {
     private $parent;
     private $children;
     private $id;
     private $recipes;
 
-    use AggregateRootCapabilities;
+    use Translatable;
 
     public function __construct(
         CategoryId $id,
         RecipeCollection $recipes,
-        ?Category $parent = null,
+        ?CategoryId $parent = null,
         CategoriesCollection $children
     )
     {
-        parent::__construct();
         $this->id = $id;
         $this->parent = $parent;
         $this->children = $children;
         $this->recipes = $recipes;
     }
 
-    public function parent()
+    public function parent(): CategoryId
     {
         return $this->parent;
     }

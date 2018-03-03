@@ -20,6 +20,6 @@ class CategoriesCollection extends Collection
 {
     protected function type()
     {
-        return Category::class;
+        return CategoryId::class;
     }
 }

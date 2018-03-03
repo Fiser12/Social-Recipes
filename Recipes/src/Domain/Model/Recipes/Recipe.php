@@ -3,7 +3,6 @@
 namespace Recipes\Domain\Model\Recipes;
 
 use LIN3S\SharedKernel\Domain\Model\AggregateRoot;
-use LIN3S\SharedKernel\Domain\Model\AggregateRootCapabilities;
 use Recipes\Domain\Model\Book\BooksCollection;
 use Recipes\Domain\Model\Category\CategoriesCollection;
 use Recipes\Domain\Model\Difficulty;
@@ -12,9 +11,8 @@ use Recipes\Domain\Model\Time;
 use Recipes\Domain\Model\Translation\Translatable;
 use Recipes\Domain\Model\User\CommentsCollection;
 use Recipes\Domain\Model\User\UserId;
-use Recipes\Domain\Model\User\UsersCollection;
 
-class Recipe extends Translatable implements AggregateRoot
+class Recipe extends AggregateRoot
 {
     private $id;
     private $ingredients;
@@ -27,11 +25,11 @@ class Recipe extends Translatable implements AggregateRoot
     private $books;
     private $categories;
     private $hashtags;
-    private $comments;
     private $scope;
 
-    use AggregateRootCapabilities;
-
+    use Translatable{
+        Translatable::__construct as private __translatableConstruct;
+    }
     //TODO agregar imagen
     public function __construct(
         RecipeId $id,
@@ -39,7 +37,6 @@ class Recipe extends Translatable implements AggregateRoot
         HashtagCollection $hashtags,
         IngredientsCollection $ingredients,
         ToolsCollection $tools,
-        CommentsCollection $comments,
         CategoriesCollection $categories,
         Servings $servings,
         Time $time,
@@ -49,7 +46,7 @@ class Recipe extends Translatable implements AggregateRoot
         BooksCollection $books
     )
     {
-        parent::__construct();
+        $this->__translatableConstruct();
         $this->id = $id;
         $this->ingredients = $ingredients;
         $this->tools = $tools;
@@ -61,7 +58,6 @@ class Recipe extends Translatable implements AggregateRoot
         $this->books = $books;
         $this->categories = $categories;
         $this->hashtags = $hashtags;
-        $this->comments = $comments;
         $this->scope = $scope;
     }
 
@@ -118,11 +114,6 @@ class Recipe extends Translatable implements AggregateRoot
     public function hashtags(): HashtagCollection
     {
         return $this->hashtags;
-    }
-
-    public function comments(): CommentsCollection
-    {
-        return $this->comments;
     }
 
     public function scope(): Scope

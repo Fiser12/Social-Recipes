@@ -7,7 +7,7 @@ use Recipes\Domain\Model\Translation\Translatable;
 /**
  * @author Rubén García <ruben.garcia@opendeusto.es>
  */
-class Step extends Translatable
+class Step
 {
     private $id;
     private $ingredients;
@@ -15,6 +15,9 @@ class Step extends Translatable
     private $recipe;
 
     //TODO Agregar imagen
+    use Translatable{
+        Translatable::__construct as private __translatableConstruct;
+    }
 
     public function __construct(
         StepId $id,
@@ -23,7 +26,7 @@ class Step extends Translatable
         Recipe $recipe
     )
     {
-        parent::__construct();
+        $this->__translatableConstruct();
         $this->id = $id;
         $this->ingredients = $ingredients;
         $this->tools = $tools;

@@ -3,32 +3,30 @@
 namespace Recipes\Domain\Model\User;
 
 use LIN3S\SharedKernel\Domain\Model\AggregateRoot;
-use LIN3S\SharedKernel\Domain\Model\AggregateRootCapabilities;
 use Recipes\Domain\Model\Book\BooksCollection;
+use Recipes\Domain\Model\Recipes\RecipeCollection;
 
-class User implements AggregateRoot
+class User extends AggregateRoot
 {
     private $id;
     private $email;
-    private $comments;
     private $createBooks;
     private $followBooks;
-
-    use AggregateRootCapabilities;
+    private $createRecipes;
 
     public function __construct(
         UserId $id,
         UserEmail $email,
-        CommentsCollection $comments,
+        RecipeCollection $createRecipes,
         BooksCollection $createBooks,
         BooksCollection $followBooks
     )
     {
         $this->id = $id;
         $this->email = $email;
-        $this->comments = $comments;
         $this->createBooks = $createBooks;
         $this->followBooks = $followBooks;
+        $this->createRecipes = $createRecipes;
     }
 
     public function id(): UserId
@@ -41,11 +39,6 @@ class User implements AggregateRoot
         return $this->email;
     }
 
-    public function comments(): CommentsCollection
-    {
-        return $this->comments;
-    }
-
     public function createBooks(): BooksCollection
     {
         return $this->createBooks;
@@ -54,5 +47,10 @@ class User implements AggregateRoot
     public function followBooks(): BooksCollection
     {
         return $this->followBooks;
+    }
+
+    public function createRecipes(): RecipeCollection
+    {
+        return $this->createRecipes;
     }
 }
