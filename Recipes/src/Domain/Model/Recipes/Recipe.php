@@ -27,7 +27,9 @@ class Recipe extends AggregateRoot
     private $hashtags;
     private $scope;
 
-    use Translatable;
+    use Translatable{
+        Translatable::__construct as private __translatableConstruct;
+    }
     //TODO agregar imagen
     public function __construct(
         RecipeId $id,
@@ -44,6 +46,7 @@ class Recipe extends AggregateRoot
         BooksCollection $books
     )
     {
+        $this->__translatableConstruct();
         $this->id = $id;
         $this->ingredients = $ingredients;
         $this->tools = $tools;

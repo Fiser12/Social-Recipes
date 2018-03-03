@@ -9,11 +9,13 @@ use Recipes\Domain\Model\Translation\Translatable;
 
 class Tool
 {
-    use Translatable;
+    use Translatable{
+        Translatable::__construct as private __translatableConstruct;
+    }
 
     public function __construct()
     {
-
+        $this->__translatableConstruct();
     }
 
     protected function translationClass(): string

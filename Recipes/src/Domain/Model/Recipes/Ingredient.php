@@ -12,9 +12,12 @@ class Ingredient
 {
     private $quantity;
 
-    use Translatable;
+    use Translatable{
+        Translatable::__construct as private __translatableConstruct;
+    }
     public function __construct(Quantity $quantity)
     {
+        $this->__translatableConstruct();
         $this->quantity = $quantity;
     }
 

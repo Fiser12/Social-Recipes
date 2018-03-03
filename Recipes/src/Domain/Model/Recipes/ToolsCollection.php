@@ -13,6 +13,8 @@ namespace Recipes\Domain\Model\Recipes;
 
 use AurimasNiekis\DoctrineJsonObjectType\JsonObject;
 use LIN3S\SharedKernel\Domain\Model\Collection\Collection;
+use LIN3S\SharedKernel\Domain\Model\Locale\Locale;
+use Recipes\Domain\Model\Name;
 
 /**
  * @author Rubén García <ruben.garcia@opendeusto.es>

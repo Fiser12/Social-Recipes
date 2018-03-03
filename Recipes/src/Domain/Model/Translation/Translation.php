@@ -19,6 +19,7 @@ use LIN3S\SharedKernel\Domain\Model\Locale\Locale;
 abstract class Translation
 {
     protected $locale;
+    protected $origin;
 
     public function __construct(Locale $locale)
     {

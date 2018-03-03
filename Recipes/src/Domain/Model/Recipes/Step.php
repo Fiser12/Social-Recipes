@@ -15,7 +15,9 @@ class Step
     private $recipe;
 
     //TODO Agregar imagen
-    use Translatable;
+    use Translatable{
+        Translatable::__construct as private __translatableConstruct;
+    }
 
     public function __construct(
         StepId $id,
@@ -24,6 +26,7 @@ class Step
         Recipe $recipe
     )
     {
+        $this->__translatableConstruct();
         $this->id = $id;
         $this->ingredients = $ingredients;
         $this->tools = $tools;

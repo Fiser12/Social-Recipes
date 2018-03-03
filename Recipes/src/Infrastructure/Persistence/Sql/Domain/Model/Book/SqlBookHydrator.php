@@ -65,7 +65,6 @@ class SqlBookHydrator implements SqlHydrator
 
         }
         return $data;
-
     }
 
 }

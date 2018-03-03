@@ -9,14 +9,14 @@ class Quantity
 {
     private $quantity;
 
-    public function __construct(double $quantity)
+    public function __construct(int $quantity)
     {
         $this->setQuantity($quantity);
     }
 
-    private function setQuantity(double $quantity): void
+    private function setQuantity(int $quantity): void
     {
-        if ($quantity >= 0) {
+        if ($quantity <= 0) {
             throw new DomainException('Quantity: It has to be bigger than 0');
         }
         $this->quantity = $quantity;

@@ -35,10 +35,11 @@ SQL;
     {
         $sql = <<<SQL
 SELECT
+  `recipe_recipe`.id,
+  `recipe_recipe`.owner_id,
   `recipe_recipe`.ingredients,
   `recipe_recipe`.difficulty_difficulty,
   `recipe_recipe`.hashtags,
-  `recipe_recipe`.owner_id,
   `recipe_recipe`.scope_scope,
   `recipe_recipe`.servings_servings,
   `recipe_recipe`.time_seconds,
@@ -59,6 +60,7 @@ FROM `recipe_recipe`
 WHERE `recipe_recipe`.id = :id
 SQL;
         $recipeRow = $this->pdo->query($sql, ['id' => $recipeId->id()]);
+
         return !$recipeRow ? null : $this->hydrator->build($recipeRow);
 
     }

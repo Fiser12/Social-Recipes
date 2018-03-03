@@ -11,7 +11,6 @@ class Hashtag
 
     public function __construct(string $hashtag)
     {
-
         $this->hashtag = $hashtag;
     }
 
