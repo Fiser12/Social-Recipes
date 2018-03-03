@@ -7,14 +7,14 @@ use Recipes\Domain\Model\Category\Category;
 use Recipes\Domain\Model\Category\CategoryId;
 use Recipes\Domain\Model\Category\CategoryRepository;
 use Recipes\Domain\Model\Category\CategoryTranslation;
-use Recipes\Infrastructure\Persistence\Hydrator;
+use Recipes\Infrastructure\Persistence\Sql\SqlHydrator;
 
 class SqlCategoryRepository implements CategoryRepository
 {
     private $pdo;
     private $hydrator;
 
-    public function __construct(Pdo $pdo, Hydrator $hydrator)
+    public function __construct(Pdo $pdo, SqlHydrator $hydrator)
     {
         $this->pdo = $pdo;
         $this->hydrator = $hydrator;

@@ -10,14 +10,14 @@ use Recipes\Domain\Model\Recipes\RecipeTranslation;
 use Recipes\Domain\Model\Recipes\Step;
 use Recipes\Domain\Model\Recipes\StepId;
 use Recipes\Domain\Model\Recipes\StepTranslation;
-use Recipes\Infrastructure\Persistence\Hydrator;
+use Recipes\Infrastructure\Persistence\Sql\SqlHydrator;
 
 class SqlRecipeRepository implements RecipeRepository
 {
     private $pdo;
     private $hydrator;
 
-    public function __construct(Pdo $pdo, Hydrator $hydrator)
+    public function __construct(Pdo $pdo, SqlHydrator $hydrator)
     {
         $this->pdo = $pdo;
         $this->hydrator = $hydrator;

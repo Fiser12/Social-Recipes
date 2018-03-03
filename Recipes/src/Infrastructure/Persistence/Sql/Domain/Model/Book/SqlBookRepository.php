@@ -9,14 +9,14 @@ use Recipes\Domain\Model\Book\BookRepository;
 use Recipes\Domain\Model\Book\BookTranslation;
 use Recipes\Domain\Model\Recipes\RecipeId;
 use Recipes\Domain\Model\User\UserId;
-use Recipes\Infrastructure\Persistence\Hydrator;
+use Recipes\Infrastructure\Persistence\Sql\SqlHydrator;
 
 class SqlBookRepository implements BookRepository
 {
     private $pdo;
     private $hydrator;
 
-    public function __construct(Pdo $pdo, Hydrator $hydrator)
+    public function __construct(Pdo $pdo, SqlHydrator $hydrator)
     {
         $this->pdo = $pdo;
         $this->hydrator = $hydrator;
