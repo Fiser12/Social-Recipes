@@ -26,7 +26,7 @@ class Scope
     private function checkScopeIsValid(string $scope) : void
     {
         if (!in_array($scope, $this->scopes(), true)) {
-            throw new ScopeIsInvalid($scope);
+            throw new ScopeIsInvalid();
         }
     }
 

@@ -13,6 +13,7 @@ class DoctrineBookRepository extends EntityRepository implements BookRepository
     public function persist(Book $book): void
     {
         $this->getEntityManager()->persist($book);
+        $this->getEntityManager()->flush();
     }
 
     public function remove(BookId $bookId): void

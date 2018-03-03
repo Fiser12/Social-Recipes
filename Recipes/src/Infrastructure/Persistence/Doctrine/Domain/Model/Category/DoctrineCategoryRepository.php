@@ -13,6 +13,7 @@ class DoctrineCategoryRepository extends EntityRepository implements CategoryRep
     public function persist(Category $category) : void
     {
         $this->getEntityManager()->persist($category);
+        $this->getEntityManager()->flush();
     }
 
     public function remove(CategoryId $categoryId) : void

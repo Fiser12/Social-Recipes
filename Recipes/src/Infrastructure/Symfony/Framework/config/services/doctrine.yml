@@ -1,0 +1,14 @@
+services:
+    _defaults:
+        autowire: false
+        autoconfigure: true
+        public: true
+
+
+    Recipes\Infrastructure\Persistence\Doctrine\Domain\Events\Book\BookPostPersistEvent:
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+
+    Recipes\Infrastructure\Persistence\Doctrine\Domain\Events\Category\CategoryPostPersistEvent:
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }

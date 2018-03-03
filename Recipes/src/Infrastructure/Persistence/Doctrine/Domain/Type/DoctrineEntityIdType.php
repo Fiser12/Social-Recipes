@@ -9,6 +9,10 @@ abstract class DoctrineEntityIdType extends GuidType
 {
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
+        if($value === null){
+            return null;
+        }
+
         return $value->id();
     }
 
