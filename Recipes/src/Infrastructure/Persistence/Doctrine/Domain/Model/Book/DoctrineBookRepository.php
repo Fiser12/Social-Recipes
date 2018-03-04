@@ -34,10 +34,10 @@ class DoctrineBookRepository extends EntityRepository implements BookRepository
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         return $queryBuilder
             ->select('b')
-            ->from('Book', 'b')
+            ->from(Book::class, 'b')
             ->where('b.id = :id')
             ->setParameter('id', $bookId->id())
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
 }

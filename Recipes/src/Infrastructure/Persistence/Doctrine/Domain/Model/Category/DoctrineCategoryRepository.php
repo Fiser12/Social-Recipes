@@ -33,11 +33,11 @@ class DoctrineCategoryRepository extends EntityRepository implements CategoryRep
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         return $queryBuilder
-            ->select('r')
-            ->from('Recipe', 'r')
-            ->where('r.id = :id')
+            ->select('c')
+            ->from(Category::class, 'c')
+            ->where('c.id = :id')
             ->setParameter('id', $categoryId->id())
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
 }

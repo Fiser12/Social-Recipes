@@ -34,10 +34,10 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         return $queryBuilder
             ->select('u')
-            ->from('User', 'u')
+            ->from(User::class, 'u')
             ->where('u.id = :id')
             ->setParameter('id', $userId->id())
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
 }

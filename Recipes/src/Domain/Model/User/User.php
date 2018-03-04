@@ -5,8 +5,9 @@ namespace Recipes\Domain\Model\User;
 use LIN3S\SharedKernel\Domain\Model\AggregateRoot;
 use Recipes\Domain\Model\Book\BooksCollection;
 use Recipes\Domain\Model\Recipes\RecipeCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class User extends AggregateRoot
+class User extends AggregateRoot implements UserInterface
 {
     private $id;
     private $email;
@@ -52,5 +53,26 @@ class User extends AggregateRoot
     public function createRecipes(): RecipeCollection
     {
         return $this->createRecipes;
+    }
+
+    public function getRoles()
+    {
+    }
+
+    public function getPassword()
+    {
+    }
+
+    public function getSalt()
+    {
+    }
+
+    public function getUsername()
+    {
+    }
+
+    public function eraseCredentials()
+    {
+
     }
 }

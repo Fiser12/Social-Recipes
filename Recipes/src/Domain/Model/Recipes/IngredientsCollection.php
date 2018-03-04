@@ -22,9 +22,12 @@ class IngredientsCollection extends Collection implements JsonObject
     {
         $collections = new self();
 
-        foreach ($data as $item) {
+        foreach ($data as $key => $item) {
+            if($key == "__class") {
+                continue;
+            }
             $ingredient = new Ingredient(
-                new Quantity($item['quantity'])
+                new Quantity((float) $item['quantity'])
             );
             foreach($item['translations'] as $translation) {
                 $ingredient->addTranslation(

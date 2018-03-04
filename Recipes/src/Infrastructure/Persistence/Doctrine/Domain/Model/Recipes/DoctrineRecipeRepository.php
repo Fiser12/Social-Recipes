@@ -34,10 +34,10 @@ class DoctrineRecipeRepository extends EntityRepository implements RecipeReposit
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         return $queryBuilder
             ->select('r')
-            ->from('Recipe', 'r')
+            ->from(Recipe::class, 'r')
             ->where('r.id = :id')
             ->setParameter('id', $recipeId->id())
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
 }
