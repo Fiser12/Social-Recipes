@@ -32,3 +32,6 @@ Recipes\Domain\Model\Recipes\Recipe:
     translations:
       targetEntity: RecipeTranslation
       mappedBy: origin
+    steps:
+      targetEntity: Step
+      mappedBy: recipe

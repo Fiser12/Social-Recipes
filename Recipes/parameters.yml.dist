@@ -12,7 +12,7 @@ parameters:
     database_driver:                    pdo_mysql
     database_host:                      mysql
     database_port:                      3306
-    database_name:                      social-recipes
+    database_name:                      social-recipes-recipes
     database_user:                      root
     database_password:                  H5UAc6VILJL0
     mailer_transport:                   smtp

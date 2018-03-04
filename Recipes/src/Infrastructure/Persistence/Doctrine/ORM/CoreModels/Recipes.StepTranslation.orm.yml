@@ -9,3 +9,11 @@ Recipes\Domain\Model\Recipes\StepTranslation:
   embedded:
     description:
       class: "Recipes\\Domain\\Model\\Description"
+
+  manyToOne:
+    origin:
+      targetEntity: Step
+      joinColumn:
+        name: origin_id
+        referencedColumnName: id
+        onDelete: cascade

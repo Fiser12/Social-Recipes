@@ -32,6 +32,7 @@ use Recipes\Domain\Model\Recipes\IngredientTranslation;
 use Recipes\Domain\Model\Recipes\Recipe;
 use Recipes\Domain\Model\Recipes\RecipeCollection;
 use Recipes\Domain\Model\Recipes\RecipeId;
+use Recipes\Domain\Model\Recipes\RecipeTranslation;
 use Recipes\Domain\Model\Recipes\Servings;
 use Recipes\Domain\Model\Recipes\Step;
 use Recipes\Domain\Model\Recipes\StepId;
@@ -41,7 +42,9 @@ use Recipes\Domain\Model\Recipes\Tool;
 use Recipes\Domain\Model\Recipes\ToolsCollection;
 use Recipes\Domain\Model\Recipes\ToolTranslation;
 use Recipes\Domain\Model\Scope;
+use Recipes\Domain\Model\Subtitle;
 use Recipes\Domain\Model\Time;
+use Recipes\Domain\Model\Title;
 use Recipes\Domain\Model\User\User;
 use Recipes\Domain\Model\User\UserEmail;
 use Recipes\Domain\Model\User\UserId;
@@ -202,7 +205,14 @@ class IndexAction
         );
         $stepCollection->add($this->generateStep($recipe));
         $stepCollection->add($this->generateStep($recipe));
-
+        $recipe->addTranslation(
+            new RecipeTranslation(
+                new Locale('es'),
+                new Title('title'),
+                new Subtitle('subtitle'),
+                new Description('descrition')
+            )
+        );
         $this->doctrineRecipeRepository->persist($recipe);
     }
 
