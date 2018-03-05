@@ -19,28 +19,37 @@ class BookPostLoadEvent
             return;
         }
 
-        $users = $args->getEntityManager()->getRepository(UserFollowBook::class)->findBy(['book' => $entity]);
-
-        $usersFollowBook = new UsersCollection();
-        foreach($users as $user) {
-            $usersFollowBook->add($user->user()->id());
-        }
-        $entityReflection = new \ReflectionClass($entity);
-        $owner = $entityReflection->getProperty('follow');
-        $owner->setAccessible(true);
-        $owner->setValue($entity, $usersFollowBook);
+        $this->loadFollow($args, $entity);
 
 
+        $this->loadRecipes($args, $entity);
+
+    }
+
+    private function loadRecipes(LifecycleEventArgs $args, $entity): void
+    {
         $recipes = $args->getEntityManager()->getRepository(RecipeBook::class)->findBy(['book' => $entity]);
 
         $recipeCollection = new RecipeCollection();
-        foreach($recipes as $recipe) {
+        foreach ($recipes as $recipe) {
             $recipeCollection->add($recipe->recipe()->id());
         }
         $entityReflection = new \ReflectionClass($entity);
         $owner = $entityReflection->getProperty('recipes');
         $owner->setAccessible(true);
         $owner->setValue($entity, $recipeCollection);
+    }
 
+    private function loadFollow(LifecycleEventArgs $args, $entity): void
+    {
+        $users = $args->getEntityManager()->getRepository(UserFollowBook::class)->findBy(['book' => $entity]);
+        $usersFollowBook = new UsersCollection();
+        foreach ($users as $user) {
+            $usersFollowBook->add($user->user()->id());
+        }
+        $entityReflection = new \ReflectionClass($entity);
+        $owner = $entityReflection->getProperty('follow');
+        $owner->setAccessible(true);
+        $owner->setValue($entity, $usersFollowBook);
     }
 }

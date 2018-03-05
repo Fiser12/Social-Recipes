@@ -18,14 +18,19 @@ class CategoryPostLoadEvent
             return;
         }
 
+        $this->loadRecipes($args, $entity);
+    }
+
+    private function loadRecipes(LifecycleEventArgs $args, $entity): void
+    {
         $recipes = $args->getEntityManager()->getRepository(RecipeCategory::class)->findBy(['category' => $entity]);
         $recipesCollection = new RecipeCollection();
-        foreach($recipes as $recipe) {
+        foreach ($recipes as $recipe) {
             $recipesCollection->add($recipe->recipe()->id());
         }
         $entityReflection = new \ReflectionClass($entity);
-        $children = $entityReflection->getProperty('recipes');
-        $children->setAccessible(true);
-        $children->setValue($entity, $recipesCollection);
+        $recipes = $entityReflection->getProperty('recipes');
+        $recipes->setAccessible(true);
+        $recipes->setValue($entity, $recipesCollection);
     }
 }
