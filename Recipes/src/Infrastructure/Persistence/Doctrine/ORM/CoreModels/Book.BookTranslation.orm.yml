@@ -6,8 +6,17 @@ Recipes\Domain\Model\Book\BookTranslation:
       associationKey: true
     locale:
       type: string
+
   embedded:
     title:
       class: "Recipes\\Domain\\Model\\Title"
     subtitle:
       class: "Recipes\\Domain\\Model\\Subtitle"
+
+  manyToOne:
+    origin:
+      targetEntity: Book
+      joinColumn:
+        name: origin_id
+        referencedColumnName: id
+        onDelete: cascade

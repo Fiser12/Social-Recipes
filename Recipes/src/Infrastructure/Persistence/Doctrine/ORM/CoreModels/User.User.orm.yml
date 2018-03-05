@@ -1,0 +1,12 @@
+Recipes\Domain\Model\User\User:
+  type: entity
+  table: recipe_user
+  repositoryClass: Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\User\DoctrineUserRepository
+  id:
+    id:
+      column: id
+      type: UserId
+
+  embedded:
+    email:
+      class: "Recipes\\Domain\\Model\\User\\UserEmail"

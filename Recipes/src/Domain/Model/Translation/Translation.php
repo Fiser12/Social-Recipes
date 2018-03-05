@@ -30,4 +30,9 @@ abstract class Translation
     {
         return $this->locale;
     }
+
+    public function origin()
+    {
+        return $this->origin;
+    }
 }

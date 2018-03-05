@@ -10,7 +10,7 @@ use Recipes\Domain\Model\Translation\Translatable;
  */
 class Ingredient
 {
-    private $quantity;
+    protected $quantity;
 
     use Translatable{
         Translatable::__construct as private __translatableConstruct;

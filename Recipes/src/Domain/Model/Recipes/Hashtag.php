@@ -7,7 +7,7 @@ namespace Recipes\Domain\Model\Recipes;
  */
 class Hashtag
 {
-    private $hashtag;
+    protected $hashtag;
 
     public function __construct(string $hashtag)
     {

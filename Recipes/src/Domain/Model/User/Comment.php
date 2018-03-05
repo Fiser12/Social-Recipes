@@ -10,9 +10,9 @@ use Recipes\Domain\Model\Recipes\RecipeId;
  */
 class Comment
 {
-    private $comment;
-    private $owner;
-    private $recipe;
+    protected $comment;
+    protected $owner;
+    protected $recipe;
 
     public function __construct(string $comment, UserId $owner, RecipeId $recipe)
     {

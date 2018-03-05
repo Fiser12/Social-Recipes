@@ -1,0 +1,23 @@
+Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Book\RecipeBook:
+  type: entity
+  table: recipe_recipe_book
+  id:
+    recipe:
+      associationKey: true
+    book:
+      associationKey: true
+
+  manyToOne:
+    recipe:
+      targetEntity: Recipes\Domain\Model\Recipes\Recipe
+      joinColumn:
+        name: recipe_id
+        referencedColumnName: id
+        onDelete: cascade
+
+    book:
+      targetEntity: Recipes\Domain\Model\Book\Book
+      joinColumn:
+        name: book_id
+        referencedColumnName: id
+        onDelete: cascade

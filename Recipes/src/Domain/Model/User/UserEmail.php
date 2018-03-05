@@ -6,9 +6,9 @@ namespace Recipes\Domain\Model\User;
 
 class UserEmail
 {
-    private $email;
-    private $domain;
-    private $localPart;
+    protected $email;
+    protected $domain;
+    protected $localPart;
 
     public function __construct($anEmail)
     {

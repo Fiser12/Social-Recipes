@@ -1,0 +1,22 @@
+Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Category\RecipeCategory:
+  type: entity
+  table: recipe_recipe_category
+  id:
+    recipe:
+      associationKey: true
+    category:
+      associationKey: true
+
+  manyToOne:
+    recipe:
+      targetEntity: Recipes\Domain\Model\Recipes\Recipe
+      joinColumn:
+        name: recipe_id
+        referencedColumnName: id
+        onDelete: cascade
+    category:
+      targetEntity: Recipes\Domain\Model\Category\Category
+      joinColumn:
+        name: category_id
+        referencedColumnName: id
+        onDelete: cascade

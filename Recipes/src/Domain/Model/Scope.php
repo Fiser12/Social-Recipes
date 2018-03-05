@@ -10,7 +10,7 @@ class Scope
     const PROTECTED = 'protected';
     const PUBLIC = 'public';
 
-    private $scope;
+    protected $scope;
 
     public function __construct(string $scope)
     {
@@ -26,7 +26,7 @@ class Scope
     private function checkScopeIsValid(string $scope) : void
     {
         if (!in_array($scope, $this->scopes(), true)) {
-            throw new ScopeIsInvalid($scope);
+            throw new ScopeIsInvalid();
         }
     }
 

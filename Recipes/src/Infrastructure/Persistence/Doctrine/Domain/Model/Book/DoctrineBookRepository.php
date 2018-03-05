@@ -12,7 +12,9 @@ class DoctrineBookRepository extends EntityRepository implements BookRepository
 {
     public function persist(Book $book): void
     {
+        $this->getEntityManager()->getUnitOfWork()->scheduleForUpdate($book);
         $this->getEntityManager()->persist($book);
+        $this->getEntityManager()->flush();
     }
 
     public function remove(BookId $bookId): void
@@ -33,10 +35,10 @@ class DoctrineBookRepository extends EntityRepository implements BookRepository
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         return $queryBuilder
             ->select('b')
-            ->from('Book', 'b')
+            ->from(Book::class, 'b')
             ->where('b.id = :id')
             ->setParameter('id', $bookId->id())
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
 }

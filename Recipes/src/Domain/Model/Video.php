@@ -9,7 +9,7 @@ use LIN3S\SharedKernel\Exception\DomainException;
  */
 class Video
 {
-    private $url;
+    protected $url;
 
     public function __construct(string $url)
     {

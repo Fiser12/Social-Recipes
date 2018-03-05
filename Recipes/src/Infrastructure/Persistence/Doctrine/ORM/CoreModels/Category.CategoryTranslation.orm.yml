@@ -9,3 +9,11 @@ Recipes\Domain\Model\Category\CategoryTranslation:
   embedded:
     name:
       class: "Recipes\\Domain\\Model\\Name"
+
+  manyToOne:
+    origin:
+      targetEntity: Category
+      joinColumn:
+        name: origin_id
+        referencedColumnName: id
+        onDelete: cascade

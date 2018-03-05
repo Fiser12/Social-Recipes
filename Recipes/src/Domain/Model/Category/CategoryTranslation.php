@@ -8,7 +8,7 @@ use Recipes\Domain\Model\Translation\Translation;
 
 class CategoryTranslation extends Translation
 {
-    private $name;
+    protected $name;
 
     public function __construct(Locale $locale, Name $name)
     {

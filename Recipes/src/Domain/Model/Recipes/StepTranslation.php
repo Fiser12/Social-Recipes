@@ -11,7 +11,7 @@ use Recipes\Domain\Model\Translation\Translation;
  */
 class StepTranslation extends Translation
 {
-    private $description;
+    protected $description;
 
     public function __construct(Locale $locale, Description $description)
     {

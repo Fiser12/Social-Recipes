@@ -30,7 +30,11 @@ class ToolsCollection extends Collection implements JsonObject
     {
         $collections = new self();
 
-        foreach ($data as $item) {
+        foreach ($data as $key => $item) {
+            if($key === "__class") {
+                continue;
+            }
+
             $tool = new Tool();
             foreach ($item as $translation) {
                 $tool->addTranslation(

@@ -6,7 +6,7 @@ use LIN3S\SharedKernel\Exception\DomainException;
 
 class Time
 {
-    private $seconds;
+    protected $seconds;
 
     public function __construct(int $seconds)
     {

@@ -9,10 +9,10 @@ use Recipes\Domain\Model\Translation\Translatable;
  */
 class Step
 {
-    private $id;
-    private $ingredients;
-    private $tools;
-    private $recipe;
+    protected $id;
+    protected $ingredients;
+    protected $tools;
+    protected $recipe;
 
     //TODO Agregar imagen
     use Translatable{
@@ -40,12 +40,12 @@ class Step
 
     public function ingredients(): IngredientsCollection
     {
-        return $this->ingredients;
+        return new IngredientsCollection($this->ingredients->getValues());
     }
 
     public function tools(): ToolsCollection
     {
-        return $this->tools;
+        return new ToolsCollection($this->tools->getValues());
     }
 
     public function recipe(): Recipe

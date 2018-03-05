@@ -12,7 +12,9 @@ class DoctrineRecipeRepository extends EntityRepository implements RecipeReposit
 {
     public function persist(Recipe $recipe) : void
     {
+        $this->getEntityManager()->getUnitOfWork()->scheduleForUpdate($recipe);
         $this->getEntityManager()->persist($recipe);
+        $this->getEntityManager()->flush();
     }
 
     public function remove(RecipeId $recipeId) : void
@@ -33,10 +35,10 @@ class DoctrineRecipeRepository extends EntityRepository implements RecipeReposit
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         return $queryBuilder
             ->select('r')
-            ->from('Recipe', 'r')
+            ->from(Recipe::class, 'r')
             ->where('r.id = :id')
             ->setParameter('id', $recipeId->id())
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
 }

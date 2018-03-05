@@ -11,11 +11,11 @@ use Recipes\Domain\Model\Video;
  */
 class VideoRecipe
 {
-    private $id;
+    protected $id;
 
-    private $title;
-    private $subtitle;
-    private $video;
+    protected $title;
+    protected $subtitle;
+    protected $video;
 
     public function __construct(VideoRecipeId $id, Title $title, Subtitle $subtitle, Video $video)
     {

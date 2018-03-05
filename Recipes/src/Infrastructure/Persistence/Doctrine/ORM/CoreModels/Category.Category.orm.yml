@@ -1,0 +1,14 @@
+Recipes\Domain\Model\Category\Category:
+  type: entity
+  table: recipe_category
+  repositoryClass: Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Category\DoctrineCategoryRepository
+  id:
+    id:
+      column: id
+      type: CategoryId
+
+  oneToMany:
+    translations:
+      targetEntity: CategoryTranslation
+      mappedBy: origin
+      cascade: ["persist"]

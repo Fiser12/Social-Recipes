@@ -11,14 +11,18 @@ Recipes\Domain\Model\Recipes\Step:
     translations:
       targetEntity: StepTranslation
       mappedBy: origin
+      cascade: ["persist"]
+
+  manyToOne:
+    recipe:
+      targetEntity: Recipes\Domain\Model\Recipes\Recipe
+      joinColumn:
+        name: recipe_id
+        referencedColumnName: id
+        onDelete: cascade
 
   fields:
     ingredients:
       type: json_object
     tools:
       type: json_object
-
-  manyToOne:
-    recipe:
-      targetEntity: "Recipes\\Domain\\Model\\Recipes\\Step"
-      inversedBy: steps

@@ -12,7 +12,9 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository
 {
     public function persist(User $user) : void
     {
+        $this->getEntityManager()->getUnitOfWork()->scheduleForUpdate($user);
         $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
     }
 
     public function remove(UserId $userId) : void
@@ -33,10 +35,10 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         return $queryBuilder
             ->select('u')
-            ->from('User', 'u')
+            ->from(User::class, 'u')
             ->where('u.id = :id')
             ->setParameter('id', $userId->id())
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
 }

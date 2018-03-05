@@ -7,14 +7,14 @@ use LIN3S\SharedKernel\Exception\DomainException;
 //TODO Distitnos tipos de magnitudes por ejemplo gramos|kilos|cucharadas
 class Quantity
 {
-    private $quantity;
+    protected $quantity;
 
-    public function __construct(int $quantity)
+    public function __construct(float $quantity)
     {
         $this->setQuantity($quantity);
     }
 
-    private function setQuantity(int $quantity): void
+    private function setQuantity(float $quantity): void
     {
         if ($quantity <= 0) {
             throw new DomainException('Quantity: It has to be bigger than 0');
@@ -22,7 +22,7 @@ class Quantity
         $this->quantity = $quantity;
     }
 
-    public function quantity() : double
+    public function quantity() : float
     {
         return $this->quantity;
     }
