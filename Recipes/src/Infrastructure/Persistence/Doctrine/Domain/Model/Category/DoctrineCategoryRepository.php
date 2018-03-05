@@ -12,6 +12,7 @@ class DoctrineCategoryRepository extends EntityRepository implements CategoryRep
 {
     public function persist(Category $category) : void
     {
+        $this->getEntityManager()->getUnitOfWork()->scheduleForUpdate($category);
         $this->getEntityManager()->persist($category);
         $this->getEntityManager()->flush();
     }

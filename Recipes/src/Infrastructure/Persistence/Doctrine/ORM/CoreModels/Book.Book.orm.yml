@@ -1,4 +1,5 @@
 Recipes\Domain\Model\Book\Book:
+  changeTrackingPolicy: DEFERRED_EXPLICIT
   type: entity
   table: recipe_book
   repositoryClass: Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Book\DoctrineBookRepository

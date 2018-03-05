@@ -12,6 +12,7 @@ class DoctrineRecipeRepository extends EntityRepository implements RecipeReposit
 {
     public function persist(Recipe $recipe) : void
     {
+        $this->getEntityManager()->getUnitOfWork()->scheduleForUpdate($recipe);
         $this->getEntityManager()->persist($recipe);
         $this->getEntityManager()->flush();
     }

@@ -9,6 +9,10 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postPersist }
 
+    Recipes\Infrastructure\Persistence\Doctrine\Domain\Events\Book\BookPostUpdateEvent:
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate }
+
     Recipes\Infrastructure\Persistence\Doctrine\Domain\Events\Category\CategoryPostPersistEvent:
         tags:
             - { name: doctrine.event_listener, event: postPersist }

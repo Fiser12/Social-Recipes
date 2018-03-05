@@ -12,6 +12,7 @@ class DoctrineBookRepository extends EntityRepository implements BookRepository
 {
     public function persist(Book $book): void
     {
+        $this->getEntityManager()->getUnitOfWork()->scheduleForUpdate($book);
         $this->getEntityManager()->persist($book);
         $this->getEntityManager()->flush();
     }

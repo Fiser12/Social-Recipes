@@ -12,6 +12,7 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository
 {
     public function persist(User $user) : void
     {
+        $this->getEntityManager()->getUnitOfWork()->scheduleForUpdate($user);
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
