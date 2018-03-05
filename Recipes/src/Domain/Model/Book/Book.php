@@ -12,13 +12,15 @@ use Recipes\Domain\Model\User\UsersCollection;
 class Book extends AggregateRoot
 {
     //TODO Agregar imagen
-    private $id;
-    private $owner;
-    private $follow;
-    private $scope;
-    private $recipes;
+    protected $id;
+    protected $owner;
+    protected $follow;
+    protected $scope;
+    protected $recipes;
 
-    use Translatable;
+    use Translatable{
+        Translatable::__construct as private __translatableConstruct;
+    }
 
     public function __construct(
         BookId $id,
@@ -28,6 +30,7 @@ class Book extends AggregateRoot
         RecipeCollection $recipes
     )
     {
+        $this->__translatableConstruct();
         $this->id = $id;
         $this->owner = $owner;
         $this->follow = $follow;
@@ -47,7 +50,8 @@ class Book extends AggregateRoot
 
     public function follow(): UsersCollection
     {
-        return $this->follow;
+        return new UsersCollection($this->follow->getValues());
+
     }
 
     public function scope(): Scope
@@ -57,7 +61,7 @@ class Book extends AggregateRoot
 
     public function recipes(): RecipeCollection
     {
-        return $this->recipes;
+        return new RecipeCollection($this->recipes->getValues());
     }
 
     protected function translationClass(): string

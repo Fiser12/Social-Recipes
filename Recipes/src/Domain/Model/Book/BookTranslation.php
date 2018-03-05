@@ -9,8 +9,8 @@ use Recipes\Domain\Model\Translation\Translation;
 
 class BookTranslation extends Translation
 {
-    private $title;
-    private $subtitle;
+    protected $title;
+    protected $subtitle;
 
     public function __construct(Locale $locale, Title $title, Subtitle $subtitle)
     {

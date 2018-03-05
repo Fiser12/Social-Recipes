@@ -6,7 +6,7 @@ use LIN3S\SharedKernel\Exception\DomainException;
 
 class Name
 {
-    private $name;
+    protected $name;
 
     public function __construct(string $name)
     {

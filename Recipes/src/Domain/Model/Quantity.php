@@ -7,7 +7,7 @@ use LIN3S\SharedKernel\Exception\DomainException;
 //TODO Distitnos tipos de magnitudes por ejemplo gramos|kilos|cucharadas
 class Quantity
 {
-    private $quantity;
+    protected $quantity;
 
     public function __construct(float $quantity)
     {

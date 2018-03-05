@@ -6,6 +6,7 @@ Recipes\Domain\Model\Book\BookTranslation:
       associationKey: true
     locale:
       type: string
+
   embedded:
     title:
       class: "Recipes\\Domain\\Model\\Title"

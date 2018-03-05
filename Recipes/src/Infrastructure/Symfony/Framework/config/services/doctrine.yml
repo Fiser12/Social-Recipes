@@ -21,3 +21,18 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postPersist }
 
+    Recipes\Infrastructure\Persistence\Doctrine\Domain\Events\Book\BookPostLoadEvent:
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+
+    Recipes\Infrastructure\Persistence\Doctrine\Domain\Events\Category\CategoryPostLoadEvent:
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+
+    Recipes\Infrastructure\Persistence\Doctrine\Domain\Events\Recipes\RecipePostLoadEvent:
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+
+    Recipes\Infrastructure\Persistence\Doctrine\Domain\Events\User\UserPostLoadEvent:
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }

@@ -20,6 +20,7 @@ class UserPostPersistEvent
 
         $entityManager = $args->getEntityManager();
 
+        //TODO Delete old
         foreach ($entity->createRecipes() as $recipeId) {
             $recipe = $entityManager->getRepository(Recipe::class)->recipeOfId($recipeId);
             $recipeReflection = new \ReflectionClass($recipe);
@@ -29,6 +30,7 @@ class UserPostPersistEvent
             $entityManager->persist($recipe);
         }
 
+        //TODO Delete old
         foreach ($entity->createBooks() as $bookId) {
             $book = $entityManager->getRepository(Book::class)->bookOfId($bookId);
             $bookReflection = new \ReflectionClass($book);
@@ -36,7 +38,6 @@ class UserPostPersistEvent
             $owner->setAccessible(true);
             $owner->setValue($book, $entity);
             $entityManager->persist($book);
-
         }
 
         foreach ($entity->followBooks() as $bookId) {

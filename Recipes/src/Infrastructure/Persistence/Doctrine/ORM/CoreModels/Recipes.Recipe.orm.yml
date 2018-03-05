@@ -32,6 +32,9 @@ Recipes\Domain\Model\Recipes\Recipe:
     translations:
       targetEntity: RecipeTranslation
       mappedBy: origin
+      cascade: ["persist"]
+
     steps:
       targetEntity: Step
       mappedBy: recipe
+      cascade: ["persist"]

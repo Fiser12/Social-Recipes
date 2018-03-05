@@ -9,7 +9,7 @@ use LIN3S\SharedKernel\Exception\DomainException;
  */
 class Subtitle
 {
-    private $subtitle;
+    protected $subtitle;
 
     public function __construct(string $subtitle)
     {

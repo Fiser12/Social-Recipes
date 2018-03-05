@@ -10,7 +10,7 @@ class Scope
     const PROTECTED = 'protected';
     const PUBLIC = 'public';
 
-    private $scope;
+    protected $scope;
 
     public function __construct(string $scope)
     {

@@ -17,9 +17,11 @@ use LIN3S\SharedKernel\Domain\Model\Locale\Locale;
 use Recipes\Domain\Model\Book\Book;
 use Recipes\Domain\Model\Book\BookId;
 use Recipes\Domain\Model\Book\BooksCollection;
+use Recipes\Domain\Model\Book\BookTranslation;
 use Recipes\Domain\Model\Category\CategoriesCollection;
 use Recipes\Domain\Model\Category\Category;
 use Recipes\Domain\Model\Category\CategoryId;
+use Recipes\Domain\Model\Category\CategoryTranslation;
 use Recipes\Domain\Model\Description;
 use Recipes\Domain\Model\Difficulty;
 use Recipes\Domain\Model\Name;
@@ -82,7 +84,16 @@ class IndexAction
 
     public function __invoke(Request $request)
     {
-        $this->persistRecipe();
+        dump($this->doctrineUserRepository->userOfId(UserId::generate("1")));die;
+        //$this->persistRecipe("recipe2");
+        //dump($this->doctrineRecipeRepository->recipeOfId(RecipeId::generate("1")));die;
+        //dump($this->doctrineCategoryRepository->categoryOfId(CategoryId::generate("2")));die;
+        //$this->persistBook("book2");
+        //dump($this->doctrineBookRepository->bookOfId(BookId::generate("book2")));die;
+        //$this->persistCategory("3");
+        //dump($this->doctrineCategoryRepository->categoryOfId(CategoryId::generate("3")));die;
+        //TODO Terminar los load de Recipe y User
+        //TODO Arreglar el problema de los steps
         return new JsonResponse('Hello recipes');
     }
 
@@ -122,7 +133,7 @@ class IndexAction
     private function persistBook(
         string $id = null,
         string $userId = "1",
-        array $recipesArray = ["1", "2"],
+        array $recipesArray = ["recipe1", "recipe2"],
         array $followArray = ["1"]
     )
     {
@@ -143,12 +154,17 @@ class IndexAction
             $follow,
             $recipes
         );
+        $book->addTranslation(new BookTranslation(
+           new Locale("es"),
+           new Title("title"),
+           new Subtitle("subtitle")
+        ));
         $this->doctrineBookRepository->persist($book);
     }
 
     private function persistCategory(
         string $id = null,
-        array $recipesArray = ["1", "2"]
+        array $recipesArray = ["1"]
     )
     {
         $recipes = new RecipeCollection();
@@ -157,10 +173,12 @@ class IndexAction
         }
         $category = new Category(
             CategoryId::generate($id),
-            $recipes,
-            null,
-            new CategoriesCollection()
+            $recipes
         );
+        $category->addTranslation(new CategoryTranslation(
+           new Locale("es"),
+           new Name("name")
+        ));
         $this->doctrineCategoryRepository->persist($category);
     }
 

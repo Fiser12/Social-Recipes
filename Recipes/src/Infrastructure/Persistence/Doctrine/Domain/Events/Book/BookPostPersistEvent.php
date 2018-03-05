@@ -21,11 +21,13 @@ class BookPostPersistEvent
 
         $entityManager = $args->getEntityManager();
 
+        //TODO Delete old
         foreach ($entity->recipes() as $recipeId) {
             $recipe = $entityManager->getReference(Recipe::class, $recipeId);
             $entityManager->persist(new RecipeBook($recipe, $entity));
         }
 
+        //TODO Delete old
         foreach ($entity->follow() as $userId) {
             $user = $entityManager->getReference(User::class, $userId);
             $entityManager->persist(new UserFollowBook($user, $entity));

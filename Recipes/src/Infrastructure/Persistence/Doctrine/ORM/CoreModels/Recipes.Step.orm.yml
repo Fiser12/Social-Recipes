@@ -6,13 +6,12 @@ Recipes\Domain\Model\Recipes\Step:
     id:
       column: id
       type: StepId
-    recipe:
-      associationKey: true
 
   oneToMany:
     translations:
       targetEntity: StepTranslation
       mappedBy: origin
+      cascade: ["persist"]
 
   manyToOne:
     recipe:

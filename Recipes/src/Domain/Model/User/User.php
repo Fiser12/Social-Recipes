@@ -7,13 +7,13 @@ use Recipes\Domain\Model\Book\BooksCollection;
 use Recipes\Domain\Model\Recipes\RecipeCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class User extends AggregateRoot implements UserInterface
+class User extends AggregateRoot
 {
-    private $id;
-    private $email;
-    private $createBooks;
-    private $followBooks;
-    private $createRecipes;
+    protected $id;
+    protected $email;
+    protected $createBooks;
+    protected $followBooks;
+    protected $createRecipes;
 
     public function __construct(
         UserId $id,
@@ -42,37 +42,16 @@ class User extends AggregateRoot implements UserInterface
 
     public function createBooks(): BooksCollection
     {
-        return $this->createBooks;
+        return new BooksCollection($this->createBooks->getValues());
     }
 
     public function followBooks(): BooksCollection
     {
-        return $this->followBooks;
+        return new BooksCollection($this->followBooks->getValues());
     }
 
     public function createRecipes(): RecipeCollection
     {
-        return $this->createRecipes;
-    }
-
-    public function getRoles()
-    {
-    }
-
-    public function getPassword()
-    {
-    }
-
-    public function getSalt()
-    {
-    }
-
-    public function getUsername()
-    {
-    }
-
-    public function eraseCredentials()
-    {
-
+        return new RecipeCollection($this->createRecipes->getValues());
     }
 }

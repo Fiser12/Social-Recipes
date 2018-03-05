@@ -6,7 +6,7 @@ use LIN3S\SharedKernel\Exception\DomainException;
 
 class Servings
 {
-    private $servings;
+    protected $servings;
 
     public function __construct(int $servings)
     {

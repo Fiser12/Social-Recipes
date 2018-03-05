@@ -6,7 +6,7 @@ use LIN3S\SharedKernel\Exception\DomainException;
 
 abstract class Icon
 {
-    private $icon;
+    protected $icon;
 
     public function __construct(string $icon)
     {

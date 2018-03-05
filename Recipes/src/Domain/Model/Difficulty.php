@@ -10,7 +10,7 @@ class Difficulty
     const MEDIUM = 'medium';
     const HARD = 'hard';
 
-    private $difficulty;
+    protected $difficulty;
 
     public function __construct(string $difficulty)
     {

@@ -14,23 +14,23 @@ use Recipes\Domain\Model\User\UserId;
 
 class Recipe extends AggregateRoot
 {
-    private $id;
-    private $ingredients;
-    private $tools;
-    private $steps;
-    private $servings;
-    private $time;
-    private $difficulty;
-    private $owner;
-    private $books;
-    private $categories;
-    private $hashtags;
-    private $scope;
+    protected $id;
+    protected $ingredients;
+    protected $tools;
+    protected $steps;
+    protected $servings;
+    protected $time;
+    protected $difficulty;
+    protected $owner;
+    protected $books;
+    protected $categories;
+    protected $hashtags;
+    protected $scope;
 
     use Translatable{
-        Translatable::__construct as private __translatableConstruct;
+        Translatable::__construct as protected __translatableConstruct;
     }
-    //TODO agregar imagen
+
     public function __construct(
         RecipeId $id,
         StepsCollection $steps,
@@ -68,17 +68,19 @@ class Recipe extends AggregateRoot
 
     public function ingredients(): IngredientsCollection
     {
-        return $this->ingredients;
+        return new IngredientsCollection($this->ingredients->getValues());
+
     }
 
     public function tools(): ToolsCollection
     {
-        return $this->tools;
+        return new ToolsCollection($this->tools->getValues());
+
     }
 
     public function steps(): StepsCollection
     {
-        return $this->steps;
+        return new StepsCollection($this->steps->getValues());
     }
 
     public function servings(): Servings
@@ -103,17 +105,17 @@ class Recipe extends AggregateRoot
 
     public function books(): BooksCollection
     {
-        return $this->books;
+        return new BooksCollection($this->books->getValues());
     }
 
     public function categories(): CategoriesCollection
     {
-        return $this->categories;
+        return new CategoriesCollection($this->categories->getValues());
     }
 
     public function hashtags(): HashtagCollection
     {
-        return $this->hashtags;
+        return new HashtagCollection($this->hashtags->getValues());
     }
 
     public function scope(): Scope

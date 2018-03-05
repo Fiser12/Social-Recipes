@@ -19,7 +19,7 @@ class HashtagCollection extends Collection implements JsonObject
     {
         $collections = new self();
         foreach ($data as $key => $item) {
-            if($key == "__class") {
+            if($key === "__class") {
                 continue;
             }
 

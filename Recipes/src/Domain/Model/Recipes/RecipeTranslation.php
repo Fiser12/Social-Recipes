@@ -14,9 +14,9 @@ use Recipes\Domain\Model\Translation\Translation;
  */
 class RecipeTranslation extends Translation
 {
-    private $title;
-    private $subtitle;
-    private $description;
+    protected $title;
+    protected $subtitle;
+    protected $description;
 
     public function __construct(Locale $locale, Title $title, ?Subtitle $subtitle = null, Description $description)
     {

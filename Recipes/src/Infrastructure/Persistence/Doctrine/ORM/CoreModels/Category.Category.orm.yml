@@ -11,11 +11,4 @@ Recipes\Domain\Model\Category\Category:
     translations:
       targetEntity: CategoryTranslation
       mappedBy: origin
-
-  manyToOne:
-    parent:
-      targetEntity: Category
-      joinColumn:
-        name: parent_id
-        referencedColumnName: id
-        inversedBy: children
+      cascade: ["persist"]

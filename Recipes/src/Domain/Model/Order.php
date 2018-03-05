@@ -6,7 +6,7 @@ use LIN3S\SharedKernel\Exception\DomainException;
 
 class Order
 {
-    private $order;
+    protected $order;
 
     public function __construct(int $order)
     {

@@ -19,3 +19,4 @@ Recipes\Domain\Model\Book\Book:
     translations:
       targetEntity: BookTranslation
       mappedBy: origin
+      cascade: ["persist"]
