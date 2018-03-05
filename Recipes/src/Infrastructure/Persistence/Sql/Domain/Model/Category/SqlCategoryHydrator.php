@@ -36,13 +36,7 @@ class SqlCategoryHydrator implements SqlHydrator
         foreach ($rows as $row) {
             $data = [
                 'id' => $data['id'] ?? CategoryId::generate($row['id']),
-                'parent' => $data['parent']
-                    ?? ($row['parent_id'] === null
-                        ? null
-                        : CategoryId::generate($row['parent_id'])),
-                'locale' => $data['locale'] ?? new Locale($row['locale']),
                 'translations' => $data['translations'] ?? new TranslationCollection(),
-                'children' => $data['children'] ?? new CategoriesCollection(),
                 'recipes' => $data['recipes'] ?? new RecipeCollection()
             ];
 
@@ -52,11 +46,6 @@ class SqlCategoryHydrator implements SqlHydrator
             );
 
             $data['translations']->contains($translation) ?: $data['translations']->add($translation);
-
-            if (isset($row['children_id'])) {
-                $childrenId = CategoryId::generate($row['children_id']);
-                $data['children']->contains($childrenId) ?: $data['children']->add($childrenId);
-            }
 
             if (isset($row['recipe_id'])) {
                 $recipeId = RecipeId::generate($row['recipe_id']);
