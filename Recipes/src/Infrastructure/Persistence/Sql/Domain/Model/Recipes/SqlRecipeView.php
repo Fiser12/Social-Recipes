@@ -114,34 +114,33 @@ SQL;
         $data = [];
 
         foreach ($rows as $row) {
-
             $data[$row['id']] = [
-                'id' => $data['id'] ?? $row['id'],
-                'owner' => $data['owner'] ?? $row['owner_id'],
-                'difficulty' => $data['difficulty'] ?? $row['difficulty_difficulty'],
-                'servings' => $data['servings'] ?? $row['servings_servings'],
-                'scope' => $data['scope'] ?? $row['scope_scope'],
-                'time' => $data['time'] ?? $row['time_seconds'],
-                'translations' => $data['translations'] ?? [],
-                'steps' => $data['steps'] ?? [],
+                'id' => $data[$row['id']]['id'] ?? $row['id'],
+                'owner' => $data[$row['id']]['owner'] ?? $row['owner_id'],
+                'difficulty' => $data[$row['id']]['difficulty'] ?? $row['difficulty_difficulty'],
+                'servings' => $data[$row['id']]['servings'] ?? $row['servings_servings'],
+                'scope' => $data[$row['id']]['scope'] ?? $row['scope_scope'],
+                'time' => $data[$row['id']]['time'] ?? $row['time_seconds'],
+                'translations' => $data[$row['id']]['translations'] ?? [],
+                'steps' => $data[$row['id']]['steps'] ?? [],
                 'ingredients' => json_decode($row['ingredients'], true),
                 'tools' => json_decode($row['tools'], true),
                 'hashtags' => json_decode($row['hashtags'], true)
             ];
 
-            $data['translations'][$row['locale']] = [
+            $data[$row['id']]['translations'][$row['locale']] = [
                 'locale' => $row['locale'],
                 'title' => $row['title_title'],
                 'subtitle' => $row['subtitle_subtitle'],
                 'description' => $row['description_description']
             ];
 
-            $data['steps']['id'] = [
+            $data[$row['id']]['steps'][$row['step_id']] = [
                 'tools' => json_decode($row['tools'], true),
                 'ingredients' => json_decode($row['ingredients_step'], true)
             ];
 
-            $data['steps']['id']['translations'][$row['step_translation_locale']] = [
+            $data[$row['id']]['steps'][$row['step_id']]['translations'][$row['step_translation_locale']] = [
                 'locale' => $row['step_translation_locale'],
                 'description' => $row['step_translation_description']
             ];

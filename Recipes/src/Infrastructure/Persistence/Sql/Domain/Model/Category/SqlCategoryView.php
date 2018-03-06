@@ -85,22 +85,20 @@ SQL;
     {
         $data = [];
         foreach ($rows as $row) {
-            $data = [
+            $data[$row['id']] = [
                 'id' => $data['id'] ?? $row['id'],
-                'translations' => $data['translations'] ?? [],
-                'recipes' => $data['recipes'] ?? []
+                'translations' => $data[$row['id']]['translations'] ?? [],
+                'recipes' => $data[$row['id']]['recipes'] ?? []
             ];
 
-            $translation = [
+            $data[$row['id']]['translations'][$row['locale']] = [
                 'locale' => $row['locale'],
                 'title' => $row['title_title'],
                 'subtitle' => $row['subtitle_subtitle']
             ];
 
-            $data['translations'][$row['locale']] = $translation;
-
             if (isset($row['recipe_id'])) {
-                $data['recipes']->contains($row['recipe_id']) ?: $data['recipes'][] = $row['recipe_id'];
+                $data[$row['id']]['recipes']->contains($row['recipe_id']) ?: $data['recipes'][] = $row['recipe_id'];
             }
 
         }

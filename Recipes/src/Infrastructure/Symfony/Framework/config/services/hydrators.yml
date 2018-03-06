@@ -12,6 +12,7 @@ services:
         class: Recipes\Infrastructure\Persistence\GeneratedHydratorHydrator
         arguments:
             - Recipes\Domain\Model\Recipes\Recipe
+
     recipes.infrastructure.persistence.generated_hydrator_hydrator.book:
         class: Recipes\Infrastructure\Persistence\GeneratedHydratorHydrator
         arguments:

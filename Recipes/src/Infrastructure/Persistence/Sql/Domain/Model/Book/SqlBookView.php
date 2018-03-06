@@ -93,29 +93,28 @@ SQL;
     {
         $data = [];
         foreach ($rows as $row) {
-            $data = [
-                'id' => $data['id'] ?? $row['id'],
-                'owner' => $data['owner'] ?? $row['owner_id'],
-                'scope' => $data['scope'] ?? $row['scope_scope'],
-                'translations' => $data['translations'] ?? [],
-                'follow' => $data['follow'] ?? [],
-                'recipes' => $data['recipes'] ?? []
+            $data[$row['id']] = [
+                'id' => $data[$row['id']]['id'] ?? $row['id'],
+                'owner' => $data[$row['id']]['owner'] ?? $row['owner_id'],
+                'scope' => $data[$row['id']]['scope'] ?? $row['scope_scope'],
+                'translations' => $data[$row['id']]['translations'] ?? [],
+                'follow' => $data[$row['id']]['follow'] ?? [],
+                'recipes' => $data[$row['id']]['recipes'] ?? []
             ];
 
-            $translation = [
+            $data[$row['id']]['translations'][$row['locale']] = [
                 'locale' => $row['locale'],
                 'title' => $row['title_title'],
                 'subtitle' => $row['subtitle_subtitle']
             ];
 
-            $data['translations'][$row['locale']] = $translation;
-
             if (isset($row['user_id'])) {
-                $data['follow']->contains($row['user_id']) ?: $data['follow'][] = $row['user_id'];
+                $data[$row['id']]['follow']->contains($row['user_id'])
+                    ?: $data[$row['id']]['follow'][] = $row['user_id'];
             }
 
             if (isset($row['recipe_id'])) {
-                $data['recipes']->contains($row['recipe_id']) ?: $data['recipes'][] = $row['recipe_id'];
+                $data[$row['id']]['recipes']->contains($row['recipe_id']) ?: $data[$row['id']]['recipes'][] = $row['recipe_id'];
             }
 
         }
