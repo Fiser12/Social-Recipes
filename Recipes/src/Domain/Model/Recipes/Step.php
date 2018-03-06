@@ -12,7 +12,7 @@ class Step
     protected $id;
     protected $ingredients;
     protected $tools;
-    protected $recipe;
+    protected $recipeId;
 
     //TODO Agregar imagen
     use Translatable{
@@ -23,14 +23,14 @@ class Step
         StepId $id,
         IngredientsCollection $ingredients,
         ToolsCollection $tools,
-        Recipe $recipe
+        RecipeId $recipeId
     )
     {
         $this->__translatableConstruct();
         $this->id = $id;
         $this->ingredients = $ingredients;
         $this->tools = $tools;
-        $this->recipe = $recipe;
+        $this->recipeId = $recipeId;
     }
 
     public function id(): StepId
@@ -48,9 +48,9 @@ class Step
         return new ToolsCollection($this->tools->getValues());
     }
 
-    public function recipe(): Recipe
+    public function recipeId(): RecipeId
     {
-        return $this->recipe;
+        return $this->recipeId;
     }
 
     protected function translationClass(): string

@@ -11,7 +11,10 @@ use Recipes\Domain\Model\Recipes\Recipe;
 use Recipes\Domain\Model\Recipes\RecipeId;
 use Recipes\Domain\Model\Recipes\RecipeTranslation;
 use Recipes\Domain\Model\Recipes\Servings;
+use Recipes\Domain\Model\Recipes\Step;
+use Recipes\Domain\Model\Recipes\StepId;
 use Recipes\Domain\Model\Recipes\StepsCollection;
+use Recipes\Domain\Model\Recipes\StepTranslation;
 use Recipes\Domain\Model\Recipes\ToolsCollection;
 use Recipes\Domain\Model\Scope;
 use Recipes\Domain\Model\Subtitle;
@@ -24,21 +27,21 @@ use Recipes\Infrastructure\Persistence\Sql\SqlHydrator;
 
 class SqlRecipeHydrator implements SqlHydrator
 {
-    private $hydrator;
+    private $hydratorRecipe;
 
-    public function __construct(Hydrator $hydrator)
+    public function __construct(Hydrator $hydratorRecipe)
     {
-        $this->hydrator = $hydrator;
+        $this->hydratorRecipe = $hydratorRecipe;
     }
 
-    public function build(array $rows) : Recipe
+    public function build(array $rows): Recipe
     {
-        return $this->hydrator->hydrate(
+        return $this->hydratorRecipe->hydrate(
             $this->organizeRows($rows)
         );
     }
 
-    private function organizeRows(array $rows) : array
+    private function organizeRows(array $rows): array
     {
         $data = [];
 
@@ -58,7 +61,7 @@ class SqlRecipeHydrator implements SqlHydrator
                 'tools' => $data['tools']
                     ?? ToolsCollection::fromJson(json_decode($row['tools'], true)),
                 'hashtags' => $data['hashtags']
-                        ?? HashtagCollection::fromJson(json_decode($row['hashtags'], true))
+                    ?? HashtagCollection::fromJson(json_decode($row['hashtags'], true))
             ];
 
             $translation = new RecipeTranslation(
@@ -69,8 +72,24 @@ class SqlRecipeHydrator implements SqlHydrator
             );
 
             $data['translations']->contains($translation) ?: $data['translations']->add($translation);
+
+            $step = new Step(
+                StepId::generate($row['step_id']),
+                IngredientsCollection::fromJson(json_decode($row['ingredients_step'], true)),
+                ToolsCollection::fromJson(json_decode($row['tools_step'], true)),
+                RecipeId::generate($row['id'])
+            );
+
+            $data['steps']->contains($step) ?: $data['step']->add($step);
+
+            $stepTranslation = new StepTranslation(
+                new Locale($row['step_translation_locale']),
+                new Description($row['step_translation_description'])
+            );
+
+            $step->translations()->contains($stepTranslation) ?: $step->addTranslation($translation);
+
         }
         return $data;
     }
-
 }

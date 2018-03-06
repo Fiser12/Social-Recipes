@@ -48,6 +48,7 @@ SELECT
   `recipe_recipe_translation`.title_title,
   `recipe_recipe_translation`.subtitle_subtitle,
   `recipe_recipe_translation`.locale,
+  `recipe_step`.id                                      AS step_id,
   `recipe_step`.tools                                   AS tools_step,
   `recipe_step`.ingredients                             AS ingredients_step,
   `recipe_step_translation`.locale                      AS step_translation_locale,
