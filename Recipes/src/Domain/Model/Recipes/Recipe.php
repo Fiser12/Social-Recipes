@@ -9,7 +9,7 @@ use Recipes\Domain\Model\Difficulty;
 use Recipes\Domain\Model\Scope;
 use Recipes\Domain\Model\Time;
 use Recipes\Domain\Model\Translation\Translatable;
-use Recipes\Domain\Model\User\CommentsCollection;
+use Recipes\Domain\Model\Translation\TranslationCollection;
 use Recipes\Domain\Model\User\UserId;
 
 class Recipe extends AggregateRoot
@@ -69,13 +69,11 @@ class Recipe extends AggregateRoot
     public function ingredients(): IngredientsCollection
     {
         return new IngredientsCollection($this->ingredients->getValues());
-
     }
 
     public function tools(): ToolsCollection
     {
         return new ToolsCollection($this->tools->getValues());
-
     }
 
     public function steps(): StepsCollection
@@ -126,5 +124,33 @@ class Recipe extends AggregateRoot
     protected function translationClass(): string
     {
         return RecipeTranslation::class;
+    }
+
+    public function edit(
+        StepsCollection $steps,
+        HashtagCollection $hashtags,
+        IngredientsCollection $ingredients,
+        ToolsCollection $tools,
+        CategoriesCollection $categories,
+        Servings $servings,
+        Time $time,
+        Difficulty $difficulty,
+        Scope $scope,
+        UserId $owner,
+        BooksCollection $books,
+        TranslationCollection $translations
+    ) {
+        $this->ingredients = $ingredients;
+        $this->tools = $tools;
+        $this->steps = $steps;
+        $this->servings = $servings;
+        $this->time = $time;
+        $this->difficulty = $difficulty;
+        $this->owner = $owner;
+        $this->books = $books;
+        $this->categories = $categories;
+        $this->hashtags = $hashtags;
+        $this->scope = $scope;
+        $this->translations = $translations;
     }
 }

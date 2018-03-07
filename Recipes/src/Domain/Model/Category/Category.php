@@ -5,13 +5,14 @@ namespace Recipes\Domain\Model\Category;
 use LIN3S\SharedKernel\Domain\Model\AggregateRoot;
 use Recipes\Domain\Model\Recipes\RecipeCollection;
 use Recipes\Domain\Model\Translation\Translatable;
+use Recipes\Domain\Model\Translation\TranslationCollection;
 
 class Category extends AggregateRoot
 {
     protected $id;
     protected $recipes;
 
-    use Translatable{
+    use Translatable {
         Translatable::__construct as private __translatableConstruct;
     }
 
@@ -39,5 +40,14 @@ class Category extends AggregateRoot
     protected function translationClass(): string
     {
         return CategoryTranslation::class;
+    }
+
+    public function edit(
+        RecipeCollection $recipes,
+        TranslationCollection $translations
+    ): void
+    {
+        $this->recipes = $recipes;
+        $this->translations = $translations;
     }
 }

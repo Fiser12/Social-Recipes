@@ -6,6 +6,7 @@ use LIN3S\SharedKernel\Domain\Model\AggregateRoot;
 use Recipes\Domain\Model\Recipes\RecipeCollection;
 use Recipes\Domain\Model\Scope;
 use Recipes\Domain\Model\Translation\Translatable;
+use Recipes\Domain\Model\Translation\TranslationCollection;
 use Recipes\Domain\Model\User\UserId;
 use Recipes\Domain\Model\User\UsersCollection;
 
@@ -67,5 +68,19 @@ class Book extends AggregateRoot
     protected function translationClass(): string
     {
         return BookTranslation::class;
+    }
+
+    public function edit(
+        UserId $owner,
+        Scope $scope,
+        UsersCollection $follow,
+        RecipeCollection $recipes,
+        TranslationCollection $translations
+    ) : void {
+        $this->owner = $owner;
+        $this->follow = $follow;
+        $this->scope = $scope;
+        $this->recipes = $recipes;
+        $this->translations = $translations;
     }
 }
