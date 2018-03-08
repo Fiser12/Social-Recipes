@@ -20,6 +20,7 @@ use LIN3S\Distribution\Php\Symfony\Lin3sDistributionBundle;
 use LIN3S\SharedKernel\Infrastructure\Symfony\Bundle\Lin3sSharedKernelBundle;
 use Sensio\Bundle\DistributionBundle\SensioDistributionBundle;
 use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
+use SimpleBus\SymfonyBridge\SimpleBusCommandBusBundle;
 use SmartCore\Bundle\AcceleratorCacheBundle\AcceleratorCacheBundle;
 use Symfony\Bundle\DebugBundle\DebugBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
@@ -48,7 +49,8 @@ class AppKernel extends Kernel
             new SwiftmailerBundle(),
             new TwigBundle(),
             new Lin3sSharedKernelBundle(),
-            new MicroservicesInternalAuthenticationBundle()
+            new MicroservicesInternalAuthenticationBundle(),
+            new SimpleBusCommandBusBundle(),
         );
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

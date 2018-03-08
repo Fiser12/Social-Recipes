@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DeleteAction
 {
+
     public function __invoke(Request $request)
     {
         return new JsonResponse('Hello recipes');
