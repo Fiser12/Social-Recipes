@@ -14,7 +14,7 @@ class RemoveBook
         $this->repository = $repository;
     }
 
-    public function __invoke(RemoveCategoryCommand $command)
+    public function __invoke(RemoveBookCommand $command)
     {
         $this->repository->remove(BookId::generate($command->id()));
     }

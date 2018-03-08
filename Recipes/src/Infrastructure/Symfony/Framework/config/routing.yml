@@ -17,6 +17,34 @@ recipes_index:
     methods:
         - GET
 
+recipes_book_add:
+    path: /recipes/book/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\Book\AddAction::__invoke
+    methods:
+        - POST
+
+recipes_book_get:
+    path: /recipes/book/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\Book\GetAction::__invoke
+    methods:
+        - GET
+
+recipes_book_update:
+    path: /recipes/book/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\Book\UpdateAction::__invoke
+    methods:
+        - UPDATE
+
+recipes_book_delete:
+    path: /recipes/book/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\Book\DeleteAction::__invoke
+    methods:
+        - DELETE
+
 microservices_internal_authentication:
     resource: "@MicroservicesInternalAuthenticationBundle/Resources/config/routing.yml"
     prefix:   /

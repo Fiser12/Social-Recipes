@@ -18,5 +18,5 @@ security:
                     - "fiser.microservices_internal_authentication.security.authenticator"
             provider: user_api_provider
 
-#    access_control:
-#        - { path: ^/recipes/, roles: ROLE_USER }
+    access_control:
+        - { path: ^/recipes/, roles: ROLE_USER }

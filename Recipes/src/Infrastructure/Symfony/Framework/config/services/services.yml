@@ -13,6 +13,7 @@ services:
 
     Recipes\Application\:
         resource: '../../../../../Application/*'
+        exclude: '../../../../../Application/Command'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -28,3 +29,10 @@ services:
 
     GuzzleHttp\Client:
     Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage:
+
+    command_bus:
+        class: Ajgl\SimpleBus\Message\Bus\Middleware\CatchReturnMessageBusSupportingMiddleware
+    LIN3S\SharedKernel\Application\CommandBus: "@command_bus"
+    LIN3S\SharedKernel\Infrastructure\Application\SimpleBus\SimpleBusCommandBus:
+        arguments:
+            - "@command_bus"

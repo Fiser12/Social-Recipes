@@ -3,6 +3,7 @@ services:
         autowire: true
         autoconfigure: true
         public: true
+
     Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Book\DoctrineBookRepository:
         class: Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Book\DoctrineBookRepository
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
@@ -43,3 +44,8 @@ services:
         arguments:
             - '@lin3s.persistence.sql.pdo'
             - '@recipes.infrastructure.persistence.sql.domain.model.category.sql_category_hydrator'
+
+    Recipes\Domain\Model\Book\BookRepository: '@Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book\SqlBookRepository'
+    Recipes\Domain\Model\Category\CategoryRepository: '@Recipes\Infrastructure\Persistence\Sql\Domain\Model\Category\SqlCategoryRepository'
+    Recipes\Domain\Model\Recipes\RecipeRepository: '@Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes\SqlRecipeRepository'
+    Recipes\Domain\Model\User\UserRepository: '@Recipes\Infrastructure\Persistence\Sql\Domain\Model\User\SqlUserRepository'

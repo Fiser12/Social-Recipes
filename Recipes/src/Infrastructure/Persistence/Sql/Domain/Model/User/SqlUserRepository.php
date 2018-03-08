@@ -1,6 +1,6 @@
 <?php
 
-namespace Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes;
+namespace Recipes\Infrastructure\Persistence\Sql\Domain\Model\User;
 
 use LIN3S\SharedKernel\Infrastructure\Persistence\Sql\Pdo;
 use LIN3S\SharedKernel\Domain\Model\Identity\Id;

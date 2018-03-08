@@ -57,5 +57,4 @@ class AddBookCommand
     {
         return $this->id;
     }
-
 }

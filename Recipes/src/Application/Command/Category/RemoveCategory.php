@@ -14,7 +14,7 @@ class RemoveCategory
         $this->repository = $repository;
     }
 
-    public function __invoke(RemoveRecipeCommand $command)
+    public function __invoke(RemoveCategoryCommand $command)
     {
         $this->repository->remove(CategoryId::generate($command->id()));
     }
