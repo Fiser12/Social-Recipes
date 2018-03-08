@@ -13,13 +13,30 @@ declare(strict_types=1);
 
 namespace Recipes\Infrastructure\Symfony\HttpAction\Category;
 
+use Recipes\Application\Command\Category\EditCategoryCommand;
+use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class UpdateAction
 {
+    public function __construct(CommandBus $commandBus)
+    {
+        $this->commandBus = $commandBus;
+    }
+
     public function __invoke(Request $request)
     {
-        return new JsonResponse('Hello recipes');
+        try {
+            $command = new EditCategoryCommand(
+                ...json_decode($request->getContent(), true)
+            );
+        } catch(\InvalidArgumentException $exception) {
+            return new JsonResponse($exception->getMessage(), 400);
+        }
+
+        $this->commandBus->handle($command);
+
+        return new JsonResponse('Category edited');
     }
 }

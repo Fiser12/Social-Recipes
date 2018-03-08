@@ -13,13 +13,30 @@ declare(strict_types=1);
 
 namespace Recipes\Infrastructure\Symfony\HttpAction\Book;
 
+use Recipes\Application\Command\Book\AddBookCommand;
+use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class AddAction
 {
+    public function __construct(CommandBus $commandBus)
+    {
+        $this->commandBus = $commandBus;
+    }
+
     public function __invoke(Request $request)
     {
-        return new JsonResponse('Hello recipes');
+        try {
+            $command = new AddBookCommand(
+                ...json_decode($request->getContent(), true)
+            );
+        } catch(\InvalidArgumentException $exception) {
+            return new JsonResponse($exception->getMessage(), 400);
+        }
+
+        $this->commandBus->handle($command);
+
+        return new JsonResponse('Book created');
     }
 }
