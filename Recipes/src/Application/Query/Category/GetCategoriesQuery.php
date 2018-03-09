@@ -7,10 +7,7 @@ class GetCategoriesQuery
     private $page;
     private $pageSize;
 
-    public function __construct(
-        int $page = 1,
-        int $pageSize = -1
-    )
+    public function __construct(int $page = 1, int $pageSize = -1)
     {
         $this->page = $page;
         $this->pageSize = $pageSize;

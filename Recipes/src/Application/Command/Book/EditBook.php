@@ -3,6 +3,7 @@
 namespace Recipes\Application\Command\Book;
 
 use LIN3S\SharedKernel\Domain\Model\Locale\Locale;
+use LIN3S\SharedKernel\Exception\Exception;
 use Recipes\Domain\Model\Book\BookId;
 use Recipes\Domain\Model\Book\BookRepository;
 use Recipes\Domain\Model\Book\BookTranslation;
@@ -26,6 +27,10 @@ class EditBook
     public function __invoke(EditBookCommand $command)
     {
         $book = $this->repository->bookOfId(BookId::generate($command->id()));
+
+        if(!$book->owner()->equals(UserId::generate($command->userId()))) {
+            throw new Exception('The book is of another user');
+        }
 
         $translations = $this->translations($command->translations());
 

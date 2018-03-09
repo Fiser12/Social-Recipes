@@ -3,6 +3,7 @@
 namespace Recipes\Application\Command\Recipes;
 
 use LIN3S\SharedKernel\Domain\Model\Locale\Locale;
+use LIN3S\SharedKernel\Exception\Exception;
 use Recipes\Domain\Model\Book\BookId;
 use Recipes\Domain\Model\Book\BooksCollection;
 use Recipes\Domain\Model\Category\CategoriesCollection;
@@ -39,6 +40,11 @@ class EditRecipe
     public function __invoke(EditRecipeCommand $command)
     {
         $recipe = $this->repository->recipeOfId(RecipeId::generate($command->id()));
+
+        if(!$recipe->owner()->equals(UserId::generate($command->ownerId()))) {
+            throw new Exception('The recipe is of another user');
+        }
+
         $recipe->edit(
             $this->steps($command->steps(), RecipeId::generate($command->id())),
             HashtagCollection::fromJson($command->hashtag()),

@@ -4,6 +4,7 @@ namespace Recipes\Domain\Model\Book;
 
 use LIN3S\SharedKernel\Domain\Model\AggregateRoot;
 use Recipes\Domain\Model\Recipes\RecipeCollection;
+use Recipes\Domain\Model\Recipes\RecipeId;
 use Recipes\Domain\Model\Scope;
 use Recipes\Domain\Model\Translation\Translatable;
 use Recipes\Domain\Model\Translation\TranslationCollection;
@@ -52,7 +53,6 @@ class Book extends AggregateRoot
     public function follow(): UsersCollection
     {
         return new UsersCollection($this->follow->getValues());
-
     }
 
     public function scope(): Scope
@@ -83,4 +83,15 @@ class Book extends AggregateRoot
         $this->recipes = $recipes;
         $this->translations = $translations;
     }
+
+    public function addRecipeToBook(RecipeId $recipeId) : void
+    {
+        $this->recipes->add($recipeId);
+    }
+
+    public function removeRecipeFromBook(RecipeId $recipeId) : void
+    {
+        $this->recipes->remove($recipeId);
+    }
+
 }
