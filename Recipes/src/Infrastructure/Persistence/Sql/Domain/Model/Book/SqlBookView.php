@@ -56,7 +56,7 @@ $followsWhere
 $orderBy
 LIMIT $limit OFFSET $offset
 SQL;
-        $parameters = array_merge($inIdsParams, $inOwnersParams, $inScopesParams, $inLocalesParams);
+        $parameters = array_merge($inIdsParams, $inOwnersParams, $inScopesParams, $inLocalesParams, [$follow]);
 
         return $this->organizeRows(
             $this->pdo->query(

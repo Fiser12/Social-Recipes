@@ -13,7 +13,7 @@ class GetCategories
         $this->view = $view;
     }
 
-    public function __invoke(GetCategoriesByIdsQuery $query): array
+    public function __invoke(GetCategoriesQuery $query): array
     {
         $limit = $query->pageSize();
         $offset = ($query->page() - 1) * $limit;

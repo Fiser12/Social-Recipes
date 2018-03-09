@@ -24,7 +24,7 @@ class SqlRecipeView implements RecipeView
 
     public function list(array $criteria, int $limit = -1, int $offset = 0): array
     {
-        list($ids, $owners, $scopes, $difficulty, $locales, $books, $categories, $order, $orderColumn) = [
+        list($ids, $owners, $scopes, $difficulty, $locales, $books, $categories, $order, $orderColumn, $follow) = [
             $criteria['ids'],
             $criteria['owners'],
             $criteria['scopes'],
@@ -33,7 +33,8 @@ class SqlRecipeView implements RecipeView
             $criteria['categories'],
             $criteria['locales'],
             $criteria['order'],
-            $criteria['orderColumn']
+            $criteria['orderColumn'],
+            $criteria['follow']
         ];
         list($inIds, $inIdsParams) = $this->inGenerate($ids, 'ids');
         list($inOwners, $inOwnersParams) = $this->inGenerate($owners, 'owners');
@@ -50,6 +51,7 @@ class SqlRecipeView implements RecipeView
         $localesWhere = empty($inLocales) ? '' : "AND `recipe_recipe_translation`.locale IN ($inLocales)";
         $booksWhere = empty($inBooks) ? '' : "AND `recipe_recipe_translation`.locale IN ($inBooks)";
         $categoriesWhere = empty($inCategories) ? '' : "AND `recipe_recipe_translation`.locale IN ($inCategories)";
+        $followsWhere = empty($follow) ? '' : "AND `recipe_user_follow_book`.user_id = $follow";
 
         $orderBy = empty($order) || empty($orderColumn) ? '' : "ORDER BY $orderColumn $order";
         $sql = <<<SQL
@@ -98,6 +100,7 @@ $localesWhere
 $recipesWhere
 $booksWhere
 $categoriesWhere
+$followsWhere
 $orderBy
 LIMIT $limit OFFSET $offset
 SQL;
@@ -108,7 +111,8 @@ SQL;
             $inLocalesParams,
             $inDifficultiesParams,
             $inBooksParams,
-            $inCategoriesParams
+            $inCategoriesParams,
+            [$follow]
         );
 
         return $this->organizeRows(

@@ -9,7 +9,7 @@ class GetBooksByFriendsQuery
     private $userId;
 
     public function __construct(
-        ?string $userId,
+        string $userId,
         int $page = 1,
         int $pageSize = -1
     )
@@ -30,7 +30,7 @@ class GetBooksByFriendsQuery
         return $this->pageSize;
     }
 
-    public function userId(): ?string
+    public function userId(): string
     {
         return $this->userId;
     }

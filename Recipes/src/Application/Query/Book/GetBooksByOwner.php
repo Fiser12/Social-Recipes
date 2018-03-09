@@ -16,7 +16,7 @@ class GetBooksByOwner
         $this->view = $view;
     }
 
-    public function __invoke(GetBooksByFriendsQuery $query): array
+    public function __invoke(GetBooksByOwnerQuery $query): array
     {
         $limit = $query->pageSize();
         $offset = ($query->page() - 1) * $limit;

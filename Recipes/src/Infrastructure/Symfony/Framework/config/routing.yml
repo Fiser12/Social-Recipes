@@ -17,31 +17,124 @@ recipes_index:
     methods:
         - GET
 
+#---BOOKS---
 recipes_book_add:
-    path: /recipes/book/
+    path: /recipes/books/
     defaults:
         _controller: Recipes\Infrastructure\Symfony\HttpAction\Book\AddAction::__invoke
     methods:
         - POST
 
 recipes_book_get:
-    path: /recipes/book/
+    path: /recipes/books/
     defaults:
         _controller: Recipes\Infrastructure\Symfony\HttpAction\Book\GetAction::__invoke
     methods:
         - GET
 
+recipes_book_get_friends:
+    path: /recipes/books/friends/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\Book\GetFriendsAction::__invoke
+    methods:
+        - GET
+
 recipes_book_update:
-    path: /recipes/book/
+    path: /recipes/books/
     defaults:
         _controller: Recipes\Infrastructure\Symfony\HttpAction\Book\UpdateAction::__invoke
     methods:
         - UPDATE
 
 recipes_book_delete:
-    path: /recipes/book/
+    path: /recipes/books/
     defaults:
         _controller: Recipes\Infrastructure\Symfony\HttpAction\Book\DeleteAction::__invoke
+    methods:
+        - DELETE
+
+#---CATEGORIES---
+recipes_category_add:
+    path: /recipes/categories/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\Category\AddAction::__invoke
+    methods:
+        - POST
+
+recipes_category_get:
+    path: /recipes/categories/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\Category\GetAction::__invoke
+    methods:
+        - GET
+
+recipes_category_update:
+    path: /recipes/categories/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\Category\UpdateAction::__invoke
+    methods:
+        - UPDATE
+
+recipes_category_delete:
+    path: /recipes/categories/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\Category\DeleteAction::__invoke
+    methods:
+        - DELETE
+
+
+#---CATEGORIES---
+recipes_recipe_add:
+    path: /recipes/recipes/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\Recipes\AddAction::__invoke
+    methods:
+        - POST
+
+recipes_recipe_get:
+    path: /recipes/recipes/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\Recipes\GetAction::__invoke
+    methods:
+        - GET
+
+recipes_recipe_get_follow:
+    path: /recipes/recipes/follow/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\Recipes\GetFollowAction::__invoke
+    methods:
+        - GET
+recipes_recipe_get_categories:
+    path: /recipes/recipes/categories/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\Recipes\GetCategoriesAction::__invoke
+    methods:
+        - GET
+recipes_recipe_get_books:
+    path: /recipes/recipes/books/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\Recipes\GetBooksAction::__invoke
+    methods:
+        - GET
+
+recipes_recipe_get_friends:
+    path: /recipes/recipes/friends/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\Recipes\GetFriendsAction::__invoke
+    methods:
+        - GET
+
+recipes_recipe_update:
+    path: /recipes/recipes/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\Recipes\UpdateAction::__invoke
+    methods:
+        - UPDATE
+
+recipes_recipe_delete:
+    path: /recipes/recipes/
+    defaults:
+        _controller: Recipes\Infrastructure\Symfony\HttpAction\Recipes\DeleteAction::__invoke
     methods:
         - DELETE
 
