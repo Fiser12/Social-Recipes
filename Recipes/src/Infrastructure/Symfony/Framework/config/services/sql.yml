@@ -4,26 +4,6 @@ services:
         autoconfigure: true
         public: true
 
-    Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Book\DoctrineBookRepository:
-        class: Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Book\DoctrineBookRepository
-        factory: ['@doctrine.orm.default_entity_manager', getRepository]
-        arguments:
-            - Recipes\Domain\Model\Book\Book
-    Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\User\DoctrineUserRepository:
-        class: Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\User\DoctrineUserRepository
-        factory: ['@doctrine.orm.default_entity_manager', getRepository]
-        arguments:
-            - Recipes\Domain\Model\User\User
-    Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Recipes\DoctrineRecipeRepository:
-        class: Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Recipes\DoctrineRecipeRepository
-        factory: ['@doctrine.orm.default_entity_manager', getRepository]
-        arguments:
-            - Recipes\Domain\Model\Recipes\Recipe
-    Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Category\DoctrineCategoryRepository:
-        class: Recipes\Infrastructure\Persistence\Doctrine\Domain\Model\Category\DoctrineCategoryRepository
-        factory: ['@doctrine.orm.default_entity_manager', getRepository]
-        arguments:
-            - Recipes\Domain\Model\Category\Category
     Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book\SqlBookRepository:
         class: Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book\SqlBookRepository
         arguments:

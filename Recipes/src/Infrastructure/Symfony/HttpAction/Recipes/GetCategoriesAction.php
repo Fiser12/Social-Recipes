@@ -29,7 +29,8 @@ class GetCategoriesAction
 
     public function __invoke(Request $request)
     {
-        if ($ids = explode(',', $request->get('categoryIds'))) {
+        if(null !== $request->get('categoryIds')) {
+            $ids = explode(',',$request->get('categoryIds'));
             $this->recipesByCategories->__invoke(
                 new GetRecipesByCategoriesQuery(
                     $ids,

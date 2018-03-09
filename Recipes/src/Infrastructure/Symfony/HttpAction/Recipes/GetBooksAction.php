@@ -31,7 +31,8 @@ class GetBooksAction
 
     public function __invoke(Request $request)
     {
-        if ($ids = explode(',', $request->get('booksIds'))) {
+        if(null !== $request->get('bookIds')) {
+            $ids = explode(',',$request->get('bookIds'));
             $this->recipesByBooks->__invoke(
                 new GetRecipesByBooksQuery(
                     $ids,

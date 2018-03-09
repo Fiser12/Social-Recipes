@@ -22,7 +22,7 @@ class SqlRecipeView implements RecipeView
         $this->pdo = $pdo;
     }
 
-    public function list(array $criteria, int $limit = -1, int $offset = 0): array
+    public function list(array $criteria, int $limit = 0, int $offset = 0): array
     {
         list($ids, $owners, $scopes, $difficulty, $locales, $books, $categories, $order, $orderColumn, $follow) = [
             $criteria['ids'],
@@ -44,18 +44,19 @@ class SqlRecipeView implements RecipeView
         list($inDifficulties, $inDifficultiesParams) = $this->inGenerate($difficulty, 'difficulty');
         list($inLocales, $inLocalesParams) = $this->inGenerate($locales, 'locales');
 
-        $idsWhere = empty($ids) ? '' : "AND `recipe_recipe`.id IN ($inIds)";
-        $ownersWhere = empty($inOwners) ? '' : "AND `recipe_recipe`.owner_id IN ($inOwners) AND `recipe_book`.owner_id IN ($inOwners)";
-        $scopesWhere = empty($inScopes) ? '' : "AND `recipe_recipe`.scope_scope IN ($inScopes)";
-        $recipesWhere = empty($inDifficulties) ? '' : "AND `recipe_recipe`.difficulty_difficulty IN ($inDifficulties)";
-        $localesWhere = empty($inLocales) ? '' : "AND `recipe_recipe_translation`.locale IN ($inLocales)";
-        $booksWhere = empty($inBooks) ? '' : "AND `recipe_recipe_translation`.locale IN ($inBooks)";
-        $categoriesWhere = empty($inCategories) ? '' : "AND `recipe_recipe_translation`.locale IN ($inCategories)";
-        $followsWhere = empty($follow) ? '' : "AND `recipe_user_follow_book`.user_id = $follow";
+        $idsWhere = empty($ids) ? '' : "AND `recipe_recipe`.id IN ($inIds) ";
+        $ownersWhere = empty($inOwners) ? '' : "AND `recipe_recipe`.owner_id IN ($inOwners) AND `recipe_book`.owner_id IN ($inOwners) ";
+        $scopesWhere = empty($inScopes) ? '' : "AND `recipe_recipe`.scope_scope IN ($inScopes) ";
+        $recipesWhere = empty($inDifficulties) ? '' : "AND `recipe_recipe`.difficulty_difficulty IN ($inDifficulties) ";
+        $localesWhere = empty($inLocales) ? '' : "AND `recipe_recipe_translation`.locale IN ($inLocales) ";
+        $booksWhere = empty($inBooks) ? '' : "AND `recipe_recipe_translation`.locale IN ($inBooks) ";
+        $categoriesWhere = empty($inCategories) ? '' : "AND `recipe_recipe_translation`.locale IN ($inCategories) ";
+        $followsWhere = empty($follow) ? '' : "AND `recipe_user_follow_book`.user_id = $follow ";
+        $limitClosure = $limit === -1 ? '' : "LIMIT $limit OFFSET $offset ";
 
-        $orderBy = empty($order) || empty($orderColumn) ? '' : "ORDER BY $orderColumn $order";
+        $orderBy = empty($order) || empty($orderColumn) ? '' : "ORDER BY $orderColumn $order ";
         $sql = <<<SQL
-SELECT
+SELECT 
   `recipe_recipe`.id,
   `recipe_recipe`.owner_id,
   `recipe_recipe`.ingredients,
@@ -83,7 +84,7 @@ SELECT
   `recipe_step_translation`.locale                      AS step_translation_locale,
   `recipe_step_translation`.description_description     AS step_translation_description
 
-FROM `recipe_recipe`
+FROM `recipe_recipe` 
   INNER JOIN `recipe_recipe_translation` ON `recipe_recipe`.id=`recipe_recipe_translation`.origin_id
   LEFT JOIN `recipe_step` ON `recipe_step`.recipe_id = `recipe_recipe`.id
   LEFT JOIN `recipe_step_translation` ON `recipe_step_translation`.origin_id = `recipe_step`.id
@@ -91,8 +92,8 @@ FROM `recipe_recipe`
   LEFT JOIN `recipe_recipe_book` ON `recipe_recipe_book`.recipe_id = `recipe_recipe`.id
   LEFT JOIN `recipe_book` ON `recipe_recipe_book`.book_id = `recipe_book`.id
   LEFT JOIN `recipe_category_translation` ON `recipe_recipe_category`.category_id = `recipe_category_translation`.origin_id
-
-WHERE 1 = 1
+ 
+WHERE 1 = 1 
 $idsWhere
 $ownersWhere
 $scopesWhere
@@ -102,7 +103,7 @@ $booksWhere
 $categoriesWhere
 $followsWhere
 $orderBy
-LIMIT $limit OFFSET $offset
+$limitClosure
 SQL;
         $parameters = array_merge(
             $inIdsParams,
@@ -123,7 +124,7 @@ SQL;
         );
     }
 
-    private function inGenerate(array $elements, string $discriminator)
+    private function inGenerate(?array $elements, string $discriminator)
     {
         if (empty($elements)) {
             return ['', []];

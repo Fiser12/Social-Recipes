@@ -17,44 +17,46 @@ class SqlBookView implements BookView
     public function list(array $criteria, int $limit = -1, int $offset = 0): array
     {
         list($ids, $owners, $scopes, $locales, $order, $orderColumn, $follow) = [
-            $criteria['ids'],
-            $criteria['owners'],
-            $criteria['scopes'],
-            $criteria['locales'],
-            $criteria['order'],
-            $criteria['orderColumn'],
-            $criteria['follow']
+            $criteria['ids'] ?? null,
+            $criteria['owners'] ?? null,
+            $criteria['scopes'] ?? null,
+            $criteria['locales'] ?? null,
+            $criteria['order'] ?? null,
+            $criteria['orderColumn'] ?? null,
+            $criteria['follow'] ?? null
         ];
         list($inIds, $inIdsParams) = $this->inGenerate($ids, 'ids');
         list($inOwners, $inOwnersParams) = $this->inGenerate($owners, 'owners');
         list($inScopes, $inScopesParams) = $this->inGenerate($scopes, 'scopes');
         list($inLocales, $inLocalesParams) = $this->inGenerate($locales, 'locales');
 
-        $idsWhere = empty($ids) ? '' : "AND `recipe_book`.id IN ($inIds)";
-        $ownersWhere = empty($inOwners) ? '' : "AND `recipe_book`.owner_id IN ($inOwners)";
-        $followsWhere = empty($follow) ? '' : "AND `recipe_user_follow_book`.user_id = $follow";
-        $scopesWhere = empty($inScopes) ? '' : "AND `recipe_book`.scope_scope IN ($inScopes)";
-        $localesWhere = empty($inLocales) ? '' : "AND `recipe_book_translation`.locale IN ($inLocales)";
+        $idsWhere = empty($ids) ? '' : "AND `recipe_book`.id IN ($inIds) ";
+        $ownersWhere = empty($inOwners) ? '' : "AND `recipe_book`.owner_id IN ($inOwners) ";
+        $followsWhere = empty($follow) ? '' : "AND `recipe_user_follow_book`.user_id = $follow ";
+        $scopesWhere = empty($inScopes) ? '' : "AND `recipe_book`.scope_scope IN ($inScopes) ";
+        $localesWhere = empty($inLocales) ? '' : "AND `recipe_book_translation`.locale IN ($inLocales) ";
+        $limitClosure = $limit === -1 ? '' : "LIMIT $limit OFFSET $offset ";
 
-        $orderBy = empty($order) || empty($orderColumn) ? '' : "ORDER BY $orderColumn $order";
+        $orderBy = empty($order) || empty($orderColumn) ? '' : "ORDER BY $orderColumn $order ";
         $sql = <<<SQL
-SELECT
+SELECT 
   `recipe_book`.*,
   `recipe_book_translation`.*,
   `recipe_user_follow_book`.user_id,
   `recipe_recipe_book`.recipe_id
-FROM `recipe_book`
+FROM `recipe_book` 
   INNER JOIN `recipe_book_translation` ON `recipe_book`.id=`recipe_book_translation`.origin_id
   LEFT JOIN `recipe_user_follow_book` ON `recipe_book`.id=`recipe_user_follow_book`.book_id
   LEFT JOIN `recipe_recipe_book` ON `recipe_book`.id=`recipe_recipe_book`.book_id
-WHERE 1 = 1
+ 
+WHERE 1 = 1 
 $idsWhere
 $ownersWhere
 $scopesWhere
 $localesWhere
 $followsWhere
 $orderBy
-LIMIT $limit OFFSET $offset
+$limitClosure
 SQL;
         $parameters = array_merge($inIdsParams, $inOwnersParams, $inScopesParams, $inLocalesParams, [$follow]);
 
@@ -66,7 +68,7 @@ SQL;
         );
     }
 
-    private function inGenerate(array $elements, string $discriminator)
+    private function inGenerate(?array $elements, string $discriminator)
     {
         if (empty($elements)) {
             return ['', []];

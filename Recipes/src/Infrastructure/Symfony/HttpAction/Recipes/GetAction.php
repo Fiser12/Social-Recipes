@@ -29,7 +29,8 @@ class GetAction
 
     public function __invoke(Request $request)
     {
-        if($ids = explode(',',$request->get('ids'))) {
+        if(null !== $request->get('ids')) {
+            $ids = explode(',',$request->get('ids'));
             return new JsonResponse(
                 $this->recipesByIds->__invoke(
                     new GetRecipesByIdsQuery(
