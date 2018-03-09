@@ -29,7 +29,7 @@ class UpdateAction
     {
         try {
             $command = new EditRecipeCommand(
-                ...json_decode($request->getContent(), true)
+                ...array_merge(json_decode($request->getContent(), true), $request->get('id'))
             );
         } catch(\InvalidArgumentException $exception) {
             return new JsonResponse($exception->getMessage(), 400);
