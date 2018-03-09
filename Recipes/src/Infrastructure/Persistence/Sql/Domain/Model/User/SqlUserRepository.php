@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SqlUserRepository implements UserRepository
 {
-    const USER_API = 'http://nginx/session/user/decode';
+    const USER_API = 'http://nginx/session/user';
 
     private $pdo;
     private $hydrator;
