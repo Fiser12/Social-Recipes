@@ -49,3 +49,19 @@ services:
     Recipes\Domain\Model\Category\CategoryRepository: '@Recipes\Infrastructure\Persistence\Sql\Domain\Model\Category\SqlCategoryRepository'
     Recipes\Domain\Model\Recipes\RecipeRepository: '@Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes\SqlRecipeRepository'
     Recipes\Domain\Model\User\UserRepository: '@Recipes\Infrastructure\Persistence\Sql\Domain\Model\User\SqlUserRepository'
+
+    Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book\SqlBookView:
+        class: Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book\SqlBookView
+        arguments:
+            - '@lin3s.persistence.sql.pdo'
+    Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes\SqlRecipeView:
+        class: Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes\SqlRecipeView
+        arguments:
+            - '@lin3s.persistence.sql.pdo'
+    Recipes\Infrastructure\Persistence\Sql\Domain\Model\Category\SqlCategoryView:
+        class: Recipes\Infrastructure\Persistence\Sql\Domain\Model\Category\SqlCategoryView
+        arguments:
+            - '@lin3s.persistence.sql.pdo'
+    Recipes\Domain\Model\Book\BookView: '@Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book\SqlBookView'
+    Recipes\Domain\Model\Recipes\RecipeView: '@Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes\SqlRecipeView'
+    Recipes\Domain\Model\Category\CategoryView: '@Recipes\Infrastructure\Persistence\Sql\Domain\Model\Category\SqlCategoryView'

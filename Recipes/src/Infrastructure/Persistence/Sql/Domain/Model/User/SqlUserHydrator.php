@@ -36,7 +36,6 @@ class SqlUserHydrator implements SqlHydrator
 
             $data = [
                 'id' => $data['id'] ?? UserId::generate($row['id']),
-                'email' => $data['email'] ?? new Email($row['email']),
                 'createBooks' => $data['createBooks'] ?? new BooksCollection(),
                 'followBooks' => $data['followBooks'] ?? new BooksCollection(),
                 'createRecipes' => $data['createRecipes'] ?? new RecipeCollection(),

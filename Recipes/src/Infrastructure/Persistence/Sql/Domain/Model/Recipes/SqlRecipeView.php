@@ -1,6 +1,6 @@
 <?php
 
-namespace Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book;
+namespace Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes;
 
 use LIN3S\SharedKernel\Infrastructure\Persistence\Sql\Pdo;
 use Recipes\Domain\Model\Book\Book;

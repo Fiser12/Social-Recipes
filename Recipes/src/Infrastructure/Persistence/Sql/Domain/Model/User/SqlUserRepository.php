@@ -33,7 +33,6 @@ SQL;
         $sql = <<<SQL
 SELECT
   recipe_user.id,
-  recipe_user.email_email,
   recipe_book.id AS book_create_id,
   recipe_recipe.id AS recipe_create_id,
   recipe_user_follow_book.book_id AS book_follow_id
@@ -61,10 +60,7 @@ SQL;
     private function buildParameters(User $user): array
     {
         return [
-            'id' => $user->id()->id(),
-            'email_email' => $user->email()->email(),
-            'email_localPart' => $user->email()->localPart(),
-            'email_domain' => $user->email()->domain()
+            'id' => $user->id()->id()
         ];
     }
 

@@ -3,14 +3,7 @@
 namespace Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book;
 
 use LIN3S\SharedKernel\Infrastructure\Persistence\Sql\Pdo;
-use Recipes\Domain\Model\Book\Book;
-use Recipes\Domain\Model\Book\BookId;
-use Recipes\Domain\Model\Book\BookRepository;
-use Recipes\Domain\Model\Book\BookTranslation;
 use Recipes\Domain\Model\Book\BookView;
-use Recipes\Domain\Model\Recipes\RecipeId;
-use Recipes\Domain\Model\User\UserId;
-use Recipes\Infrastructure\Persistence\Sql\SqlHydrator;
 
 class SqlBookView implements BookView
 {
