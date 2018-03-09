@@ -6,12 +6,9 @@ use LIN3S\SharedKernel\Exception\Exception;
 use Recipes\Domain\Model\Book\Book;
 use Recipes\Domain\Model\Book\BookId;
 use Recipes\Domain\Model\Book\BookRepository;
-use Recipes\Domain\Model\Recipes\Recipe;
 use Recipes\Domain\Model\Recipes\RecipeId;
 use Recipes\Domain\Model\Recipes\RecipeRepository;
-use Recipes\Domain\Model\Scope;
 use Recipes\Domain\Model\User\UserId;
-use Recipes\Domain\Model\User\UsersCollection;
 
 class RemoveRecipeToBook
 {

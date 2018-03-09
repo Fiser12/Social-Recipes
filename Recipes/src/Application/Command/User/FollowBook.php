@@ -55,7 +55,7 @@ class FollowBook
 
         $user = $this->userRepository->userOfId(UserId::generate($command->userId()));
 
-        $friends = $this->friends(UserId::generate($command->userId()));
+        $friends = $this->userRepository->userOfId(UserId::generate($command->userId()))->friends();
 
         $this->checkIfBookIsFromAFriend($book, $friends);
 
@@ -69,11 +69,6 @@ class FollowBook
         ) {
             throw new Exception('The book if of the user');
         }
-    }
-
-    private function friends(UserId $userId): UsersCollection
-    {
-        return new UsersCollection();
     }
 
     private function checkIfBookIsFromAFriend(Book $book, UsersCollection $friends): void
