@@ -23,13 +23,14 @@ class SqlBookView implements BookView
 
     public function list(array $criteria, int $limit = -1, int $offset = 0): array
     {
-        list($ids, $owners, $scopes, $locales, $order, $orderColumn) = [
+        list($ids, $owners, $scopes, $locales, $order, $orderColumn, $follow) = [
             $criteria['ids'],
             $criteria['owners'],
             $criteria['scopes'],
             $criteria['locales'],
             $criteria['order'],
-            $criteria['orderColumn']
+            $criteria['orderColumn'],
+            $criteria['follow']
         ];
         list($inIds, $inIdsParams) = $this->inGenerate($ids, 'ids');
         list($inOwners, $inOwnersParams) = $this->inGenerate($owners, 'owners');
@@ -38,6 +39,7 @@ class SqlBookView implements BookView
 
         $idsWhere = empty($ids) ? '' : "AND `recipe_book`.id IN ($inIds)";
         $ownersWhere = empty($inOwners) ? '' : "AND `recipe_book`.owner_id IN ($inOwners)";
+        $followsWhere = empty($follow) ? '' : "AND `recipe_user_follow_book`.user_id = $follow";
         $scopesWhere = empty($inScopes) ? '' : "AND `recipe_book`.scope_scope IN ($inScopes)";
         $localesWhere = empty($inLocales) ? '' : "AND `recipe_book_translation`.locale IN ($inLocales)";
 
@@ -57,6 +59,7 @@ $idsWhere
 $ownersWhere
 $scopesWhere
 $localesWhere
+$followsWhere
 $orderBy
 LIMIT $limit OFFSET $offset
 SQL;
@@ -109,12 +112,13 @@ SQL;
             ];
 
             if (isset($row['user_id'])) {
-                $data[$row['id']]['follow']->contains($row['user_id'])
+                in_array($row['user_id'], $data[$row['id']]['follow'])
                     ?: $data[$row['id']]['follow'][] = $row['user_id'];
             }
 
             if (isset($row['recipe_id'])) {
-                $data[$row['id']]['recipes']->contains($row['recipe_id']) ?: $data[$row['id']]['recipes'][] = $row['recipe_id'];
+                in_array($row['recipe_id'], $data[$row['id']]['recipes'])
+                    ?: $data[$row['id']]['recipes'][] = $row['recipe_id'];
             }
 
         }

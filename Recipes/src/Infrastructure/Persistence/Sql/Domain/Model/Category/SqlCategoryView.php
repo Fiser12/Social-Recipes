@@ -98,7 +98,8 @@ SQL;
             ];
 
             if (isset($row['recipe_id'])) {
-                $data[$row['id']]['recipes']->contains($row['recipe_id']) ?: $data['recipes'][] = $row['recipe_id'];
+                in_array($row['recipe_id'], $data[$row['id']]['recipes'])
+                    ?: $data['recipes'][] = $row['recipe_id'];
             }
 
         }
