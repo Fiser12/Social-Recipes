@@ -40,7 +40,7 @@ class EditRecipe
     {
         $recipe = $this->repository->recipeOfId(RecipeId::generate($command->id()));
         $recipe->edit(
-            $this->steps($command->steps()),
+            $this->steps($command->steps(), RecipeId::generate($command->id())),
             HashtagCollection::fromJson($command->hashtag()),
             IngredientsCollection::fromJson($command->ingredients()),
             ToolsCollection::fromJson($command->tools()),
