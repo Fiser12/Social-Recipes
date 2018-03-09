@@ -3,6 +3,7 @@
 namespace Recipes\Domain\Model\User;
 
 use LIN3S\SharedKernel\Domain\Model\AggregateRoot;
+use Recipes\Domain\Model\Book\BookId;
 use Recipes\Domain\Model\Book\BooksCollection;
 use Recipes\Domain\Model\Recipes\RecipeCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -54,4 +55,15 @@ class User extends AggregateRoot
     {
         return new RecipeCollection($this->createRecipes->getValues());
     }
+
+    public function followBook(BookId $bookId) : void
+    {
+        $this->followBooks->add($bookId);
+    }
+
+    public function unfollowBook(BookId $bookId) : void
+    {
+        $this->followBooks->remove($bookId);
+    }
+
 }
