@@ -20,6 +20,7 @@ class GetBooksByFriends
         $this->userRepository = $userRepository;
     }
 
+    //TODO Get only by userId attend the scope
     public function __invoke(GetBooksByFriendsQuery $query): array
     {
         $limit = $query->pageSize();

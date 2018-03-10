@@ -12,9 +12,6 @@ use Recipes\Domain\Model\User\UserRepository;
 class GetBooksByIds
 {
     private $view;
-    /**
-     * @var UserRepository
-     */
     private $userRepository;
 
     public function __construct(BookView $view, UserRepository $userRepository)
@@ -27,34 +24,55 @@ class GetBooksByIds
     {
         return array_merge(
             $this->friendsRecipes($query),
-            $this->ownerRecipes($query)
+            $this->ownerBooks($query)
         );
     }
 
     private function friendsRecipes(GetBooksByIdsQuery $query): array
     {
-        $friends = $this->userRepository->userOfId(UserId::generate($query->userId()))->friends();
+        if (empty($query->userId())) {
+            return [];
+        }
+
+        $friends = [];
+        $friendsCollection = $this->userRepository->userOfId(UserId::generate($query->userId()))->friends()->toArray();
+
+        foreach ($friendsCollection as $friend) {
+            $friends[] = $friend->id();
+        }
+
+        if (empty($friends)) {
+            return [];
+        }
+
         return $this->view->list(
             [
                 'ids' => $query->ids(),
-                'scopes' => $query->userId() !== null
-                    ? [
-                        Scope::PUBLIC,
-                        Scope::PROTECTED
-                    ]
-                    : [Scope::PUBLIC],
+                'scopes' => [
+                    Scope::PUBLIC,
+                    Scope::PROTECTED
+                ],
                 'owners' => $friends
             ]
         );
     }
 
-    private function ownerRecipes(GetBooksByIdsQuery $query): array
+    private function ownerBooks(GetBooksByIdsQuery $query): array
     {
-        return $this->view->list(
+        $result = $this->view->list(
             [
                 'ids' => $query->ids(),
-                'owners' => [$query->userId()]
+                'scopes' => [Scope::PUBLIC]
             ]
         );
+        if (!empty($query->userId())) {
+            return array_merge($result, $this->view->list(
+                [
+                    'ids' => $query->ids(),
+                    'owners' => [$query->userId()]
+                ]
+            )
+            );
+        }
     }
 }

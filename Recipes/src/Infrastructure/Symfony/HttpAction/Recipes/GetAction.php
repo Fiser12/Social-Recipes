@@ -35,7 +35,7 @@ class GetAction
                 $this->recipesByIds->__invoke(
                     new GetRecipesByIdsQuery(
                         $ids,
-                        (string) $request->get('ownerId')
+                        $request->get('ownerId')
                     )
                 )
             );

@@ -17,13 +17,13 @@ class SqlBookView implements BookView
     public function list(array $criteria, int $limit = -1, int $offset = 0): array
     {
         list($ids, $owners, $scopes, $locales, $order, $orderColumn, $follow) = [
-            $criteria['ids'] ?? null,
-            $criteria['owners'] ?? null,
-            $criteria['scopes'] ?? null,
-            $criteria['locales'] ?? null,
-            $criteria['order'] ?? null,
-            $criteria['orderColumn'] ?? null,
-            $criteria['follow'] ?? null
+            empty($criteria['ids']) ? null : $criteria['ids'],
+            empty($criteria['owners']) ? null : $criteria['owners'],
+            empty($criteria['scopes']) ? null : $criteria['scopes'],
+            empty($criteria['locales']) ? null : $criteria['locales'],
+            empty($criteria['order']) ? null : $criteria['order'],
+            empty($criteria['orderColumn']) ? null : $criteria['orderColumn'],
+            empty($criteria['follow']) ? null : $criteria['follow']
         ];
         list($inIds, $inIdsParams) = $this->inGenerate($ids, 'ids');
         list($inOwners, $inOwnersParams) = $this->inGenerate($owners, 'owners');
@@ -45,7 +45,7 @@ SELECT
   `recipe_user_follow_book`.user_id,
   `recipe_recipe_book`.recipe_id
 FROM `recipe_book` 
-  INNER JOIN `recipe_book_translation` ON `recipe_book`.id=`recipe_book_translation`.origin_id
+  LEFT JOIN `recipe_book_translation` ON `recipe_book`.id=`recipe_book_translation`.origin_id
   LEFT JOIN `recipe_user_follow_book` ON `recipe_book`.id=`recipe_user_follow_book`.book_id
   LEFT JOIN `recipe_recipe_book` ON `recipe_book`.id=`recipe_recipe_book`.book_id
  
@@ -58,7 +58,8 @@ $followsWhere
 $orderBy
 $limitClosure
 SQL;
-        $parameters = array_merge($inIdsParams, $inOwnersParams, $inScopesParams, $inLocalesParams, [$follow]);
+
+        $parameters = array_merge($inIdsParams, $inOwnersParams, $inScopesParams, $inLocalesParams);
 
         return $this->organizeRows(
             $this->pdo->query(

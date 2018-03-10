@@ -15,6 +15,7 @@ namespace Session\Application\Query\Session;
 
 use BenGorUser\User\Domain\Model\UserId;
 use BenGorUser\User\Domain\Model\UserRepository;
+use LIN3S\SharedKernel\Exception\Exception;
 use Session\Domain\Model\Session\User;
 
 /**
@@ -32,6 +33,10 @@ class GetUserByIdHandler
     public function __invoke(GetUserByIdQuery $command): array
     {
         $user = $this->userRepository->userOfId(new UserId($command->id()));
+
+        if(null === $user) {
+            throw new Exception('User does not exist');
+        }
 
         $friends = [];
         foreach($user->usersFollowed() as $friend) {

@@ -11,11 +11,9 @@
 
 namespace Session\Infrastructure\Symfony\HttpAction\Session;
 
-use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
+use LIN3S\SharedKernel\Exception\Exception;
 use Session\Application\Query\Session\GetUserByIdHandler;
 use Session\Application\Query\Session\GetUserByIdQuery;
-use Session\Application\Query\Session\JWTDecodeHandler;
-use Session\Application\Query\Session\JWTDecodeQuery;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,14 +39,22 @@ class GetUserByIdAction
             return new JsonResponse('Id query not exist', 401);
         }
 
-        $user = $this->handler->__invoke(
-            new GetUserByIdQuery($request->get('id'))
-        );
+        try {
+            $user = $this->handler->__invoke(
+                new GetUserByIdQuery($request->get('id'))
+            );
+            $result = [
+                'user' => $user
+            ];
+            $code = 200;
+        }
+        catch(Exception $exception) {
+            $result = [
+                'error' => $exception->getMessage()
+            ];
+            $code = 404;
+        }
 
-        $result = [
-            'user' => $user
-        ];
-        $code = 200;
 
         return new JsonResponse($result, $code);
     }

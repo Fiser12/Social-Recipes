@@ -3,6 +3,8 @@
 namespace Recipes\Infrastructure\Persistence\Sql\Domain\Model\User;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use LIN3S\SharedKernel\Exception\Exception;
 use LIN3S\SharedKernel\Infrastructure\Persistence\Sql\Pdo;
 use LIN3S\SharedKernel\Domain\Model\Identity\Id;
 use Recipes\Domain\Model\User\User;
@@ -13,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SqlUserRepository implements UserRepository
 {
-    const USER_API = 'http://nginx/session/user';
+    const USER_API = 'http://nginx/session/user/';
 
     private $pdo;
     private $hydrator;
@@ -57,15 +59,21 @@ SQL;
     }
 
     private function userInfo(UserId $userId) : array {
-        $response = $this->client->request(
-            'GET',
-            self::USER_API,
-            [
-                'headers' => $this->container->getParameter('headers'),
-                'query' => ['id' => $userId->id()]
-            ]
-        );
-
+        try {
+            $response = $this->client->request(
+                'GET',
+                self::USER_API,
+                [
+                    'headers' => $this->container->getParameter('headers'),
+                    'query' => ['id' => $userId->id()]
+                ]
+            );
+        }catch(ClientException $clientException) {
+            if(404 === $clientException->getCode()) {
+                throw new Exception('User does not exist in '. $clientException->getMessage());
+            }
+            throw $clientException;
+        }
         return json_decode($response->getBody()->getContents(), true)['user'];
     }
 

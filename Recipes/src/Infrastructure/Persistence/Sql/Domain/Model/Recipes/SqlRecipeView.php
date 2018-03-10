@@ -85,7 +85,7 @@ SELECT
   `recipe_step_translation`.description_description     AS step_translation_description
 
 FROM `recipe_recipe` 
-  INNER JOIN `recipe_recipe_translation` ON `recipe_recipe`.id=`recipe_recipe_translation`.origin_id
+  LEFT JOIN `recipe_recipe_translation` ON `recipe_recipe`.id=`recipe_recipe_translation`.origin_id
   LEFT JOIN `recipe_step` ON `recipe_step`.recipe_id = `recipe_recipe`.id
   LEFT JOIN `recipe_step_translation` ON `recipe_step_translation`.origin_id = `recipe_step`.id
   LEFT JOIN `recipe_recipe_category` ON `recipe_recipe_category`.recipe_id = `recipe_recipe`.id

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "30cdda8fd57dc67ed04f5b76bd55d1e7",
+    "content-hash": "9384a904251651c16a15c50bf57b2a6d",
     "packages": [
         {
             "name": "aurimasniekis/doctrine-json-object-type",
@@ -1142,16 +1142,16 @@
         },
         {
             "name": "fiser/microservices-internal-authentication",
-            "version": "1.1",
+            "version": "1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Fiser12/MicroservicesInternalAuthenticationBundle.git",
-                "reference": "a8a705dcf54a3b6af2099a0ded4a9868be8801ba"
+                "reference": "d58e9b8661ef6cda2603563c6416597e7a77c6d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Fiser12/MicroservicesInternalAuthenticationBundle/zipball/a8a705dcf54a3b6af2099a0ded4a9868be8801ba",
-                "reference": "a8a705dcf54a3b6af2099a0ded4a9868be8801ba",
+                "url": "https://api.github.com/repos/Fiser12/MicroservicesInternalAuthenticationBundle/zipball/d58e9b8661ef6cda2603563c6416597e7a77c6d7",
+                "reference": "d58e9b8661ef6cda2603563c6416597e7a77c6d7",
                 "shasum": ""
             },
             "require": {
@@ -1180,7 +1180,7 @@
                 }
             ],
             "description": "Symfony MicroservicesInternalAuthenticationBundle",
-            "time": "2018-02-15T18:36:49+00:00"
+            "time": "2018-03-10T00:42:45+00:00"
         },
         {
             "name": "fullpipe/twig-webpack-extension",

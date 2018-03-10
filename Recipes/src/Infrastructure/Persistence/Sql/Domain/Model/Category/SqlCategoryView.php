@@ -44,7 +44,7 @@ SELECT
 `recipe_category_translation`.*,
 `recipe_recipe_category`.recipe_id 
 FROM `recipe_category`
-  INNER JOIN `recipe_category_translation` ON `recipe_category`.id=`recipe_category_translation`.origin_id
+  LEFT JOIN `recipe_category_translation` ON `recipe_category`.id=`recipe_category_translation`.origin_id
   LEFT JOIN `recipe_recipe_category` ON `recipe_category`.id=`recipe_recipe_category`.category_id
  
 WHERE 1 = 1 

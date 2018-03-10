@@ -42,23 +42,26 @@ class GetAction
 
     public function __invoke(Request $request)
     {
-        if(null !== $request->get('ids')) {
+        if(!empty($request->get('ids'))) {
             $ids = explode(',',$request->get('ids'));
+            $ownerId = $request->get('ownerId');
+
             return new JsonResponse(
                 $this->booksByIds->__invoke(
                     new GetBooksByIdsQuery(
                         $ids,
-                        (string) $request->get('ownerId')
+                        empty($ownerId) ? null : $ownerId
                     )
                 )
             );
         }
 
-        if($ownerId = $request->get('ownerId')) {
+        if(!empty($request->get('ownerId'))) {
+            $ownerId = $request->get('ownerId');
             return new JsonResponse(
                 $this->booksByOwner->__invoke(
                     new GetBooksByOwnerQuery(
-                        (string) $ownerId,
+                        $ownerId,
                         (int) $request->get('page', 1),
                         (int) $request->get('pageSize', -1)
                     )
@@ -66,11 +69,12 @@ class GetAction
             );
         }
 
-        if($userId = $request->get('userId')) {
+        if(!empty($request->get('userId'))) {
+            $userId = $request->get('userId');
             return new JsonResponse(
                 $this->booksByFollow->__invoke(
                     new GetBooksByFollowQuery(
-                        (string) $userId,
+                        $userId,
                         (int) $request->get('page', 1),
                         (int) $request->get('pageSize', -1)
                     )

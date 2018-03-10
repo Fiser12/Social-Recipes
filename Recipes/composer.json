@@ -7,7 +7,7 @@
         "doctrine/doctrine-cache-bundle": "^1.2",
         "doctrine/doctrine-migrations-bundle": "^1.2",
         "doctrine/orm": "^2.6",
-        "fiser/microservices-internal-authentication": "1.1",
+        "fiser/microservices-internal-authentication": "1.2",
         "incenteev/composer-parameter-handler": "^2.0",
         "lin3s/distribution": "^4.3",
         "lin3s/shared-kernel": "^0.6.0",

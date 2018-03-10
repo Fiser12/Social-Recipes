@@ -16,6 +16,7 @@ class GetBooksByOwner
         $this->view = $view;
     }
 
+    //TODO Get only by userId attend the scope
     public function __invoke(GetBooksByOwnerQuery $query): array
     {
         $limit = $query->pageSize();

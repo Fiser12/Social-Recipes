@@ -16,6 +16,7 @@ class GetBooksByFollow
         $this->view = $view;
     }
 
+    //TODO Get only by userId attend the scope
     public function __invoke(GetBooksByFollowQuery $query): array
     {
         $limit = $query->pageSize();

@@ -40,7 +40,7 @@ class GetFriendsAction
             return new JsonResponse(
                 $this->booksByFriends->__invoke(
                     new GetBooksByFriendsQuery(
-                        (string) $ownerId,
+                        $ownerId,
                         (int) $request->get('page', 1),
                         (int) $request->get('pageSize', -1)
                     )
