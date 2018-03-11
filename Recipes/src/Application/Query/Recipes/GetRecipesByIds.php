@@ -28,17 +28,23 @@ class GetRecipesByIds
 
     private function friendsRecipes(GetRecipesByIdsQuery $query): array
     {
-        $friends = $this->userRepository->userOfId(UserId::generate($query->userId()))->friends();
+        if (empty($query->userId())) {
+            return [];
+        }
+
+        $friends = $this->friends($query->userId());
+
+        if (empty($friends)) {
+            return [];
+        }
 
         return $this->view->list(
             [
                 'ids' => $query->ids(),
-                'scopes' => $query->userId() !== null
-                    ? [
-                        Scope::PUBLIC,
-                        Scope::PROTECTED
-                    ]
-                    : [Scope::PUBLIC],
+                'scopes' => [
+                    Scope::PUBLIC,
+                    Scope::PROTECTED
+                ],
                 'owners' => $friends
             ]
         );
@@ -46,11 +52,35 @@ class GetRecipesByIds
 
     private function ownerRecipes(GetRecipesByIdsQuery $query): array
     {
-        return $this->view->list(
+        $result = $this->view->list(
             [
                 'ids' => $query->ids(),
-                'owners' => [$query->userId()]
+                'scopes' => [Scope::PUBLIC]
             ]
         );
+
+        if (!empty($query->userId())) {
+            $result = array_merge($result, $this->view->list(
+                [
+                    'ids' => $query->ids(),
+                    'owners' => [$query->userId()]
+                ]
+            )
+            );
+        }
+
+        return $result;
     }
+
+    private function friends(string $userId): array
+    {
+        $friends = [];
+        $friendsCollection = $this->userRepository->userOfId(UserId::generate($userId))->friends()->toArray();
+
+        foreach ($friendsCollection as $friend) {
+            $friends[] = $friend->id();
+        }
+        return $friends;
+    }
+
 }

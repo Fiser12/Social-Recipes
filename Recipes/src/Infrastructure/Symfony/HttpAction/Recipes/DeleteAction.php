@@ -15,11 +15,14 @@ namespace Recipes\Infrastructure\Symfony\HttpAction\Recipes;
 
 use Recipes\Application\Command\Recipes\RemoveRecipeCommand;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class DeleteAction
+class DeleteAction extends Controller
 {
+    private $commandBus;
+
     public function __construct(CommandBus $commandBus)
     {
         $this->commandBus = $commandBus;
@@ -27,8 +30,11 @@ class DeleteAction
 
     public function __invoke(Request $request)
     {
+        $user = $this->getUser();
+        $userId = $user->facebookId()->id();
+
         $this->commandBus->handle(
-            new RemoveRecipeCommand($request->get('id'))
+            new RemoveRecipeCommand($request->get('id'), $userId)
         );
 
         return new JsonResponse('Recipe removed '.$request->get('id'));

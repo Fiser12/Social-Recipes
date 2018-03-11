@@ -17,10 +17,11 @@ use Recipes\Application\Query\Recipes\GetRecipesByBooks;
 use Recipes\Application\Query\Recipes\GetRecipesByBooksQuery;
 use Recipes\Application\Query\Recipes\GetRecipesByCategories;
 use Recipes\Application\Query\Recipes\GetRecipesByCategoriesQuery;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class GetBooksAction
+class GetBooksAction extends Controller
 {
     private $recipesByBooks;
 
@@ -31,10 +32,14 @@ class GetBooksAction
 
     public function __invoke(Request $request)
     {
+        $user = $this->getUser();
+        $userId = $user->facebookId()->id();
+
         if(null !== $request->get('bookIds')) {
             $ids = explode(',',$request->get('bookIds'));
             $this->recipesByBooks->__invoke(
                 new GetRecipesByBooksQuery(
+                    $userId,
                     $ids,
                     (int) $request->get('page', 1),
                     (int) $request->get('pageSize', -1)

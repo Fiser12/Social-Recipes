@@ -15,10 +15,11 @@ namespace Recipes\Infrastructure\Symfony\HttpAction\Recipes;
 
 use Recipes\Application\Query\Recipes\GetRecipesByFollow;
 use Recipes\Application\Query\Recipes\GetRecipesByFollowQuery;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class GetFollowAction
+class GetFollowAction extends Controller
 {
     private $recipesByFollow;
 
@@ -29,10 +30,14 @@ class GetFollowAction
 
     public function __invoke(Request $request)
     {
+        $user = $this->getUser();
+        $userId = $user->facebookId()->id();
+
         if ($followId = $request->get('userId')) {
             $this->recipesByFollow->__invoke(
                 new GetRecipesByFollowQuery(
-                    (string)$followId,
+                    $userId,
+                    $followId,
                     (int)$request->get('page', 1),
                     (int)$request->get('pageSize', -1)
                 )

@@ -15,11 +15,14 @@ namespace Recipes\Infrastructure\Symfony\HttpAction\Book;
 
 use Recipes\Application\Command\Book\EditBookCommand;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class UpdateAction
+class UpdateAction extends Controller
 {
+    private $commandBus;
+
     public function __construct(CommandBus $commandBus)
     {
         $this->commandBus = $commandBus;
@@ -27,9 +30,12 @@ class UpdateAction
 
     public function __invoke(Request $request)
     {
+        $user = $this->getUser();
+        $userId = $user->facebookId()->id();
+
         try {
             $command = new EditBookCommand(
-                ...array_merge(json_decode($request->getContent(), true), $request->get('id'))
+                ...array_merge(['userId' => $userId], json_decode($request->getContent(), true), ['id' =>$request->get('id')])
             );
         } catch(\InvalidArgumentException $exception) {
             return new JsonResponse($exception->getMessage(), 400);

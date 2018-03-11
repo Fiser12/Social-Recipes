@@ -41,5 +41,4 @@ class GetBooksByFollowQuery
     {
         return $this->followId;
     }
-
 }

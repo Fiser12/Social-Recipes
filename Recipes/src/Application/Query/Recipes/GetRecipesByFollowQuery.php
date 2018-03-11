@@ -7,9 +7,11 @@ class GetRecipesByFollowQuery
     private $page;
     private $pageSize;
     private $userId;
+    private $followId;
 
     public function __construct(
-        string $userId,
+        ?string $userId,
+        string $followId,
         int $page = 1,
         int $pageSize = -1
     )
@@ -17,6 +19,7 @@ class GetRecipesByFollowQuery
         $this->page = $page;
         $this->pageSize = $pageSize;
         $this->userId = $userId;
+        $this->followId = $followId;
     }
 
     public function page(): int
@@ -29,9 +32,13 @@ class GetRecipesByFollowQuery
         return $this->pageSize;
     }
 
-    public function userId(): string
+    public function userId(): ?string
     {
         return $this->userId;
     }
 
+    public function followId(): string
+    {
+        return $this->followId;
+    }
 }

@@ -15,11 +15,14 @@ namespace Recipes\Infrastructure\Symfony\HttpAction\Book;
 
 use Recipes\Application\Command\Book\RemoveBookCommand;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class DeleteAction
+class DeleteAction extends Controller
 {
+    private $commandBus;
+
     public function __construct(CommandBus $commandBus)
     {
         $this->commandBus = $commandBus;
@@ -27,9 +30,11 @@ class DeleteAction
 
     public function __invoke(Request $request)
     {
+        $user = $this->getUser();
+        $userId = $user->facebookId()->id();
 
         $this->commandBus->handle(
-            new RemoveBookCommand($request->get('id'))
+            new RemoveBookCommand($request->get('id'), $userId)
         );
 
         return new JsonResponse('Book removed '.$request->get('id'));

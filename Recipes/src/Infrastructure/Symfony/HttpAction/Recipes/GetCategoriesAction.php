@@ -15,10 +15,11 @@ namespace Recipes\Infrastructure\Symfony\HttpAction\Recipes;
 
 use Recipes\Application\Query\Recipes\GetRecipesByCategories;
 use Recipes\Application\Query\Recipes\GetRecipesByCategoriesQuery;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class GetCategoriesAction
+class GetCategoriesAction extends Controller
 {
     private $recipesByCategories;
 
@@ -29,10 +30,14 @@ class GetCategoriesAction
 
     public function __invoke(Request $request)
     {
+        $user = $this->getUser();
+        $userId = $user->facebookId()->id();
+
         if(null !== $request->get('categoryIds')) {
             $ids = explode(',',$request->get('categoryIds'));
             $this->recipesByCategories->__invoke(
                 new GetRecipesByCategoriesQuery(
+                    $userId,
                     $ids,
                     (int) $request->get('page', 1),
                     (int) $request->get('pageSize', -1)

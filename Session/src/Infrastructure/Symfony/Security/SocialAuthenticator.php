@@ -13,14 +13,10 @@ declare(strict_types=1);
 
 namespace Session\Infrastructure\Symfony\Security;
 
-use CompositeUi\Domain\Model\Session\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\DefaultEncoder;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
 use Session\Application\Command\Session\FacebookLogInClientCommand;
-use BenGorUser\User\Domain\Model\Exception\UserDoesNotExistException;
 use BenGorUser\User\Domain\Model\Exception\UserEmailInvalidException;
-use BenGorUser\User\Domain\Model\Exception\UserInactiveException;
-use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -30,7 +26,6 @@ use KnpU\OAuth2ClientBundle\Security\Exception\FinishRegistrationException;
 use LIN3S\SharedKernel\Application\CommandBus;
 use LIN3S\SharedKernel\Application\QueryBus;
 use LIN3S\SharedKernel\Exception\InvalidArgumentException;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

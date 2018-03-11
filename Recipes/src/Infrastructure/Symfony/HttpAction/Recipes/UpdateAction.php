@@ -15,11 +15,14 @@ namespace Recipes\Infrastructure\Symfony\HttpAction\Recipes;
 
 use Recipes\Application\Command\Recipes\EditRecipeCommand;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class UpdateAction
+class UpdateAction extends Controller
 {
+    private $commandBus;
+
     public function __construct(CommandBus $commandBus)
     {
         $this->commandBus = $commandBus;
@@ -27,6 +30,9 @@ class UpdateAction
 
     public function __invoke(Request $request)
     {
+        $user = $this->getUser();
+        $userId = $user->facebookId()->id();
+
         try {
             $command = new EditRecipeCommand(
                 ...array_merge(json_decode($request->getContent(), true), $request->get('id'))

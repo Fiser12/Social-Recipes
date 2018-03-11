@@ -66,5 +66,4 @@ class GetBooksByOwner
         }
         return $friends;
     }
-
 }
