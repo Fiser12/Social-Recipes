@@ -2,6 +2,7 @@
 
 namespace Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes;
 
+use LIN3S\SharedKernel\Domain\Model\DateTime\DateTime;
 use LIN3S\SharedKernel\Domain\Model\Locale\Locale;
 use Recipes\Domain\Model\Description;
 use Recipes\Domain\Model\Difficulty;
@@ -56,6 +57,8 @@ class SqlRecipeHydrator implements SqlHydrator
                 'time' => $data['time'] ?? new Time($row['time_seconds']),
                 'translations' => $data['translations'] ?? new TranslationCollection(),
                 'steps' => $data['steps'] ?? new StepsCollection(),
+                'creationDate' => $data['creationDate'] ?? new DateTime(),
+                'editDate' => $data['editDate'] ?? new DateTime(),
                 'ingredients' => $data['ingredients']
                     ?? IngredientsCollection::fromJson(json_decode($row['ingredients'], true)),
                 'tools' => $data['tools']

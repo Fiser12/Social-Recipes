@@ -3,6 +3,7 @@
 namespace Recipes\Domain\Model\Recipes;
 
 use LIN3S\SharedKernel\Domain\Model\AggregateRoot;
+use LIN3S\SharedKernel\Domain\Model\DateTime\DateTime;
 use Recipes\Domain\Model\Book\BooksCollection;
 use Recipes\Domain\Model\Category\CategoriesCollection;
 use Recipes\Domain\Model\Difficulty;
@@ -26,6 +27,8 @@ class Recipe extends AggregateRoot
     protected $categories;
     protected $hashtags;
     protected $scope;
+    protected $creationDate;
+    protected $editDate;
 
     use Translatable{
         Translatable::__construct as protected __translatableConstruct;
@@ -59,6 +62,8 @@ class Recipe extends AggregateRoot
         $this->categories = $categories;
         $this->hashtags = $hashtags;
         $this->scope = $scope;
+        $this->creationDate = new DateTime();
+        $this->editDate = new DateTime();
     }
 
     public function id(): RecipeId
@@ -121,6 +126,16 @@ class Recipe extends AggregateRoot
         return $this->scope;
     }
 
+    public function creationDate(): DateTime
+    {
+        return $this->creationDate;
+    }
+
+    public function editDate(): DateTime
+    {
+        return $this->editDate;
+    }
+
     protected function translationClass(): string
     {
         return RecipeTranslation::class;
@@ -152,5 +167,6 @@ class Recipe extends AggregateRoot
         $this->hashtags = $hashtags;
         $this->scope = $scope;
         $this->translations = $translations;
+        $this->editDate = new DateTime();
     }
 }

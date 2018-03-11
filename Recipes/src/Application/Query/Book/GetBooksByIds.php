@@ -34,12 +34,7 @@ class GetBooksByIds
             return [];
         }
 
-        $friends = [];
-        $friendsCollection = $this->userRepository->userOfId(UserId::generate($query->userId()))->friends()->toArray();
-
-        foreach ($friendsCollection as $friend) {
-            $friends[] = $friend->id();
-        }
+        $friends = $this->friends($query->userId());
 
         if (empty($friends)) {
             return [];
@@ -65,8 +60,9 @@ class GetBooksByIds
                 'scopes' => [Scope::PUBLIC]
             ]
         );
+
         if (!empty($query->userId())) {
-            return array_merge($result, $this->view->list(
+            $result = array_merge($result, $this->view->list(
                 [
                     'ids' => $query->ids(),
                     'owners' => [$query->userId()]
@@ -74,5 +70,18 @@ class GetBooksByIds
             )
             );
         }
+
+        return $result;
+    }
+
+    private function friends(string $userId): array
+    {
+        $friends = [];
+        $friendsCollection = $this->userRepository->userOfId(UserId::generate($userId))->friends()->toArray();
+
+        foreach ($friendsCollection as $friend) {
+            $friends[] = $friend->id();
+        }
+        return $friends;
     }
 }

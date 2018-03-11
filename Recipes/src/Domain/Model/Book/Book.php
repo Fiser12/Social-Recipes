@@ -3,6 +3,7 @@
 namespace Recipes\Domain\Model\Book;
 
 use LIN3S\SharedKernel\Domain\Model\AggregateRoot;
+use LIN3S\SharedKernel\Domain\Model\DateTime\DateTime;
 use Recipes\Domain\Model\Recipes\RecipeCollection;
 use Recipes\Domain\Model\Recipes\RecipeId;
 use Recipes\Domain\Model\Scope;
@@ -19,6 +20,8 @@ class Book extends AggregateRoot
     protected $follow;
     protected $scope;
     protected $recipes;
+    protected $creationDate;
+    protected $editDate;
 
     use Translatable{
         Translatable::__construct as private __translatableConstruct;
@@ -38,6 +41,8 @@ class Book extends AggregateRoot
         $this->follow = $follow;
         $this->scope = $scope;
         $this->recipes = $recipes;
+        $this->creationDate = new DateTime();
+        $this->editDate = new DateTime();
     }
 
     public function id(): BookId
@@ -82,6 +87,7 @@ class Book extends AggregateRoot
         $this->scope = $scope;
         $this->recipes = $recipes;
         $this->translations = $translations;
+        $this->editDate = new DateTime();
     }
 
     public function addRecipeToBook(RecipeId $recipeId) : void
@@ -92,6 +98,16 @@ class Book extends AggregateRoot
     public function removeRecipeFromBook(RecipeId $recipeId) : void
     {
         $this->recipes->remove($recipeId);
+    }
+
+    public function creationDate(): DateTime
+    {
+        return $this->creationDate;
+    }
+
+    public function editDate(): DateTime
+    {
+        return $this->editDate;
     }
 
 }

@@ -98,7 +98,10 @@ SQL;
                 'scope' => $data[$row['id']]['scope'] ?? $row['scope_scope'],
                 'translations' => $data[$row['id']]['translations'] ?? [],
                 'follow' => $data[$row['id']]['follow'] ?? [],
-                'recipes' => $data[$row['id']]['recipes'] ?? []
+                'recipes' => $data[$row['id']]['recipes'] ?? [],
+                'creationDate' => $data[$row['id']]['creationDate'] ?? $row['creation_date'],
+                'editDate' => $data[$row['id']]['editDate'] ?? $row['edit_date'],
+
             ];
 
             $data[$row['id']]['translations'][$row['locale']] = [

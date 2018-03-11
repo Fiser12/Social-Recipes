@@ -19,10 +19,11 @@ use Recipes\Application\Query\Book\GetBooksByIds;
 use Recipes\Application\Query\Book\GetBooksByIdsQuery;
 use Recipes\Application\Query\Book\GetBooksByOwner;
 use Recipes\Application\Query\Book\GetBooksByOwnerQuery;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class GetAction
+class GetAction extends Controller
 {
     private $booksByIds;
     private $booksByFollow;
@@ -34,7 +35,6 @@ class GetAction
         GetBooksByOwner $booksByOwner
     )
     {
-
         $this->booksByIds = $booksByIds;
         $this->booksByOwner = $booksByOwner;
         $this->booksByFollow = $booksByFollow;
@@ -42,15 +42,17 @@ class GetAction
 
     public function __invoke(Request $request)
     {
+        $user = $this->getUser();
+        $userId = $user->facebookId()->id();
+
         if(!empty($request->get('ids'))) {
             $ids = explode(',',$request->get('ids'));
-            $ownerId = $request->get('ownerId');
 
             return new JsonResponse(
                 $this->booksByIds->__invoke(
                     new GetBooksByIdsQuery(
                         $ids,
-                        empty($ownerId) ? null : $ownerId
+                        empty($userId) ? null : $userId
                     )
                 )
             );
@@ -58,10 +60,12 @@ class GetAction
 
         if(!empty($request->get('ownerId'))) {
             $ownerId = $request->get('ownerId');
+
             return new JsonResponse(
                 $this->booksByOwner->__invoke(
                     new GetBooksByOwnerQuery(
                         $ownerId,
+                        empty($userId) ? null : $userId,
                         (int) $request->get('page', 1),
                         (int) $request->get('pageSize', -1)
                     )
@@ -74,6 +78,7 @@ class GetAction
             return new JsonResponse(
                 $this->booksByFollow->__invoke(
                     new GetBooksByFollowQuery(
+                        empty($userId) ? null : $userId,
                         $userId,
                         (int) $request->get('page', 1),
                         (int) $request->get('pageSize', -1)

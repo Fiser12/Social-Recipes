@@ -159,7 +159,9 @@ SQL;
                 'steps' => $data[$row['id']]['steps'] ?? [],
                 'ingredients' => json_decode($row['ingredients'], true),
                 'tools' => json_decode($row['tools'], true),
-                'hashtags' => json_decode($row['hashtags'], true)
+                'hashtags' => json_decode($row['hashtags'], true),
+                'creationDate' => $data[$row['id']]['creationDate'] ?? $row['creation_date'],
+                'editDate' => $data[$row['id']]['editDate'] ?? $row['edit_date']
             ];
 
             $data[$row['id']]['translations'][$row['locale']] = [
