@@ -32,13 +32,6 @@ recipes_book_get:
     methods:
         - GET
 
-recipes_book_get_friends:
-    path: /recipes/books/friends/
-    defaults:
-        _controller: Recipes\Infrastructure\Symfony\HttpAction\Book\GetFriendsAction::__invoke
-    methods:
-        - GET
-
 recipes_book_update:
     path: /recipes/books/
     defaults:
@@ -114,13 +107,6 @@ recipes_recipe_get_books:
     path: /recipes/recipes/books/
     defaults:
         _controller: Recipes\Infrastructure\Symfony\HttpAction\Recipes\GetBooksAction::__invoke
-    methods:
-        - GET
-
-recipes_recipe_get_friends:
-    path: /recipes/recipes/friends/
-    defaults:
-        _controller: Recipes\Infrastructure\Symfony\HttpAction\Recipes\GetFriendsAction::__invoke
     methods:
         - GET
 

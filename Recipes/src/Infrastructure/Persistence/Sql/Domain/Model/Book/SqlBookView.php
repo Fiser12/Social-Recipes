@@ -21,8 +21,8 @@ class SqlBookView implements BookView
             empty($criteria['owners']) ? null : $criteria['owners'],
             empty($criteria['scopes']) ? null : $criteria['scopes'],
             empty($criteria['locales']) ? null : $criteria['locales'],
-            empty($criteria['order']) ? null : $criteria['order'],
-            empty($criteria['orderColumn']) ? null : $criteria['orderColumn'],
+            empty($criteria['order']) ? 'DESC' : $criteria['order'],
+            empty($criteria['orderColumn']) ? '`recipe_book`.edit_date' : $criteria['orderColumn'],
             empty($criteria['follow']) ? null : $criteria['follow']
         ];
         list($inIds, $inIdsParams) = $this->inGenerate($ids, 'ids');

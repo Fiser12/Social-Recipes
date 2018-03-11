@@ -14,7 +14,6 @@ class GetRecipesByBooks
         $this->view = $view;
     }
 
-    //TODO Considerar que sea mi propio book
     public function __invoke(GetRecipesByBooksQuery $query): array
     {
         $limit = $query->pageSize();

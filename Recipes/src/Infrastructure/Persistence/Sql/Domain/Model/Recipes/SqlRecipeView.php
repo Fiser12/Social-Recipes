@@ -25,16 +25,16 @@ class SqlRecipeView implements RecipeView
     public function list(array $criteria, int $limit = 0, int $offset = 0): array
     {
         list($ids, $owners, $scopes, $difficulty, $locales, $books, $categories, $order, $orderColumn, $follow) = [
-            $criteria['ids'],
-            $criteria['owners'],
-            $criteria['scopes'],
-            $criteria['difficulty'],
-            $criteria['books'],
-            $criteria['categories'],
-            $criteria['locales'],
-            $criteria['order'],
-            $criteria['orderColumn'],
-            $criteria['follow']
+            empty($criteria['ids']) ? null : $criteria['ids'],
+            empty($criteria['owners']) ? null : $criteria['owners'],
+            empty($criteria['scopes']) ? null : $criteria['scopes'],
+            empty($criteria['difficulty']) ? null : $criteria['difficulty'],
+            empty($criteria['books']) ? null : $criteria['books'],
+            empty($criteria['categories']) ? null : $criteria['categories'],
+            empty($criteria['locales']) ? null : $criteria['locales'],
+            empty($criteria['order']) ? 'DESC' : $criteria['order'],
+            empty($criteria['orderColumn']) ? '`recipe_recipe`.edit_date' : $criteria['orderColumn'],
+            empty($criteria['follow']) ? null : $criteria['follow']
         ];
         list($inIds, $inIdsParams) = $this->inGenerate($ids, 'ids');
         list($inOwners, $inOwnersParams) = $this->inGenerate($owners, 'owners');
