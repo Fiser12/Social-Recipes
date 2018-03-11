@@ -15,6 +15,8 @@ namespace Recipes\Infrastructure\Symfony\HttpAction\Recipes;
 
 use Recipes\Application\Query\Recipes\GetRecipesByIds;
 use Recipes\Application\Query\Recipes\GetRecipesByIdsQuery;
+use Recipes\Application\Query\Recipes\GetRecipesByOwner;
+use Recipes\Application\Query\Recipes\GetRecipesByOwnerQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,10 +24,12 @@ use Symfony\Component\HttpFoundation\Request;
 class GetAction extends Controller
 {
     private $recipesByIds;
+    private $recipesByOwner;
 
-    public function __construct(GetRecipesByIds $recipesByIds)
+    public function __construct(GetRecipesByIds $recipesByIds, GetRecipesByOwner $recipesByOwner)
     {
         $this->recipesByIds = $recipesByIds;
+        $this->recipesByOwner = $recipesByOwner;
     }
 
     public function __invoke(Request $request)
@@ -44,6 +48,22 @@ class GetAction extends Controller
                 )
             );
         }
+
+        if(!empty($request->get('ownerId'))) {
+            $ownerId = $request->get('ownerId');
+
+            return new JsonResponse(
+                $this->recipesByOwner->__invoke(
+                    new GetRecipesByOwnerQuery(
+                        $ownerId,
+                        empty($userId) ? null : $userId,
+                        (int) $request->get('page', 1),
+                        (int) $request->get('pageSize', -1)
+                    )
+                )
+            );
+        }
+
         return new JsonResponse(
             'Failed parameters, send this parameters:
              GetRecipesByIds: ids<array>, ownerId<?string>, 400');

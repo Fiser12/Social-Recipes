@@ -37,7 +37,7 @@ class GetBooksAction extends Controller
 
         if(null !== $request->get('bookIds')) {
             $ids = explode(',',$request->get('bookIds'));
-            $this->recipesByBooks->__invoke(
+            $result = $this->recipesByBooks->__invoke(
                 new GetRecipesByBooksQuery(
                     $userId,
                     $ids,
@@ -45,8 +45,9 @@ class GetBooksAction extends Controller
                     (int) $request->get('pageSize', -1)
                 )
             );
+            return new JsonResponse($result);
         }
 
-        return new JsonResponse('Failed parameters, send this parameters: booksIds<array>', 400);
+        return new JsonResponse('Failed parameters, send this parameters: bookIds<array>', 400);
     }
 }

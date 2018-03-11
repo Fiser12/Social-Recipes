@@ -4,6 +4,7 @@ namespace Recipes\Application\Query\Recipes;
 
 use Recipes\Domain\Model\Recipes\RecipeView;
 use Recipes\Domain\Model\Scope;
+use Recipes\Domain\Model\User\UserId;
 use Recipes\Domain\Model\User\UserRepository;
 
 class GetRecipesByOwner

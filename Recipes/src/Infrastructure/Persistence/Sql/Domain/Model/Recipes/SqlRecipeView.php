@@ -22,19 +22,18 @@ class SqlRecipeView implements RecipeView
         $this->pdo = $pdo;
     }
 
-    public function list(array $criteria, int $limit = 0, int $offset = 0): array
+    public function list(array $criteria, int $limit = -1, int $offset = 0): array
     {
-        list($ids, $owners, $scopes, $difficulty, $locales, $books, $categories, $order, $orderColumn, $follow) = [
+        list($ids, $owners, $scopes, $difficulty, $locales, $books, $categories, $order, $orderColumn) = [
             empty($criteria['ids']) ? null : $criteria['ids'],
             empty($criteria['owners']) ? null : $criteria['owners'],
             empty($criteria['scopes']) ? null : $criteria['scopes'],
             empty($criteria['difficulty']) ? null : $criteria['difficulty'],
+            empty($criteria['locales']) ? null : $criteria['locales'],
             empty($criteria['books']) ? null : $criteria['books'],
             empty($criteria['categories']) ? null : $criteria['categories'],
-            empty($criteria['locales']) ? null : $criteria['locales'],
             empty($criteria['order']) ? 'DESC' : $criteria['order'],
             empty($criteria['orderColumn']) ? '`recipe_recipe`.edit_date' : $criteria['orderColumn'],
-            empty($criteria['follow']) ? null : $criteria['follow']
         ];
         list($inIds, $inIdsParams) = $this->inGenerate($ids, 'ids');
         list($inOwners, $inOwnersParams) = $this->inGenerate($owners, 'owners');
@@ -45,13 +44,12 @@ class SqlRecipeView implements RecipeView
         list($inLocales, $inLocalesParams) = $this->inGenerate($locales, 'locales');
 
         $idsWhere = empty($ids) ? '' : "AND `recipe_recipe`.id IN ($inIds) ";
-        $ownersWhere = empty($inOwners) ? '' : "AND `recipe_recipe`.owner_id IN ($inOwners) AND `recipe_book`.owner_id IN ($inOwners) ";
+        $ownersWhere = empty($inOwners) ? '' : "AND `recipe_recipe`.owner_id IN ($inOwners) ";
         $scopesWhere = empty($inScopes) ? '' : "AND `recipe_recipe`.scope_scope IN ($inScopes) ";
         $recipesWhere = empty($inDifficulties) ? '' : "AND `recipe_recipe`.difficulty_difficulty IN ($inDifficulties) ";
         $localesWhere = empty($inLocales) ? '' : "AND `recipe_recipe_translation`.locale IN ($inLocales) ";
-        $booksWhere = empty($inBooks) ? '' : "AND `recipe_recipe_translation`.locale IN ($inBooks) ";
-        $categoriesWhere = empty($inCategories) ? '' : "AND `recipe_recipe_translation`.locale IN ($inCategories) ";
-        $followsWhere = empty($follow) ? '' : "AND `recipe_user_follow_book`.user_id = $follow ";
+        $booksWhere = empty($inBooks) ? '' : "AND `recipe_recipe_book`.book_id IN ($inBooks) ";
+        $categoriesWhere = empty($inCategories) ? '' : "AND `recipe_recipe_category`.category_id IN ($inCategories) ";
         $limitClosure = $limit === -1 ? '' : "LIMIT $limit OFFSET $offset ";
 
         $orderBy = empty($order) || empty($orderColumn) ? '' : "ORDER BY $orderColumn $order ";
@@ -64,6 +62,8 @@ SELECT
   `recipe_recipe`.hashtags,
   `recipe_recipe`.scope_scope,
   `recipe_recipe`.servings_servings,
+  `recipe_recipe`.creation_date,
+  `recipe_recipe`.edit_date,
   `recipe_recipe`.time_seconds,
   `recipe_recipe`.tools,
   `recipe_recipe_translation`.description_description,
@@ -74,7 +74,7 @@ SELECT
   `recipe_category_translation`.locale                  AS category_translation_locale,
   `recipe_category_translation`.name_name               AS category_translation_name,
   `recipe_book`.id                                      AS book_id,
-  `recipe_book`.scope                                   AS book_scope,
+  `recipe_book`.scope_scope                             AS book_scope,
   `recipe_book_translation`.locale                      AS book_translation_locale,
   `recipe_book_translation`.title_title                 AS book_translation_title,
   `recipe_book_translation`.subtitle_subtitle           AS book_translation_subtitle,
@@ -91,6 +91,7 @@ FROM `recipe_recipe`
   LEFT JOIN `recipe_recipe_category` ON `recipe_recipe_category`.recipe_id = `recipe_recipe`.id
   LEFT JOIN `recipe_recipe_book` ON `recipe_recipe_book`.recipe_id = `recipe_recipe`.id
   LEFT JOIN `recipe_book` ON `recipe_recipe_book`.book_id = `recipe_book`.id
+  LEFT JOIN `recipe_book_translation` ON `recipe_book`.id = `recipe_book_translation`.origin_id
   LEFT JOIN `recipe_category_translation` ON `recipe_recipe_category`.category_id = `recipe_category_translation`.origin_id
  
 WHERE 1 = 1 
@@ -101,10 +102,10 @@ $localesWhere
 $recipesWhere
 $booksWhere
 $categoriesWhere
-$followsWhere
 $orderBy
 $limitClosure
 SQL;
+
         $parameters = array_merge(
             $inIdsParams,
             $inOwnersParams,
@@ -112,8 +113,7 @@ SQL;
             $inLocalesParams,
             $inDifficultiesParams,
             $inBooksParams,
-            $inCategoriesParams,
-            [$follow]
+            $inCategoriesParams
         );
 
         return $this->organizeRows(
@@ -171,35 +171,47 @@ SQL;
                 'description' => $row['description_description']
             ];
 
-            $data[$row['id']]['steps'][$row['step_id']] = [
-                'tools' => json_decode($row['tools'], true),
-                'ingredients' => json_decode($row['ingredients_step'], true)
-            ];
+            if($row['step_id'] !== null) {
+                $data[$row['id']]['steps'][$row['step_id']] = [
+                    'tools' => json_decode($row['tools'], true),
+                    'ingredients' => json_decode($row['ingredients_step'], true)
+                ];
 
-            $data[$row['id']]['steps'][$row['step_id']]['translations'][$row['step_translation_locale']] = [
-                'locale' => $row['step_translation_locale'],
-                'description' => $row['step_translation_description']
-            ];
+                $data[$row['id']]['steps'][$row['step_id']]['translations'][$row['step_translation_locale']] = [
+                    'locale' => $row['step_translation_locale'],
+                    'description' => $row['step_translation_description']
+                ];
+            } else {
+                $data[$row['id']]['steps'] = [];
+            }
 
-            $data[$row['id']]['books'][$row['book_id']] = [
-                'id' => $row['book_id'],
-                'scope' => $row['book_scope']
-            ];
+            if($row['book_id'] !== null) {
+                $data[$row['id']]['books'][$row['book_id']] = [
+                    'id' => $row['book_id'],
+                    'scope' => $row['book_scope']
+                ];
 
-            $data[$row['id']]['books'][$row['book_id']]['translations'][$row['book_translation_locale']] = [
-                'locale'    => $row['book_translation_locale'],
-                'title'     => $row['book_translation_title'],
-                'subtitle'  => $row['book_translation_subtitle']
-            ];
+                $data[$row['id']]['books'][$row['book_id']]['translations'][$row['book_translation_locale']] = [
+                    'locale' => $row['book_translation_locale'],
+                    'title' => $row['book_translation_title'],
+                    'subtitle' => $row['book_translation_subtitle']
+                ];
+            } else {
+                $data[$row['id']]['books'] = [];
+            }
 
-            $data[$row['id']]['categories'][$row['category_id']] = [
-                'id' => $row['category_id']
-            ];
+            if($row['category_id'] !== null) {
+                $data[$row['id']]['categories'][$row['category_id']] = [
+                    'id' => $row['category_id']
+                ];
 
-            $data[$row['id']]['categories'][$row['category_id']]['translations'][$row['category_translation_locale']] = [
-                'locale' => $row['category_translation_locale'],
-                'name' => $row['category_translation_name']
-            ];
+                $data[$row['id']]['categories'][$row['category_id']]['translations'][$row['category_translation_locale']] = [
+                    'locale' => $row['category_translation_locale'],
+                    'name' => $row['category_translation_name']
+                ];
+            } else {
+                $data[$row['id']]['categories'] = [];
+            }
 
         }
         return $data;

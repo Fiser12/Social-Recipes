@@ -35,7 +35,7 @@ class GetCategoriesAction extends Controller
 
         if(null !== $request->get('categoryIds')) {
             $ids = explode(',',$request->get('categoryIds'));
-            $this->recipesByCategories->__invoke(
+            $result = $this->recipesByCategories->__invoke(
                 new GetRecipesByCategoriesQuery(
                     $userId,
                     $ids,
@@ -43,6 +43,7 @@ class GetCategoriesAction extends Controller
                     (int) $request->get('pageSize', -1)
                 )
             );
+            return new JsonResponse($result);
         }
 
         return new JsonResponse('Failed parameters, send this parameters: categoryIds<array>', 400);

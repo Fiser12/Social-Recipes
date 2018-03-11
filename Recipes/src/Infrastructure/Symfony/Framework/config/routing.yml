@@ -91,12 +91,6 @@ recipes_recipe_get:
     methods:
         - GET
 
-recipes_recipe_get_follow:
-    path: /recipes/recipes/follow/
-    defaults:
-        _controller: Recipes\Infrastructure\Symfony\HttpAction\Recipes\GetFollowAction::__invoke
-    methods:
-        - GET
 recipes_recipe_get_categories:
     path: /recipes/recipes/categories/
     defaults:
