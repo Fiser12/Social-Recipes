@@ -83,14 +83,14 @@ class SqlRecipeHydrator implements SqlHydrator
                 RecipeId::generate($row['id'])
             );
 
-            $data['steps']->contains($step) ?: $data['step']->add($step);
+            $data['steps']->contains($step) ?: $data['steps']->add($step);
 
             $stepTranslation = new StepTranslation(
                 new Locale($row['step_translation_locale']),
                 new Description($row['step_translation_description'])
             );
 
-            $step->translations()->contains($stepTranslation) ?: $step->addTranslation($translation);
+            $step->translations()->contains($stepTranslation) ?: $step->addTranslation($stepTranslation);
 
         }
         return $data;

@@ -13,23 +13,37 @@ declare(strict_types=1);
 
 namespace Recipes\Infrastructure\Symfony\HttpAction\Category;
 
+use LIN3S\SharedKernel\Domain\Model\Identity\Uuid;
 use Recipes\Application\Command\Category\AddCategoryCommand;
+use Recipes\Application\Query\Category\GetCategoriesByIds;
+use Recipes\Application\Query\Category\GetCategoriesByIdsQuery;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class AddAction
 {
-    public function __construct(CommandBus $commandBus)
+    private $commandBus;
+    private $categoriesByIds;
+
+    public function __construct(
+        CommandBus $commandBus,
+        GetCategoriesByIds $categoriesByIds
+    )
     {
         $this->commandBus = $commandBus;
+        $this->categoriesByIds = $categoriesByIds;
     }
 
     public function __invoke(Request $request)
     {
+        $data = json_decode($request->getContent(), true);
+        $id = Uuid::generate();
         try {
             $command = new AddCategoryCommand(
-                ...json_decode($request->getContent(), true)
+                $data['recipeIds'],
+                $data['translations'],
+                $id
             );
         } catch(\InvalidArgumentException $exception) {
             return new JsonResponse($exception->getMessage(), 400);
@@ -37,6 +51,10 @@ class AddAction
 
         $this->commandBus->handle($command);
 
-        return new JsonResponse('Cattegory edited');
+        $result = $this->categoriesByIds->__invoke(
+            new GetCategoriesByIdsQuery([$id])
+        );
+
+        return new JsonResponse($result);
     }
 }

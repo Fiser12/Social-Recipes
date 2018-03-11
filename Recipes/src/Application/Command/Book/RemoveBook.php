@@ -19,7 +19,8 @@ class RemoveBook
     public function __invoke(RemoveBookCommand $command)
     {
         $book = $this->repository->bookOfId(BookId::generate($command->id()));
-        if(!$book->owner()->equals(UserId::generate($command->userId()))) {
+
+        if($book === null || !$book->owner()->equals(UserId::generate($command->userId()))) {
             throw new Exception('Invalid userId, is not your book');
         }
         $this->repository->remove(BookId::generate($command->id()));

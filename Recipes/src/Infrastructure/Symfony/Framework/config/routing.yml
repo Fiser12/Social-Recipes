@@ -37,7 +37,7 @@ recipes_book_update:
     defaults:
         _controller: Recipes\Infrastructure\Symfony\HttpAction\Book\UpdateAction::__invoke
     methods:
-        - UPDATE
+        - PUT
 
 recipes_book_delete:
     path: /recipes/books/
@@ -66,7 +66,7 @@ recipes_category_update:
     defaults:
         _controller: Recipes\Infrastructure\Symfony\HttpAction\Category\UpdateAction::__invoke
     methods:
-        - UPDATE
+        - PUT
 
 recipes_category_delete:
     path: /recipes/categories/
@@ -109,7 +109,7 @@ recipes_recipe_update:
     defaults:
         _controller: Recipes\Infrastructure\Symfony\HttpAction\Recipes\UpdateAction::__invoke
     methods:
-        - UPDATE
+        - PUT
 
 recipes_recipe_delete:
     path: /recipes/recipes/

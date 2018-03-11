@@ -41,7 +41,7 @@ class EditRecipe
     {
         $recipe = $this->repository->recipeOfId(RecipeId::generate($command->id()));
 
-        if(!$recipe->owner()->equals(UserId::generate($command->ownerId()))) {
+        if($recipe === null || !$recipe->owner()->equals(UserId::generate($command->ownerId()))) {
             throw new Exception('The recipe is of another user');
         }
 

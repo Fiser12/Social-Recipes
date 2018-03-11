@@ -8,6 +8,7 @@ use Recipes\Domain\Model\Category\CategoryRepository;
 use Recipes\Domain\Model\Category\CategoryTranslation;
 use Recipes\Domain\Model\Name;
 use Recipes\Domain\Model\Recipes\RecipeCollection;
+use Recipes\Domain\Model\Recipes\RecipeId;
 use Recipes\Domain\Model\Translation\TranslationCollection;
 
 class EditCategory
@@ -19,7 +20,7 @@ class EditCategory
         $this->repository = $repository;
     }
 
-    public function __invoke(AddCategoryCommand $command)
+    public function __invoke(EditCategoryCommand $command)
     {
         $category = $this->repository->categoryOfId(CategoryId::generate($command->id()));
 
