@@ -1,0 +1,47 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book\SqlBookRepository:
+        class: Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book\SqlBookRepository
+        arguments:
+            - '@lin3s.persistence.sql.pdo'
+            - '@recipes.infrastructure.persistence.sql.domain.model.book.sql_book_hydrator'
+    Recipes\Infrastructure\Persistence\Sql\Domain\Model\User\SqlUserRepository:
+        class: Recipes\Infrastructure\Persistence\Sql\Domain\Model\User\SqlUserRepository
+        arguments:
+            - '@lin3s.persistence.sql.pdo'
+            - '@recipes.infrastructure.persistence.sql.domain.model.user.sql_user_hydrator'
+    Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes\SqlRecipeRepository:
+        class: Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes\SqlRecipeRepository
+        arguments:
+            - '@lin3s.persistence.sql.pdo'
+            - '@recipes.infrastructure.persistence.sql.domain.model.recipes.sql_recipe_hydrator'
+    Recipes\Infrastructure\Persistence\Sql\Domain\Model\Category\SqlCategoryRepository:
+        class: Recipes\Infrastructure\Persistence\Sql\Domain\Model\Category\SqlCategoryRepository
+        arguments:
+            - '@lin3s.persistence.sql.pdo'
+            - '@recipes.infrastructure.persistence.sql.domain.model.category.sql_category_hydrator'
+
+    Recipes\Domain\Model\Book\BookRepository: '@Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book\SqlBookRepository'
+    Recipes\Domain\Model\Category\CategoryRepository: '@Recipes\Infrastructure\Persistence\Sql\Domain\Model\Category\SqlCategoryRepository'
+    Recipes\Domain\Model\Recipes\RecipeRepository: '@Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes\SqlRecipeRepository'
+    Recipes\Domain\Model\User\UserRepository: '@Recipes\Infrastructure\Persistence\Sql\Domain\Model\User\SqlUserRepository'
+
+    Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book\SqlBookView:
+        class: Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book\SqlBookView
+        arguments:
+            - '@lin3s.persistence.sql.pdo'
+    Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes\SqlRecipeView:
+        class: Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes\SqlRecipeView
+        arguments:
+            - '@lin3s.persistence.sql.pdo'
+    Recipes\Infrastructure\Persistence\Sql\Domain\Model\Category\SqlCategoryView:
+        class: Recipes\Infrastructure\Persistence\Sql\Domain\Model\Category\SqlCategoryView
+        arguments:
+            - '@lin3s.persistence.sql.pdo'
+    Recipes\Domain\Model\Book\BookView: '@Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book\SqlBookView'
+    Recipes\Domain\Model\Recipes\RecipeView: '@Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes\SqlRecipeView'
+    Recipes\Domain\Model\Category\CategoryView: '@Recipes\Infrastructure\Persistence\Sql\Domain\Model\Category\SqlCategoryView'

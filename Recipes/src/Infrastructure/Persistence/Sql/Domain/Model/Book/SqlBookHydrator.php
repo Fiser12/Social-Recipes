@@ -2,6 +2,7 @@
 
 namespace Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book;
 
+use LIN3S\SharedKernel\Domain\Model\DateTime\DateTime;
 use LIN3S\SharedKernel\Domain\Model\Locale\Locale;
 use Recipes\Domain\Model\Book\Book;
 use Recipes\Domain\Model\Book\BookId;
@@ -43,7 +44,9 @@ class SqlBookHydrator implements SqlHydrator
                 'scope' => $data['scope'] ?? new Scope($row['scope_scope']),
                 'translations' => $data['translations'] ?? new TranslationCollection(),
                 'follow' => $data['follow'] ?? new UsersCollection(),
-                'recipes' => $data['recipes'] ?? new RecipeCollection()
+                'recipes' => $data['recipes'] ?? new RecipeCollection(),
+                'creationDate' => $data['creationDate'] ?? new DateTime(),
+                'editDate' => $data['editDate'] ?? new DateTime(),
             ];
 
             $translation = new BookTranslation(

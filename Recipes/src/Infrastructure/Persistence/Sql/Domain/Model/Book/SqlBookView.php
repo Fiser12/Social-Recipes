@@ -3,14 +3,7 @@
 namespace Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book;
 
 use LIN3S\SharedKernel\Infrastructure\Persistence\Sql\Pdo;
-use Recipes\Domain\Model\Book\Book;
-use Recipes\Domain\Model\Book\BookId;
-use Recipes\Domain\Model\Book\BookRepository;
-use Recipes\Domain\Model\Book\BookTranslation;
 use Recipes\Domain\Model\Book\BookView;
-use Recipes\Domain\Model\Recipes\RecipeId;
-use Recipes\Domain\Model\User\UserId;
-use Recipes\Infrastructure\Persistence\Sql\SqlHydrator;
 
 class SqlBookView implements BookView
 {
@@ -23,43 +16,49 @@ class SqlBookView implements BookView
 
     public function list(array $criteria, int $limit = -1, int $offset = 0): array
     {
-        list($ids, $owners, $scopes, $locales, $order, $orderColumn) = [
-            $criteria['ids'],
-            $criteria['owners'],
-            $criteria['scopes'],
-            $criteria['locales'],
-            $criteria['order'],
-            $criteria['orderColumn']
+        list($ids, $owners, $scopes, $locales, $order, $orderColumn, $follow) = [
+            empty($criteria['ids']) ? null : $criteria['ids'],
+            empty($criteria['owners']) ? null : $criteria['owners'],
+            empty($criteria['scopes']) ? null : $criteria['scopes'],
+            empty($criteria['locales']) ? null : $criteria['locales'],
+            empty($criteria['order']) ? 'DESC' : $criteria['order'],
+            empty($criteria['orderColumn']) ? '`recipe_book`.edit_date' : $criteria['orderColumn'],
+            empty($criteria['follow']) ? null : $criteria['follow']
         ];
         list($inIds, $inIdsParams) = $this->inGenerate($ids, 'ids');
         list($inOwners, $inOwnersParams) = $this->inGenerate($owners, 'owners');
         list($inScopes, $inScopesParams) = $this->inGenerate($scopes, 'scopes');
         list($inLocales, $inLocalesParams) = $this->inGenerate($locales, 'locales');
 
-        $idsWhere = empty($ids) ? '' : "AND `recipe_book`.id IN ($inIds)";
-        $ownersWhere = empty($inOwners) ? '' : "AND `recipe_book`.owner_id IN ($inOwners)";
-        $scopesWhere = empty($inScopes) ? '' : "AND `recipe_book`.scope_scope IN ($inScopes)";
-        $localesWhere = empty($inLocales) ? '' : "AND `recipe_book_translation`.locale IN ($inLocales)";
+        $idsWhere = empty($ids) ? '' : "AND `recipe_book`.id IN ($inIds) ";
+        $ownersWhere = empty($inOwners) ? '' : "AND `recipe_book`.owner_id IN ($inOwners) ";
+        $followsWhere = empty($follow) ? '' : "AND `recipe_user_follow_book`.user_id = $follow ";
+        $scopesWhere = empty($inScopes) ? '' : "AND `recipe_book`.scope_scope IN ($inScopes) ";
+        $localesWhere = empty($inLocales) ? '' : "AND `recipe_book_translation`.locale IN ($inLocales) ";
+        $limitClosure = $limit === -1 ? '' : "LIMIT $limit OFFSET $offset ";
 
-        $orderBy = empty($order) || empty($orderColumn) ? '' : "ORDER BY $orderColumn $order";
+        $orderBy = empty($order) || empty($orderColumn) ? '' : "ORDER BY $orderColumn $order ";
         $sql = <<<SQL
-SELECT
+SELECT 
   `recipe_book`.*,
   `recipe_book_translation`.*,
   `recipe_user_follow_book`.user_id,
   `recipe_recipe_book`.recipe_id
-FROM `recipe_book`
-  INNER JOIN `recipe_book_translation` ON `recipe_book`.id=`recipe_book_translation`.origin_id
+FROM `recipe_book` 
+  LEFT JOIN `recipe_book_translation` ON `recipe_book`.id=`recipe_book_translation`.origin_id
   LEFT JOIN `recipe_user_follow_book` ON `recipe_book`.id=`recipe_user_follow_book`.book_id
   LEFT JOIN `recipe_recipe_book` ON `recipe_book`.id=`recipe_recipe_book`.book_id
-WHERE 1 = 1
+ 
+WHERE 1 = 1 
 $idsWhere
 $ownersWhere
 $scopesWhere
 $localesWhere
+$followsWhere
 $orderBy
-LIMIT $limit OFFSET $offset
+$limitClosure
 SQL;
+
         $parameters = array_merge($inIdsParams, $inOwnersParams, $inScopesParams, $inLocalesParams);
 
         return $this->organizeRows(
@@ -70,7 +69,7 @@ SQL;
         );
     }
 
-    private function inGenerate(array $elements, string $discriminator)
+    private function inGenerate(?array $elements, string $discriminator)
     {
         if (empty($elements)) {
             return ['', []];
@@ -99,7 +98,10 @@ SQL;
                 'scope' => $data[$row['id']]['scope'] ?? $row['scope_scope'],
                 'translations' => $data[$row['id']]['translations'] ?? [],
                 'follow' => $data[$row['id']]['follow'] ?? [],
-                'recipes' => $data[$row['id']]['recipes'] ?? []
+                'recipes' => $data[$row['id']]['recipes'] ?? [],
+                'creationDate' => $data[$row['id']]['creationDate'] ?? $row['creation_date'],
+                'editDate' => $data[$row['id']]['editDate'] ?? $row['edit_date'],
+
             ];
 
             $data[$row['id']]['translations'][$row['locale']] = [
@@ -109,12 +111,13 @@ SQL;
             ];
 
             if (isset($row['user_id'])) {
-                $data[$row['id']]['follow']->contains($row['user_id'])
+                in_array($row['user_id'], $data[$row['id']]['follow'])
                     ?: $data[$row['id']]['follow'][] = $row['user_id'];
             }
 
             if (isset($row['recipe_id'])) {
-                $data[$row['id']]['recipes']->contains($row['recipe_id']) ?: $data[$row['id']]['recipes'][] = $row['recipe_id'];
+                in_array($row['recipe_id'], $data[$row['id']]['recipes'])
+                    ?: $data[$row['id']]['recipes'][] = $row['recipe_id'];
             }
 
         }

@@ -3,6 +3,7 @@
 namespace Recipes\Domain\Model\User;
 
 use LIN3S\SharedKernel\Domain\Model\AggregateRoot;
+use Recipes\Domain\Model\Book\BookId;
 use Recipes\Domain\Model\Book\BooksCollection;
 use Recipes\Domain\Model\Recipes\RecipeCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -14,13 +15,15 @@ class User extends AggregateRoot
     protected $createBooks;
     protected $followBooks;
     protected $createRecipes;
+    protected $friends;
 
     public function __construct(
         UserId $id,
         UserEmail $email,
         RecipeCollection $createRecipes,
         BooksCollection $createBooks,
-        BooksCollection $followBooks
+        BooksCollection $followBooks,
+        UsersCollection $friends
     )
     {
         $this->id = $id;
@@ -28,6 +31,7 @@ class User extends AggregateRoot
         $this->createBooks = $createBooks;
         $this->followBooks = $followBooks;
         $this->createRecipes = $createRecipes;
+        $this->friends = $friends;
     }
 
     public function id(): UserId
@@ -54,4 +58,20 @@ class User extends AggregateRoot
     {
         return new RecipeCollection($this->createRecipes->getValues());
     }
+
+    public function followBook(BookId $bookId) : void
+    {
+        $this->followBooks->add($bookId);
+    }
+
+    public function unfollowBook(BookId $bookId) : void
+    {
+        $this->followBooks->remove($bookId);
+    }
+
+    public function friends(): UsersCollection
+    {
+        return $this->friends;
+    }
+
 }

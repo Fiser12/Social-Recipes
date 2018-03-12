@@ -25,32 +25,33 @@ class SqlCategoryView implements CategoryView
     public function list(array $criteria, int $limit = -1, int $offset = 0): array
     {
         list($ids, $locales, $order, $orderColumn) = [
-            $criteria['ids'],
-            $criteria['locales'],
-            $criteria['order'],
-            $criteria['orderColumn']
+            $criteria['ids'] ?? null,
+            $criteria['locales'] ?? null,
+            $criteria['order'] ?? null,
+            $criteria['orderColumn'] ?? null
         ];
         list($inIds, $inIdsParams) = $this->inGenerate($ids, 'ids');
         list($inLocales, $inLocalesParams) = $this->inGenerate($locales, 'locales');
 
-        $idsWhere = empty($ids) ? '' : "AND `recipe_category`.id IN ($inIds)";
-        $localesWhere = empty($inLocales) ? '' : "AND `recipe_category_translation`.locale IN ($inLocales)";
-
-        $orderBy = empty($order) || empty($orderColumn) ? '' : "ORDER BY $orderColumn $order";
+        $idsWhere = empty($ids) ? '' : "AND `recipe_category`.id IN ($inIds) ";
+        $localesWhere = empty($inLocales) ? '' : "AND `recipe_category_translation`.locale IN ($inLocales) ";
+        $limitClosure = $limit === -1 ? '' : "LIMIT $limit OFFSET $offset ";
+        $orderBy = empty($order) || empty($orderColumn) ? '' : "ORDER BY $orderColumn $order ";
 
         $sql = <<<SQL
-SELECT
+SELECT 
 `recipe_category`.*,
 `recipe_category_translation`.*,
-`recipe_recipe_category`.recipe_id
+`recipe_recipe_category`.recipe_id 
 FROM `recipe_category`
-  INNER JOIN `recipe_category_translation` ON `recipe_category`.id=`recipe_category_translation`.origin_id
+  LEFT JOIN `recipe_category_translation` ON `recipe_category`.id=`recipe_category_translation`.origin_id
   LEFT JOIN `recipe_recipe_category` ON `recipe_category`.id=`recipe_recipe_category`.category_id
-WHERE 1 = 1
+ 
+WHERE 1 = 1 
 $idsWhere
 $localesWhere
 $orderBy
-LIMIT $limit OFFSET $offset
+$limitClosure
 SQL;
         $parameters = array_merge($inIdsParams, $inLocalesParams);
 
@@ -62,7 +63,7 @@ SQL;
         );
     }
 
-    private function inGenerate(array $elements, string $discriminator)
+    private function inGenerate(?array $elements, string $discriminator)
     {
         if (empty($elements)) {
             return ['', []];
@@ -93,12 +94,12 @@ SQL;
 
             $data[$row['id']]['translations'][$row['locale']] = [
                 'locale' => $row['locale'],
-                'title' => $row['title_title'],
-                'subtitle' => $row['subtitle_subtitle']
+                'name' => $row['name_name']
             ];
 
             if (isset($row['recipe_id'])) {
-                $data[$row['id']]['recipes']->contains($row['recipe_id']) ?: $data['recipes'][] = $row['recipe_id'];
+                in_array($row['recipe_id'], $data[$row['id']]['recipes'])
+                    ?: $data['recipes'][] = $row['recipe_id'];
             }
 
         }

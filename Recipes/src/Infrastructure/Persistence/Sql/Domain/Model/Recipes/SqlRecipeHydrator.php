@@ -2,6 +2,7 @@
 
 namespace Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes;
 
+use LIN3S\SharedKernel\Domain\Model\DateTime\DateTime;
 use LIN3S\SharedKernel\Domain\Model\Locale\Locale;
 use Recipes\Domain\Model\Description;
 use Recipes\Domain\Model\Difficulty;
@@ -56,6 +57,8 @@ class SqlRecipeHydrator implements SqlHydrator
                 'time' => $data['time'] ?? new Time($row['time_seconds']),
                 'translations' => $data['translations'] ?? new TranslationCollection(),
                 'steps' => $data['steps'] ?? new StepsCollection(),
+                'creationDate' => $data['creationDate'] ?? new DateTime(),
+                'editDate' => $data['editDate'] ?? new DateTime(),
                 'ingredients' => $data['ingredients']
                     ?? IngredientsCollection::fromJson(json_decode($row['ingredients'], true)),
                 'tools' => $data['tools']
@@ -80,14 +83,14 @@ class SqlRecipeHydrator implements SqlHydrator
                 RecipeId::generate($row['id'])
             );
 
-            $data['steps']->contains($step) ?: $data['step']->add($step);
+            $data['steps']->contains($step) ?: $data['steps']->add($step);
 
             $stepTranslation = new StepTranslation(
                 new Locale($row['step_translation_locale']),
                 new Description($row['step_translation_description'])
             );
 
-            $step->translations()->contains($stepTranslation) ?: $step->addTranslation($translation);
+            $step->translations()->contains($stepTranslation) ?: $step->addTranslation($stepTranslation);
 
         }
         return $data;

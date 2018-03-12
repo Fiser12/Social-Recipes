@@ -3,13 +3,14 @@
 namespace Recipes\Domain\Model\Recipes;
 
 use LIN3S\SharedKernel\Domain\Model\AggregateRoot;
+use LIN3S\SharedKernel\Domain\Model\DateTime\DateTime;
 use Recipes\Domain\Model\Book\BooksCollection;
 use Recipes\Domain\Model\Category\CategoriesCollection;
 use Recipes\Domain\Model\Difficulty;
 use Recipes\Domain\Model\Scope;
 use Recipes\Domain\Model\Time;
 use Recipes\Domain\Model\Translation\Translatable;
-use Recipes\Domain\Model\User\CommentsCollection;
+use Recipes\Domain\Model\Translation\TranslationCollection;
 use Recipes\Domain\Model\User\UserId;
 
 class Recipe extends AggregateRoot
@@ -26,6 +27,8 @@ class Recipe extends AggregateRoot
     protected $categories;
     protected $hashtags;
     protected $scope;
+    protected $creationDate;
+    protected $editDate;
 
     use Translatable{
         Translatable::__construct as protected __translatableConstruct;
@@ -59,6 +62,8 @@ class Recipe extends AggregateRoot
         $this->categories = $categories;
         $this->hashtags = $hashtags;
         $this->scope = $scope;
+        $this->creationDate = new DateTime();
+        $this->editDate = new DateTime();
     }
 
     public function id(): RecipeId
@@ -69,13 +74,11 @@ class Recipe extends AggregateRoot
     public function ingredients(): IngredientsCollection
     {
         return new IngredientsCollection($this->ingredients->getValues());
-
     }
 
     public function tools(): ToolsCollection
     {
         return new ToolsCollection($this->tools->getValues());
-
     }
 
     public function steps(): StepsCollection
@@ -123,8 +126,47 @@ class Recipe extends AggregateRoot
         return $this->scope;
     }
 
+    public function creationDate(): DateTime
+    {
+        return $this->creationDate;
+    }
+
+    public function editDate(): DateTime
+    {
+        return $this->editDate;
+    }
+
     protected function translationClass(): string
     {
         return RecipeTranslation::class;
+    }
+
+    public function edit(
+        StepsCollection $steps,
+        HashtagCollection $hashtags,
+        IngredientsCollection $ingredients,
+        ToolsCollection $tools,
+        CategoriesCollection $categories,
+        Servings $servings,
+        Time $time,
+        Difficulty $difficulty,
+        Scope $scope,
+        UserId $owner,
+        BooksCollection $books,
+        TranslationCollection $translations
+    ) {
+        $this->ingredients = $ingredients;
+        $this->tools = $tools;
+        $this->steps = $steps;
+        $this->servings = $servings;
+        $this->time = $time;
+        $this->difficulty = $difficulty;
+        $this->owner = $owner;
+        $this->books = $books;
+        $this->categories = $categories;
+        $this->hashtags = $hashtags;
+        $this->scope = $scope;
+        $this->translations = $translations;
+        $this->editDate = new DateTime();
     }
 }

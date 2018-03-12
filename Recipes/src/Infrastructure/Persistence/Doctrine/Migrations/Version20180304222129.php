@@ -12,13 +12,10 @@ class Version20180304222129 extends AbstractMigration
 {
     public function up(Schema $schema)
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('CREATE TABLE recipe_category (id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE recipe_book_translation (locale VARCHAR(255) NOT NULL, origin_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', title_title VARCHAR(255) NOT NULL, subtitle_subtitle VARCHAR(255) NOT NULL, INDEX IDX_A2F3533556A273CC (origin_id), PRIMARY KEY(locale, origin_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE recipe_recipe_translation (locale VARCHAR(255) NOT NULL, origin_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', title_title VARCHAR(255) NOT NULL, subtitle_subtitle VARCHAR(255) NOT NULL, description_description VARCHAR(255) NOT NULL, INDEX IDX_B1F2251256A273CC (origin_id), PRIMARY KEY(locale, origin_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE recipe_user (id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', email_email VARCHAR(255) NOT NULL, email_localPart VARCHAR(255) NOT NULL, email_domain VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE recipe_user (id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE recipe_step (id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', recipe_id CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\', ingredients JSON NOT NULL COMMENT \'(DC2Type:json_object)\', tools JSON NOT NULL COMMENT \'(DC2Type:json_object)\', INDEX IDX_3CA2A4E359D8A214 (recipe_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE recipe_recipe (id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', ingredients JSON NOT NULL COMMENT \'(DC2Type:json_object)\', tools JSON NOT NULL COMMENT \'(DC2Type:json_object)\', hashtags JSON NOT NULL COMMENT \'(DC2Type:json_object)\', owner_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', scope_scope VARCHAR(255) NOT NULL, servings_servings INT NOT NULL, time_seconds INT NOT NULL, difficulty_difficulty VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE recipe_category_translation (locale VARCHAR(255) NOT NULL, origin_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', name_name VARCHAR(255) NOT NULL, INDEX IDX_442472BA56A273CC (origin_id), PRIMARY KEY(locale, origin_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
@@ -42,9 +39,6 @@ class Version20180304222129 extends AbstractMigration
 
     public function down(Schema $schema)
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
         $this->addSql('ALTER TABLE recipe_category_translation DROP FOREIGN KEY FK_442472BA56A273CC');
         $this->addSql('ALTER TABLE recipe_recipe_category DROP FOREIGN KEY FK_19A8E93312469DE2');
         $this->addSql('ALTER TABLE recipe_user_follow_book DROP FOREIGN KEY FK_1854C0DFA76ED395');

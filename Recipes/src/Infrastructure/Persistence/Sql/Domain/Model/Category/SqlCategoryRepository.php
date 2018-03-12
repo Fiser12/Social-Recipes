@@ -63,7 +63,7 @@ SQL;
     {
         foreach ($category->translations() as $translation) {
             $this->pdo->insert(
-                'recipe_book_translation',
+                'recipe_category_translation',
                 $this->buildTranslationParameters(
                     $translation,
                     $category->id()

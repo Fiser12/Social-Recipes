@@ -1,0 +1,86 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    recipes.application.command.book.add:
+        class: Recipes\Application\Command\Book\AddBook
+        arguments:
+            - '@Recipes\Domain\Model\Book\BookRepository'
+        tags:
+            -
+                name: command_handler
+                handles: Recipes\Application\Command\Book\AddBookCommand
+
+    recipes.application.command.book.edit:
+        class: Recipes\Application\Command\Book\EditBook
+        arguments:
+            - '@Recipes\Domain\Model\Book\BookRepository'
+        tags:
+            -
+                name: command_handler
+                handles: Recipes\Application\Command\Book\EditBookCommand
+
+    recipes.application.command.book.delete:
+        class: Recipes\Application\Command\Book\RemoveBook
+        arguments:
+            - '@Recipes\Domain\Model\Book\BookRepository'
+        tags:
+            -
+                name: command_handler
+                handles: Recipes\Application\Command\Book\RemoveBookCommand
+
+    recipes.application.command.category.add:
+        class: Recipes\Application\Command\Category\AddCategory
+        arguments:
+            - '@Recipes\Domain\Model\Category\CategoryRepository'
+        tags:
+            -
+                name: command_handler
+                handles: Recipes\Application\Command\Category\AddCategoryCommand
+
+    recipes.application.command.category.edit:
+        class: Recipes\Application\Command\Category\EditCategory
+        arguments:
+            - '@Recipes\Domain\Model\Category\CategoryRepository'
+        tags:
+            -
+                name: command_handler
+                handles: Recipes\Application\Command\Category\EditCategoryCommand
+
+    recipes.application.command.category.delete:
+        class: Recipes\Application\Command\Category\RemoveCategory
+        arguments:
+            - '@Recipes\Domain\Model\Category\CategoryRepository'
+        tags:
+            -
+                name: command_handler
+                handles: Recipes\Application\Command\Category\RemoveCategoryCommand
+
+    recipes.application.command.recipes.add:
+        class: Recipes\Application\Command\Recipes\AddRecipe
+        arguments:
+            - '@Recipes\Domain\Model\Recipes\RecipeRepository'
+        tags:
+            -
+                name: command_handler
+                handles: Recipes\Application\Command\Recipes\AddRecipeCommand
+
+    recipes.application.command.recipes.edit:
+        class: Recipes\Application\Command\Recipes\EditRecipe
+        arguments:
+            - '@Recipes\Domain\Model\Recipes\RecipeRepository'
+        tags:
+            -
+                name: command_handler
+                handles: Recipes\Application\Command\Recipes\EditRecipeCommand
+
+    recipes.application.command.recipes.delete:
+        class: Recipes\Application\Command\Recipes\RemoveRecipe
+        arguments:
+            - '@Recipes\Domain\Model\Recipes\RecipeRepository'
+        tags:
+            -
+                name: command_handler
+                handles: Recipes\Application\Command\Recipes\RemoveRecipeCommand

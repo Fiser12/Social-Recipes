@@ -1,6 +1,6 @@
 <?php
 
-namespace Recipes\Infrastructure\Persistence\Sql\Domain\Model\Book;
+namespace Recipes\Infrastructure\Persistence\Sql\Domain\Model\Recipes;
 
 use LIN3S\SharedKernel\Infrastructure\Persistence\Sql\Pdo;
 use Recipes\Domain\Model\Book\Book;
@@ -24,30 +24,37 @@ class SqlRecipeView implements RecipeView
 
     public function list(array $criteria, int $limit = -1, int $offset = 0): array
     {
-        list($ids, $owners, $scopes, $difficulty, $locales, $order, $orderColumn) = [
-            $criteria['ids'],
-            $criteria['owners'],
-            $criteria['scopes'],
-            $criteria['difficulty'],
-            $criteria['locales'],
-            $criteria['order'],
-            $criteria['orderColumn']
+        list($ids, $owners, $scopes, $difficulty, $locales, $books, $categories, $order, $orderColumn) = [
+            empty($criteria['ids']) ? null : $criteria['ids'],
+            empty($criteria['owners']) ? null : $criteria['owners'],
+            empty($criteria['scopes']) ? null : $criteria['scopes'],
+            empty($criteria['difficulty']) ? null : $criteria['difficulty'],
+            empty($criteria['locales']) ? null : $criteria['locales'],
+            empty($criteria['books']) ? null : $criteria['books'],
+            empty($criteria['categories']) ? null : $criteria['categories'],
+            empty($criteria['order']) ? 'DESC' : $criteria['order'],
+            empty($criteria['orderColumn']) ? '`recipe_recipe`.edit_date' : $criteria['orderColumn'],
         ];
         list($inIds, $inIdsParams) = $this->inGenerate($ids, 'ids');
         list($inOwners, $inOwnersParams) = $this->inGenerate($owners, 'owners');
         list($inScopes, $inScopesParams) = $this->inGenerate($scopes, 'scopes');
+        list($inBooks, $inBooksParams) = $this->inGenerate($books, 'books');
+        list($inCategories, $inCategoriesParams) = $this->inGenerate($categories, 'categories');
         list($inDifficulties, $inDifficultiesParams) = $this->inGenerate($difficulty, 'difficulty');
         list($inLocales, $inLocalesParams) = $this->inGenerate($locales, 'locales');
 
-        $idsWhere = empty($ids) ? '' : "AND `recipe_recipe`.id IN ($inIds)";
-        $ownersWhere = empty($inOwners) ? '' : "AND `recipe_recipe`.owner_id IN ($inOwners)";
-        $scopesWhere = empty($inScopes) ? '' : "AND `recipe_recipe`.scope_scope IN ($inScopes)";
-        $recipesWhere = empty($inDifficulties) ? '' : "AND `recipe_recipe`.difficulty_difficulty IN ($inDifficulties)";
-        $localesWhere = empty($inLocales) ? '' : "AND `recipe_recipe_translation`.locale IN ($inLocales)";
+        $idsWhere = empty($ids) ? '' : "AND `recipe_recipe`.id IN ($inIds) ";
+        $ownersWhere = empty($inOwners) ? '' : "AND `recipe_recipe`.owner_id IN ($inOwners) ";
+        $scopesWhere = empty($inScopes) ? '' : "AND `recipe_recipe`.scope_scope IN ($inScopes) ";
+        $recipesWhere = empty($inDifficulties) ? '' : "AND `recipe_recipe`.difficulty_difficulty IN ($inDifficulties) ";
+        $localesWhere = empty($inLocales) ? '' : "AND `recipe_recipe_translation`.locale IN ($inLocales) ";
+        $booksWhere = empty($inBooks) ? '' : "AND `recipe_recipe_book`.book_id IN ($inBooks) ";
+        $categoriesWhere = empty($inCategories) ? '' : "AND `recipe_recipe_category`.category_id IN ($inCategories) ";
+        $limitClosure = $limit === -1 ? '' : "LIMIT $limit OFFSET $offset ";
 
-        $orderBy = empty($order) || empty($orderColumn) ? '' : "ORDER BY $orderColumn $order";
+        $orderBy = empty($order) || empty($orderColumn) ? '' : "ORDER BY $orderColumn $order ";
         $sql = <<<SQL
-SELECT
+SELECT 
   `recipe_recipe`.id,
   `recipe_recipe`.owner_id,
   `recipe_recipe`.ingredients,
@@ -55,32 +62,59 @@ SELECT
   `recipe_recipe`.hashtags,
   `recipe_recipe`.scope_scope,
   `recipe_recipe`.servings_servings,
+  `recipe_recipe`.creation_date,
+  `recipe_recipe`.edit_date,
   `recipe_recipe`.time_seconds,
   `recipe_recipe`.tools,
   `recipe_recipe_translation`.description_description,
   `recipe_recipe_translation`.title_title,
   `recipe_recipe_translation`.subtitle_subtitle,
   `recipe_recipe_translation`.locale,
+  `recipe_recipe_category`.category_id                  AS category_id,
+  `recipe_category_translation`.locale                  AS category_translation_locale,
+  `recipe_category_translation`.name_name               AS category_translation_name,
+  `recipe_book`.id                                      AS book_id,
+  `recipe_book`.scope_scope                             AS book_scope,
+  `recipe_book_translation`.locale                      AS book_translation_locale,
+  `recipe_book_translation`.title_title                 AS book_translation_title,
+  `recipe_book_translation`.subtitle_subtitle           AS book_translation_subtitle,
   `recipe_step`.id                                      AS step_id,
   `recipe_step`.tools                                   AS tools_step,
   `recipe_step`.ingredients                             AS ingredients_step,
   `recipe_step_translation`.locale                      AS step_translation_locale,
   `recipe_step_translation`.description_description     AS step_translation_description
 
-FROM `recipe_recipe`
-  INNER JOIN `recipe_recipe_translation` ON `recipe_recipe`.id=`recipe_recipe_translation`.origin_id
+FROM `recipe_recipe` 
+  LEFT JOIN `recipe_recipe_translation` ON `recipe_recipe`.id=`recipe_recipe_translation`.origin_id
   LEFT JOIN `recipe_step` ON `recipe_step`.recipe_id = `recipe_recipe`.id
   LEFT JOIN `recipe_step_translation` ON `recipe_step_translation`.origin_id = `recipe_step`.id
-WHERE 1 = 1
+  LEFT JOIN `recipe_recipe_category` ON `recipe_recipe_category`.recipe_id = `recipe_recipe`.id
+  LEFT JOIN `recipe_recipe_book` ON `recipe_recipe_book`.recipe_id = `recipe_recipe`.id
+  LEFT JOIN `recipe_book` ON `recipe_recipe_book`.book_id = `recipe_book`.id
+  LEFT JOIN `recipe_book_translation` ON `recipe_book`.id = `recipe_book_translation`.origin_id
+  LEFT JOIN `recipe_category_translation` ON `recipe_recipe_category`.category_id = `recipe_category_translation`.origin_id
+ 
+WHERE 1 = 1 
 $idsWhere
 $ownersWhere
 $scopesWhere
 $localesWhere
 $recipesWhere
+$booksWhere
+$categoriesWhere
 $orderBy
-LIMIT $limit OFFSET $offset
+$limitClosure
 SQL;
-        $parameters = array_merge($inIdsParams, $inOwnersParams, $inScopesParams, $inLocalesParams);
+
+        $parameters = array_merge(
+            $inIdsParams,
+            $inOwnersParams,
+            $inScopesParams,
+            $inLocalesParams,
+            $inDifficultiesParams,
+            $inBooksParams,
+            $inCategoriesParams
+        );
 
         return $this->organizeRows(
             $this->pdo->query(
@@ -90,7 +124,7 @@ SQL;
         );
     }
 
-    private function inGenerate(array $elements, string $discriminator)
+    private function inGenerate(?array $elements, string $discriminator)
     {
         if (empty($elements)) {
             return ['', []];
@@ -125,7 +159,9 @@ SQL;
                 'steps' => $data[$row['id']]['steps'] ?? [],
                 'ingredients' => json_decode($row['ingredients'], true),
                 'tools' => json_decode($row['tools'], true),
-                'hashtags' => json_decode($row['hashtags'], true)
+                'hashtags' => json_decode($row['hashtags'], true),
+                'creationDate' => $data[$row['id']]['creationDate'] ?? $row['creation_date'],
+                'editDate' => $data[$row['id']]['editDate'] ?? $row['edit_date']
             ];
 
             $data[$row['id']]['translations'][$row['locale']] = [
@@ -135,15 +171,47 @@ SQL;
                 'description' => $row['description_description']
             ];
 
-            $data[$row['id']]['steps'][$row['step_id']] = [
-                'tools' => json_decode($row['tools'], true),
-                'ingredients' => json_decode($row['ingredients_step'], true)
-            ];
+            if($row['step_id'] !== null) {
+                $data[$row['id']]['steps'][$row['step_id']] = [
+                    'tools' => json_decode($row['tools'], true),
+                    'ingredients' => json_decode($row['ingredients_step'], true)
+                ];
 
-            $data[$row['id']]['steps'][$row['step_id']]['translations'][$row['step_translation_locale']] = [
-                'locale' => $row['step_translation_locale'],
-                'description' => $row['step_translation_description']
-            ];
+                $data[$row['id']]['steps'][$row['step_id']]['translations'][$row['step_translation_locale']] = [
+                    'locale' => $row['step_translation_locale'],
+                    'description' => $row['step_translation_description']
+                ];
+            } else {
+                $data[$row['id']]['steps'] = [];
+            }
+
+            if($row['book_id'] !== null) {
+                $data[$row['id']]['books'][$row['book_id']] = [
+                    'id' => $row['book_id'],
+                    'scope' => $row['book_scope']
+                ];
+
+                $data[$row['id']]['books'][$row['book_id']]['translations'][$row['book_translation_locale']] = [
+                    'locale' => $row['book_translation_locale'],
+                    'title' => $row['book_translation_title'],
+                    'subtitle' => $row['book_translation_subtitle']
+                ];
+            } else {
+                $data[$row['id']]['books'] = [];
+            }
+
+            if($row['category_id'] !== null) {
+                $data[$row['id']]['categories'][$row['category_id']] = [
+                    'id' => $row['category_id']
+                ];
+
+                $data[$row['id']]['categories'][$row['category_id']]['translations'][$row['category_translation_locale']] = [
+                    'locale' => $row['category_translation_locale'],
+                    'name' => $row['category_translation_name']
+                ];
+            } else {
+                $data[$row['id']]['categories'] = [];
+            }
 
         }
         return $data;

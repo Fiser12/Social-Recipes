@@ -25,3 +25,9 @@ services:
     Session\Infrastructure\Symfony\HttpAction\:
         resource: '../../../HttpAction'
         tags: ['controller.service_arguments']
+
+    BenGorUser\DoctrineORMBridge\Infrastructure\Persistence\DoctrineORMUserRepository:
+        class: BenGorUser\DoctrineORMBridge\Infrastructure\Persistence\DoctrineORMUserRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - Session\Domain\Model\Session\User

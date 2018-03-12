@@ -86,7 +86,8 @@ class User extends BaseUser
 
     public function usersFollowed(): ?UsersFollowed
     {
-        return $this->usersFollowed;
+        return $this->usersFollowed === null ? null : new UsersFollowed($this->usersFollowed->getValues());
+
     }
 
     public function facebookAccessToken(): ?UserFacebookAccessToken
