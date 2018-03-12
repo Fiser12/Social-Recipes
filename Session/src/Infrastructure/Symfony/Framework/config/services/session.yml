@@ -23,7 +23,7 @@ services:
           'default_graph_version': 'v2.10'
 
     #Command-Handlers
-    Session\Application\Command\Session\FacebookLogInClientHandler:
+    Session\Application\Command\Session\FacebookLogInClient:
         arguments:
             - "@bengor_user.user.repository"
             - "@doctrine.orm.entity_manager"

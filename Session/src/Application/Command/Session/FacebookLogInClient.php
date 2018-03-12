@@ -30,7 +30,7 @@ use Doctrine\ORM\ORMException;
  * @author José Elías Gutiérrez <jose@lin3s.com>
  * @author Ruben Garcia <ruben@lin3s.com>
  */
-class FacebookLogInClientHandler
+class FacebookLogInClient
 {
     private $repository;
     private $entityManager;

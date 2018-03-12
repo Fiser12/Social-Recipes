@@ -12,7 +12,7 @@
 namespace Session\Infrastructure\Symfony\HttpAction\Session;
 
 use LIN3S\SharedKernel\Exception\Exception;
-use Session\Application\Query\Session\GetUserByIdHandler;
+use Session\Application\Query\Session\GetUserById;
 use Session\Application\Query\Session\GetUserByIdQuery;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,7 +23,7 @@ class GetUserByIdAction
     private $handler;
     private $container;
 
-    public function __construct(GetUserByIdHandler $handler, ContainerInterface $container)
+    public function __construct(GetUserById $handler, ContainerInterface $container)
     {
         $this->handler = $handler;
         $this->container = $container;

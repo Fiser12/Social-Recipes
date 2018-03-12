@@ -7,14 +7,14 @@ use Doctrine\ORM\EntityManager;
 use Session\Application\Command\Session\FacebookLogInClientCommand;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Session\Application\Command\Session\FacebookLogInClientHandler;
+use Session\Application\Command\Session\FacebookLogInClient;
 use Session\Domain\Model\Session\User;
 use Session\Domain\Model\Session\UserFacebookAccessToken;
 use Session\Domain\Model\Session\UserFacebookId;
 use Session\Domain\Model\Session\UsersFollowed;
 use BenGorUser\User\Domain\Model\UserEmail;
 
-class FacebookLogInClientHandlerSpec extends ObjectBehavior
+class FacebookLogInClientSpec extends ObjectBehavior
 {
     function let(UserRepository $repository, EntityManager $entityManager)
     {
@@ -22,7 +22,7 @@ class FacebookLogInClientHandlerSpec extends ObjectBehavior
     }
     function it_is_type()
     {
-        $this->shouldHaveType(FacebookLogInClientHandler::class);
+        $this->shouldHaveType(FacebookLogInClient::class);
     }
 
     function it_is_invoke_and_exists_user(
