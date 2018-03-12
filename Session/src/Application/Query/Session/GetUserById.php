@@ -21,7 +21,7 @@ use Session\Domain\Model\Session\User;
 /**
  * @author Ruben Garcia <ruben@lin3s.com>
  */
-class GetUserByIdHandler
+class GetUserById
 {
     private $userRepository;
 

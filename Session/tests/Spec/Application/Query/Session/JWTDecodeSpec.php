@@ -4,11 +4,11 @@ namespace Spec\Session\Application\Query\Session;
 
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\DefaultEncoder;
 use Prophecy\Argument;
-use Session\Application\Query\Session\JWTDecodeHandler;
+use Session\Application\Query\Session\JWTDecode;
 use PhpSpec\ObjectBehavior;
 use Session\Application\Query\Session\JWTDecodeQuery;
 
-class JWTDecodeHandlerSpec extends ObjectBehavior
+class JWTDecodeSpec extends ObjectBehavior
 {
     function let(DefaultEncoder $encoder)
     {
@@ -17,7 +17,7 @@ class JWTDecodeHandlerSpec extends ObjectBehavior
 
     function it_is_type()
     {
-        $this->shouldHaveType(JWTDecodeHandler::class);
+        $this->shouldHaveType(JWTDecode::class);
     }
 
     function it_is_initializable(DefaultEncoder $encoder, JWTDecodeQuery $command)

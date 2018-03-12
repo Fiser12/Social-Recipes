@@ -12,7 +12,7 @@
 namespace Session\Infrastructure\Symfony\HttpAction\Session;
 
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
-use Session\Application\Query\Session\JWTDecodeHandler;
+use Session\Application\Query\Session\JWTDecode;
 use Session\Application\Query\Session\JWTDecodeQuery;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,7 +23,7 @@ class JWTDecodeAction
     private $handler;
     private $container;
 
-    public function __construct(JWTDecodeHandler $handler, ContainerInterface $container)
+    public function __construct(JWTDecode $handler, ContainerInterface $container)
     {
         $this->handler = $handler;
         $this->container = $container;

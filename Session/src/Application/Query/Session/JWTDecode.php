@@ -18,7 +18,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Encoder\DefaultEncoder;
 /**
  * @author Ruben Garcia <ruben@lin3s.com>
  */
-class JWTDecodeHandler
+class JWTDecode
 {
     private $encoder;
 
