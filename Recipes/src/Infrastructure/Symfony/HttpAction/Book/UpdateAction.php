@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Recipes\Infrastructure\Symfony\HttpAction\Book;
 
 use Recipes\Application\Command\Book\EditBookCommand;
+use Recipes\Application\Query\Book\GetBooksByIds;
+use Recipes\Application\Query\Book\GetBooksByIdsQuery;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,10 +24,12 @@ use Symfony\Component\HttpFoundation\Request;
 class UpdateAction extends Controller
 {
     private $commandBus;
+    private $booksByIds;
 
-    public function __construct(CommandBus $commandBus)
+    public function __construct(CommandBus $commandBus, GetBooksByIds $booksByIds)
     {
         $this->commandBus = $commandBus;
+        $this->booksByIds = $booksByIds;
     }
 
     public function __invoke(Request $request)
@@ -33,16 +37,27 @@ class UpdateAction extends Controller
         $user = $this->getUser();
         $userId = $user->facebookId()->id();
 
+        $data = json_decode($request->getContent(), true);
+
         try {
             $command = new EditBookCommand(
-                ...array_merge(['userId' => $userId], json_decode($request->getContent(), true), ['id' =>$request->get('id')])
+                $userId,
+                $data['scope'],
+                $data['follows'],
+                $data['recipeIds'],
+                $data['translations'],
+                $request->get('id')
             );
-        } catch(\InvalidArgumentException $exception) {
+        } catch (\InvalidArgumentException $exception) {
             return new JsonResponse($exception->getMessage(), 400);
         }
 
         $this->commandBus->handle($command);
 
-        return new JsonResponse('Book edited');
+        $result = $this->booksByIds->__invoke(
+            new GetBooksByIdsQuery([$request->get('id')], $userId)
+        );
+
+        return new JsonResponse($result);
     }
 }

@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Recipes\Infrastructure\Symfony\HttpAction\Book;
 
+use LIN3S\SharedKernel\Domain\Model\Identity\Uuid;
 use Recipes\Application\Command\Book\AddBookCommand;
+use Recipes\Application\Query\Book\GetBooksByIds;
+use Recipes\Application\Query\Book\GetBooksByIdsQuery;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,20 +25,29 @@ use Symfony\Component\HttpFoundation\Request;
 class AddAction extends Controller
 {
     private $commandBus;
+    private $booksByIds;
 
-    public function __construct(CommandBus $commandBus)
+    public function __construct(CommandBus $commandBus, GetBooksByIds $booksByIds)
     {
         $this->commandBus = $commandBus;
+        $this->booksByIds = $booksByIds;
     }
 
     public function __invoke(Request $request)
     {
         $user = $this->getUser();
         $userId = $user->facebookId()->id();
+        $data = json_decode($request->getContent(), true);
+        $id = Uuid::generate();
 
         try {
             $command = new AddBookCommand(
-                ...array_merge(['userId' => $userId], json_decode($request->getContent(), true))
+                $userId,
+                $data['scope'],
+                $data['follows'],
+                $data['recipeIds'],
+                $data['translations'],
+                $id
             );
         } catch (\InvalidArgumentException $exception) {
             return new JsonResponse($exception->getMessage(), 400);
@@ -43,6 +55,10 @@ class AddAction extends Controller
 
         $this->commandBus->handle($command);
 
-        return new JsonResponse('Book created');
+        $result = $this->booksByIds->__invoke(
+            new GetBooksByIdsQuery([$id], $userId)
+        );
+
+        return new JsonResponse($result);
     }
 }

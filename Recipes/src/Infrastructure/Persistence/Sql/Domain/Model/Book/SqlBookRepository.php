@@ -70,10 +70,10 @@ SQL;
     private function persistAssociations(Book $book): void
     {
         foreach ($book->recipes() as $recipe) {
-            $this->pdo->insert('recipe_recipe_book_owner', $this->buildRecipesParameters($recipe->id, $book->id()));
+            $this->pdo->insert('recipe_recipe_book', $this->buildRecipesParameters($recipe, $book->id()));
         }
         foreach ($book->follow() as $user) {
-            $this->pdo->insert('recipe_recipe_book_owner', $this->buildOwnerParameters($user->id, $book->id()));
+            $this->pdo->insert('recipe_user_follow_book', $this->buildOwnerParameters($user, $book->id()));
         }
     }
 

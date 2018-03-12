@@ -75,12 +75,16 @@ class GetRecipesByIds
     private function friends(string $userId): array
     {
         $friends = [];
-        $friendsCollection = $this->userRepository->userOfId(UserId::generate($userId))->friends()->toArray();
+        $user = $this->userRepository->userOfId(UserId::generate($userId));
+        if($userId === null) {
+            return $friends;
+        }
+
+        $friendsCollection = $user->friends()->toArray();
 
         foreach ($friendsCollection as $friend) {
             $friends[] = $friend->id();
         }
         return $friends;
     }
-
 }

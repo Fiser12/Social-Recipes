@@ -55,10 +55,12 @@ WHERE `recipe_user_follow_book`.user_id = :id
 SQL;
         $userRow = $this->pdo->query($sql, ['id' => $userId->id()]);
         $userRow = $this->addAddtionalFields($userId, $userRow);
+
         return !$userRow ? null : $this->hydrator->build($userRow);
     }
 
-    private function userInfo(UserId $userId) : array {
+    private function userInfo(UserId $userId): array
+    {
         try {
             $response = $this->client->request(
                 'GET',
@@ -68,20 +70,31 @@ SQL;
                     'query' => ['id' => $userId->id()]
                 ]
             );
-        }catch(ClientException $clientException) {
-            if(404 === $clientException->getCode()) {
-                throw new Exception('User does not exist in '. $clientException->getMessage());
+        } catch (ClientException $clientException) {
+            if (404 === $clientException->getCode()) {
+                throw new Exception('User does not exist in ' . $clientException->getMessage());
             }
             throw $clientException;
         }
         return json_decode($response->getBody()->getContents(), true)['user'];
     }
 
-    private function addAddtionalFields(UserId $userId, array $results) : array
+    private function addAddtionalFields(UserId $userId, array $results): array
     {
         $userAdditionalData = $this->userInfo($userId);
+
+        if (empty($results)) {
+            return [
+                [
+                    'user_id' => $userAdditionalData['id'],
+                    'email' => $userAdditionalData['email'],
+                    'friends' => $userAdditionalData['friends']
+                ]
+            ];
+        }
+
         $processedData = [];
-        foreach($results as $result) {
+        foreach ($results as $result) {
             $result['email'] = $userAdditionalData['email'];
             $result['friends'] = $userAdditionalData['friends'];
             $processedData[] = $result;

@@ -45,22 +45,26 @@ class SqlUserHydrator implements SqlHydrator
 
             ];
 
-            $bookId = BookId::generate($row['book_create_id']);
-            $data['createBooks']->contains($bookId) ?: $data['createBooks']->add($bookId);
+            if (isset($row['book_create_id'])) {
+                $bookId = BookId::generate($row['book_create_id']);
+                $data['createBooks']->contains($bookId) ?: $data['createBooks']->add($bookId);
+            }
 
-            $bookId = BookId::generate($row['book_follow_id']);
-            $data['followBooks']->contains($bookId) ?: $data['followBooks']->add($bookId);
-
-            $recipeId = RecipeId::generate($row['recipe_create_id']);
-            $data['createRecipes']->contains($recipeId) ?: $data['createRecipes']->add($recipeId);
+            if (isset($row['book_follow_id'])) {
+                $bookId = BookId::generate($row['book_follow_id']);
+                $data['followBooks']->contains($bookId) ?: $data['followBooks']->add($bookId);
+            }
+            if (isset($row['recipe_create_id'])) {
+                $recipeId = RecipeId::generate($row['recipe_create_id']);
+                $data['createRecipes']->contains($recipeId) ?: $data['createRecipes']->add($recipeId);
+            }
 
             foreach ($row['friends'] as $friend) {
                 $user = UserId::generate($friend);
                 $data['friends']->contains($user) ?: $data['friends']->add($user);
             }
         }
+
         return $data;
-
     }
-
 }

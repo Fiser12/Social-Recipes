@@ -8,6 +8,7 @@ use Recipes\Domain\Model\Book\BookId;
 use Recipes\Domain\Model\Book\BookRepository;
 use Recipes\Domain\Model\Book\BookTranslation;
 use Recipes\Domain\Model\Recipes\RecipeCollection;
+use Recipes\Domain\Model\Recipes\RecipeId;
 use Recipes\Domain\Model\Scope;
 use Recipes\Domain\Model\Subtitle;
 use Recipes\Domain\Model\Title;
@@ -51,7 +52,7 @@ class AddBook
     private function users(array $userIds): UsersCollection
     {
         $collection = new UsersCollection();
-
+        //TODO Check if the users exists in session
         foreach($userIds as $id) {
             $collection->add(UserId::generate($id));
         }
