@@ -69,7 +69,7 @@ class EditRecipe
 
         foreach($steps as $stepArray) {
             $step = new Step(
-                StepId::generate($stepArray['id']),
+                StepId::generate(),
                 IngredientsCollection::fromJson($stepArray['ingredients']),
                 ToolsCollection::fromJson($stepArray['tools']),
                 $recipeId
@@ -103,6 +103,8 @@ class EditRecipe
         foreach($categories as $id) {
             $collection->add(CategoryId::generate($id));
         }
+
+        return $collection;
     }
 
     private function books(array $books) : BooksCollection
@@ -112,6 +114,8 @@ class EditRecipe
         foreach($books as $id) {
             $collection->add(BookId::generate($id));
         }
+
+        return $collection;
     }
 
     private function translations(array $translationsArray): TranslationCollection

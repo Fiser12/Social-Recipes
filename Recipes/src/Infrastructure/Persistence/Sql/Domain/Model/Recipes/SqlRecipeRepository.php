@@ -82,9 +82,9 @@ SQL;
             'time_seconds' => $recipe->time()->seconds(),
             'servings_servings' => $recipe->servings()->servings(),
             'scope_scope' => $recipe->scope()->scope(),
-            'hashtags' => $recipe->hashtags()->jsonSerialize(),
-            'tools' => $recipe->tools()->jsonSerialize(),
-            'ingredients' => $recipe->ingredients()->jsonSerialize(),
+            'hashtags' => json_encode($recipe->hashtags()->jsonSerialize()),
+            'tools' => json_encode($recipe->tools()->jsonSerialize()),
+            'ingredients' => json_encode($recipe->ingredients()->jsonSerialize()),
             'owner_id' => $recipe->owner()->id()
         ];
     }
@@ -100,8 +100,9 @@ SQL;
     private function buildStepParameters(Step $step, RecipeId $id): array
     {
         return [
-            'ingredients' => $step->ingredients(),
-            'tools' => $step->tools(),
+            'id' => $step->id()->id(),
+            'ingredients' => json_encode($step->ingredients()->jsonSerialize()),
+            'tools' => json_encode($step->tools()->jsonSerialize()),
             'recipe_id' => $id->id()
         ];
     }
@@ -110,7 +111,7 @@ SQL;
     {
         foreach ($step->translations() as $translation) {
             $this->pdo->insert(
-                'recipe_recipe_translation',
+                'recipe_step_translation',
                 $this->buildStepTranslationParameters(
                     $translation,
                     $step->id()
