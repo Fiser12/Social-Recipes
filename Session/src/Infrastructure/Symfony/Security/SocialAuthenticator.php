@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Session\Infrastructure\Symfony\Security;
 
+use BenGorUser\User\Domain\Model\UserId;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\DefaultEncoder;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
 use Session\Application\Command\Session\FacebookLogInClientCommand;
@@ -26,6 +27,8 @@ use KnpU\OAuth2ClientBundle\Security\Exception\FinishRegistrationException;
 use LIN3S\SharedKernel\Application\CommandBus;
 use LIN3S\SharedKernel\Application\QueryBus;
 use LIN3S\SharedKernel\Exception\InvalidArgumentException;
+use Session\Domain\Model\Session\User;
+use Session\Domain\Model\Session\UserRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -47,6 +50,7 @@ class SocialAuthenticator extends BaseSocialAuthenticator
 
     private $jwt;
     private $messageTimer;
+    private $userRepository;
 
     public function __construct(
         ClientRegistry $clientRegistry,
@@ -55,7 +59,8 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         QueryBus $queryBus,
         Facebook $facebookGraphApi,
         DefaultEncoder $encoder,
-        SessionCookieGenerator $sessionCookieGenerator
+        SessionCookieGenerator $sessionCookieGenerator,
+        UserRepository $userRepository
     )
     {
         $this->clientRegistry = $clientRegistry;
@@ -65,6 +70,7 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         $this->facebookGraphApi = $facebookGraphApi;
         $this->encoder = $encoder;
         $this->messageTimer = $sessionCookieGenerator;
+        $this->userRepository = $userRepository;
     }
 
     public function getCredentials(Request $request)
@@ -104,19 +110,27 @@ class SocialAuthenticator extends BaseSocialAuthenticator
         }
 
         try {
+            $this->commandBus->handle($credentials);
+            $user = $this->userRepository->userOfId(new UserId($credentials->facebookId()));
+            /** @var User $user */
             $userValues = [
-                'id' => $credentials->facebookId(),
-                'email' => $credentials->email(),
-                'first_name' => $credentials->firstName(),
-                'last_name' => $credentials->lastName()
+                'id' => $user->publicId()->id(),
+                'email' => $user->email()->email(),
+                'first_name' => $user->fullName()->firstName()->firstName(),
+                'last_name' => $user->fullName()->lastName()->lastName(),
             ];
             $this->jwt = $this->encoder->encode($userValues);
-            $this->commandBus->handle($credentials);
+            $user = $userProvider->loadUserByUsername($user->email()->email());
         } catch (UserEmailInvalidException | JWTEncodeFailureException $exception) {
-            throw new FinishRegistrationException($userValues);
+            throw new FinishRegistrationException(
+                [
+                    'id' => $credentials->facebookId(),
+                    'email' => $credentials->email()
+                ]
+            );
         }
 
-        return $userProvider->loadUserByUsername($credentials->email());
+        return $user;
     }
 
     private function client(): OAuth2Client

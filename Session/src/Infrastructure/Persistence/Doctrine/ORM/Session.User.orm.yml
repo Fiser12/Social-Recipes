@@ -2,7 +2,7 @@ Session\Domain\Model\Session\User:
     type: entity
     table: session_user
     lifecycleCallbacks: {  }
-    repositoryClass: BenGorUser\DoctrineORMBridge\Infrastructure\Persistence\DoctrineORMUserRepository
+    repositoryClass: Session\Infrastructure\Persistence\Doctrine\DoctrineUserRepository
     embedded:
         facebookId:
             columnPrefix: facebook_id_
@@ -13,6 +13,9 @@ Session\Domain\Model\Session\User:
         fullName:
             columnPrefix: full_name_
             class: Session\Domain\Model\Session\FullName
+        publicId:
+            columnPrefix: public_id_
+            class: Session\Domain\Model\Session\PublicId
 
     manyToMany:
       usersFollowed:

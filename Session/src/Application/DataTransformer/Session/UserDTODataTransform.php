@@ -14,25 +14,37 @@ declare(strict_types=1);
 namespace Session\Application\DataTransformer\Session;
 
 use BenGorUser\User\Application\DataTransformer\UserDTODataTransformer;
+use Session\Domain\Model\Session\User;
 
 /**
  * @author Ruben Garcia Hernando <ruben@lin3s.com>
  */
 class UserDTODataTransform extends UserDTODataTransformer
 {
-    public function read() : array
+    /**
+     * The domain user.
+     *
+     * @var User
+     */
+    protected $user;
+
+    public function write($aUser)
+    {
+        if (!$aUser instanceof User) {
+            throw new \InvalidArgumentException(sprintf('Expected instance of %s', User::class));
+        }
+        $this->user = $aUser;
+    }
+
+    public function read(): array
     {
         $readParent = parent::read();
 
-        $firstName = null;
-        $lastName = null;
-        $name = null;
-
         return array_merge($readParent, [
-            'facebook_id' => $this->user->facebookId(),
-            'name'        => $name,
-            'first_name'  => $firstName,
-            'last_name'   => $lastName,
+            'facebook_id' => $this->user->facebookId()->id(),
+            'first_name' => $this->user->fullName()->firstName()->firstName(),
+            'last_name' => $this->user->fullName()->lastName()->lastName(),
+            'public_id' => $this->user->publicId()->id(),
         ]);
     }
 }
