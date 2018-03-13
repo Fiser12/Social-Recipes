@@ -31,3 +31,7 @@ services:
             -
                 name: command_handler
                 handles: Session\Application\Command\Session\FacebookLogInClientCommand
+
+    BenGorUser\User\Application\Query\UserOfIdHandler:
+        arguments:
+            - "@session.infrastructure.persistence.doctrine.doctrine_user_repository"

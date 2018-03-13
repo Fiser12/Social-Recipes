@@ -62,12 +62,6 @@ ben_gor_user:
     user_class:
         user:
             class: Session\Domain\Model\Session\User
-            firewall: user
-
-ben_gor_user:
-    user_class:
-        user:
-            class: Session\Domain\Model\Session\User
             data_transformer: Session\Application\DataTransformer\Session\UserDTODataTransform
             firewall: user
             default_roles:

@@ -26,8 +26,15 @@ services:
         resource: '../../../HttpAction'
         tags: ['controller.service_arguments']
 
-    BenGorUser\DoctrineORMBridge\Infrastructure\Persistence\DoctrineORMUserRepository:
-        class: BenGorUser\DoctrineORMBridge\Infrastructure\Persistence\DoctrineORMUserRepository
+    session.infrastructure.persistence.doctrine.doctrine_user_repository:
+        class: Session\Infrastructure\Persistence\Doctrine\DoctrineUserRepository
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
             - Session\Domain\Model\Session\User
+
+    session.application.data_transformer.session.user_dto_data_transformer:
+        class: Session\Application\DataTransformer\Session\UserDTODataTransform
+    Session\Application\DataTransformer\Session\UserSymfonyDataTransform:
+        class: Session\Application\DataTransformer\Session\UserSymfonyDataTransform
+
+    Session\Domain\Model\Session\UserRepository: "@session.infrastructure.persistence.doctrine.doctrine_user_repository"

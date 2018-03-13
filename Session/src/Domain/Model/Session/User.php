@@ -28,6 +28,7 @@ class User extends BaseUser
     private $usersFollowed;
     private $facebookAccessToken;
     private $fullName;
+    private $publicId;
 
     protected function __construct(
         UserId $anId,
@@ -51,6 +52,7 @@ class User extends BaseUser
         $this->usersFollowed = $usersFollowed;
         $this->facebookAccessToken = $facebookAccessToken;
         $this->fullName = $fullName;
+        $this->publicId = PublicId::generate();
     }
 
     public static function signUpWithFacebook(
@@ -67,11 +69,11 @@ class User extends BaseUser
 
         $client->publish(
             new UserRegisteredWithFacebook(
-                $client->id(),
+                $id,
                 $fullName,
-                $client->facebookId(),
-                $client->facebookAccessToken(),
-                $client->email()
+                $facebookId,
+                $facebookAccessToken,
+                $email
             )
         );
 
@@ -128,6 +130,11 @@ class User extends BaseUser
     public static function signUp(UserId $anId, UserEmail $anEmail, UserPassword $aPassword, array $userRoles)
     {
 
+    }
+
+    public function publicId() : PublicId
+    {
+        return $this->publicId;
     }
 }
 

@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Session\Application\Query\Session;
 
-use BenGorUser\User\Domain\Model\UserId;
-use BenGorUser\User\Domain\Model\UserRepository;
+use Session\Domain\Model\Session\PublicId;
+use Session\Domain\Model\Session\UserRepository;
 use LIN3S\SharedKernel\Exception\Exception;
 use Session\Domain\Model\Session\User;
 
@@ -32,7 +32,7 @@ class GetUserById
 
     public function __invoke(GetUserByIdQuery $command): array
     {
-        $user = $this->userRepository->userOfId(new UserId($command->id()));
+        $user = $this->userRepository->userOfPublicId(PublicId::generate($command->id()));
 
         if(null === $user) {
             throw new Exception('User does not exist');
@@ -48,11 +48,14 @@ class GetUserById
             $roles[] = $role->role();
         }
 
+        /** @var User $user */
         return [
-            'id' => $user->id()->id(),
+            'id' => $user->publicId()->id(),
             'email' => $user->email()->email(),
             'friends' => $friends,
-            'roles' => $roles
+            'roles' => $roles,
+            'firstName' => $user->fullName()->firstName()->firstName(),
+            'lastName' => $user->fullName()->lastName()->lastName()
         ];
     }
 }
