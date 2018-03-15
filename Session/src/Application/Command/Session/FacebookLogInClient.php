@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Session\Application\Command\Session;
 
+use Facebook\Facebook;
 use Session\Domain\Model\Session\FirstName;
 use Session\Domain\Model\Session\FullName;
 use Session\Domain\Model\Session\LastName;
@@ -27,62 +28,61 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 
 /**
- * @author José Elías Gutiérrez <jose@lin3s.com>
- * @author Ruben Garcia <ruben@lin3s.com>
+ * @author Ruben Garcia <ruben.garcia@opendeusto.es>
  */
 class FacebookLogInClient
 {
     private $repository;
     private $entityManager;
+    private $facebook;
 
-    public function __construct(UserRepository $repository, EntityManager $entityManager)
+    public function __construct(
+        UserRepository $repository,
+        EntityManager $entityManager,
+        Facebook $facebook
+    )
     {
         $this->repository = $repository;
         $this->entityManager = $entityManager;
+        $this->facebook = $facebook;
     }
 
     public function __invoke(FacebookLogInClientCommand $command): void
     {
-        $user = $this->repository->userOfEmail(
-            new UserEmail(
-                $command->email()
-            )
+        $email = new UserEmail($command->email());
+        $accessToken = new UserFacebookAccessToken($command->facebookAccessToken());
+        $usersFollowed = $this->usersFollowed($accessToken);
+        $facebookId = new UserFacebookId($command->facebookId());
+        $fullName = new FullName(
+            new FirstName($command->firstName()),
+            new LastName($command->lastName())
         );
+        $userId = new UserId($command->facebookId());
+        $user = $this->repository->userOfEmail($email);
 
         if (null === $user) {
-            $user = User::signUpWithFacebook(
-                new UserId($command->facebookId()),
-                new FullName(
-                    new FirstName($command->firstName()),
-                    new LastName($command->lastName())
-                ),
-                new UserFacebookId($command->facebookId()),
-                new UserEmail($command->email()),
-                new UserFacebookAccessToken($command->facebookAccessToken()),
-                $this->getUsersFollowed($command->usersFollowers())
+            $user = User::signUp(
+                $userId,
+                $email
             );
-        } else {
-            /** @var User $user */
-            $user->connectToFacebook(
-                new UserFacebookId($command->facebookId()),
-                new UserFacebookAccessToken($command->facebookAccessToken()
-                )
-            );
-            $user->updateUsersFollowed($this->getUsersFollowed($command->usersFollowers()));
         }
-        try {
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-        } catch (ORMException $e) {
-            return;
-        }
+
+        $user->connectToFacebook(
+            $facebookId,
+            $accessToken,
+            $usersFollowed,
+            $fullName
+        );
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
     }
 
-    private function getUsersFollowed(array $usersFollowed): UsersFollowed
+    private function usersFollowed(UserFacebookAccessToken $accessToken): UsersFollowed
     {
         $usersFollowedReturned = new UsersFollowed();
 
-        foreach ($usersFollowed as $userFollowed) {
+        foreach ($this->followUsersFromApi($accessToken) as $userFollowed) {
             $user = $this->repository->userOfId(new UserId($userFollowed));
             if ($user === null) {
                 continue;
@@ -91,6 +91,27 @@ class FacebookLogInClient
         }
 
         return $usersFollowedReturned;
+    }
+
+    private function followUsersFromApi(UserFacebookAccessToken $accessToken): array
+    {
+        $this->facebook->setDefaultAccessToken($accessToken->token());
+        $response = $this->facebook->get('/me/friends');
+        $usersFollowersApi = $response->getDecodedBody();
+
+        $usersFollowers = [];
+
+        if (!isset($usersFollowersApi["data"])) {
+            return [];
+        }
+
+        foreach ($usersFollowersApi["data"] as $followUser) {
+            if (isset($followUser["id"])) {
+                $usersFollowers[] = $followUser["id"];
+            }
+        }
+
+        return $usersFollowers;
     }
 }
 

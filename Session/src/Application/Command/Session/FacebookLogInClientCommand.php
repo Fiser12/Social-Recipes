@@ -20,21 +20,18 @@ class FacebookLogInClientCommand
     private $lastName;
     private $email;
     private $facebookAccessToken;
-    private $usersFollowers;
 
     public function __construct(
         string $facebookId,
         string $facebookAccessToken,
         string $email,
         string $firstName,
-        ?string $lastName,
-        array $usersFollowers
+        ?string $lastName
     )
     {
         $this->facebookId = $facebookId;
         $this->email = $email;
         $this->facebookAccessToken = $facebookAccessToken;
-        $this->usersFollowers = $usersFollowers;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
     }
@@ -52,11 +49,6 @@ class FacebookLogInClientCommand
     public function facebookAccessToken(): string
     {
         return $this->facebookAccessToken;
-    }
-
-    public function usersFollowers(): array
-    {
-        return $this->usersFollowers;
     }
 
     public function firstName() : string

@@ -71,15 +71,6 @@ ben_gor_user:
                     jwt:
                         path: /api/client/token
 
-knpu_oauth2_client:
-    clients:
-        facebook:
-            type: facebook
-            client_id: "%oauth_facebook_client_id%"
-            client_secret: "%oauth_facebook_client_secret%"
-            graph_api_version: v2.12
-            redirect_route: oauth_facebook_check
-
 lexik_jwt_authentication:
     private_key_path: "%kernel.root_dir%/../../../../var/jwt/private.pem"
     public_key_path: "%kernel.root_dir%/../../../../var/jwt/public.pem"

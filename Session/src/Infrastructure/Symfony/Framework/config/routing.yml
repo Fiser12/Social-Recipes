@@ -6,26 +6,12 @@
 # @author Ruben Garcia <ruben.garcia@opendeusto.es>
 
 #Redirections to CompositeUI
-app_homepage:
-    path: /
 
-app_logged:
-    path: /{_locale}/timeline
-
-#Facebook url connections
-oauth_facebook:
-    path: /session/connect/facebook
+session.http_action.session.verify_access_token:
+    path: /session/user/login
     defaults:
-        _controller: Session\Infrastructure\Symfony\HttpAction\Session\FacebookConnectAction:__invoke
+        _controller: Session\Infrastructure\Symfony\HttpAction\Session\FacebookLoginAction:__invoke
     methods:
-        - GET
-
-oauth_facebook_check:
-    path: /session/connect/facebook/check
-    defaults:
-        _controller: Session\Infrastructure\Symfony\HttpAction\Session\FacebookConnectCheckAction:__invoke
-    methods:
-        - GET
         - POST
 
 session.http_action.session.jwt_decode:

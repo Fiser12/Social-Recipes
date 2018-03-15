@@ -19,7 +19,7 @@ use LIN3S\SharedKernel\Exception\Exception;
 use Session\Domain\Model\Session\User;
 
 /**
- * @author Ruben Garcia <ruben@lin3s.com>
+ * @author Ruben Garcia <ruben.garcia@opendeusto.es>
  */
 class GetUserById
 {
@@ -30,9 +30,9 @@ class GetUserById
         $this->userRepository = $userRepository;
     }
 
-    public function __invoke(GetUserByIdQuery $command): array
+    public function __invoke(GetUserByIdQuery $query): array
     {
-        $user = $this->userRepository->userOfPublicId(PublicId::generate($command->id()));
+        $user = $this->userRepository->userOfPublicId(PublicId::generate($query->id()));
 
         if(null === $user) {
             throw new Exception('User does not exist');

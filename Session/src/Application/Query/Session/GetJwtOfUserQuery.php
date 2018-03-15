@@ -13,23 +13,20 @@ declare(strict_types=1);
 
 namespace Session\Application\Query\Session;
 
-use Lexik\Bundle\JWTAuthenticationBundle\Encoder\DefaultEncoder;
-
 /**
  * @author Ruben Garcia <ruben.garcia@opendeusto.es>
  */
-class JWTDecode
+class GetJwtOfUserQuery
 {
-    private $encoder;
+    private $id;
 
-    public function __construct(DefaultEncoder $encoder)
+    public function __construct(string $id)
     {
-        $this->encoder = $encoder;
+        $this->id = $id;
     }
 
-    public function __invoke(JWTDecodeQuery $query): array
+    public function id(): string
     {
-        return $this->encoder->decode($query->jwt());
+        return $this->id;
     }
 }
-

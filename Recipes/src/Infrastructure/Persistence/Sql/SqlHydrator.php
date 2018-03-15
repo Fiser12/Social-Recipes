@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Recipes\Infrastructure\Persistence\Sql;
 
 /**
- * @author Rubén García <ruben@lin3s.com>
+ * @author Ruben Garcia <ruben.garcia@opendeusto.es>
  */
 interface SqlHydrator
 {
