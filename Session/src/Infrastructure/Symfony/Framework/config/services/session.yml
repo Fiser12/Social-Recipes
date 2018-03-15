@@ -20,13 +20,14 @@ services:
       arguments:
         - 'app_id': '%oauth_facebook_client_id%'
           'app_secret': '%oauth_facebook_client_secret%'
-          'default_graph_version': 'v2.10'
+          'default_graph_version': 'v2.12'
 
     #Command-Handlers
     Session\Application\Command\Session\FacebookLogInClient:
         arguments:
             - "@bengor_user.user.repository"
             - "@doctrine.orm.entity_manager"
+            - '@Facebook\Facebook'
         tags:
             -
                 name: command_handler

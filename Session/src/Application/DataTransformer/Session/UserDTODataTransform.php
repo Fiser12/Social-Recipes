@@ -17,7 +17,7 @@ use BenGorUser\User\Application\DataTransformer\UserDTODataTransformer;
 use Session\Domain\Model\Session\User;
 
 /**
- * @author Ruben Garcia Hernando <ruben@lin3s.com>
+ * @author Ruben Garcia <ruben.garcia@opendeusto.es>
  */
 class UserDTODataTransform extends UserDTODataTransformer
 {

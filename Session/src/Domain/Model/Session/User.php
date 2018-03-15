@@ -34,10 +34,10 @@ class User extends BaseUser
         UserId $anId,
         UserEmail $anEmail,
         ?FullName $fullName = null,
-        UserPassword $aPassword = null,
-        UserFacebookId $facebookId = null,
-        UserFacebookAccessToken $facebookAccessToken = null,
-        UsersFollowed $usersFollowed = null
+        ?UserPassword $aPassword = null,
+        ?UserFacebookId $facebookId = null,
+        ?UserFacebookAccessToken $facebookAccessToken = null,
+        ?UsersFollowed $usersFollowed = null
     )
     {
         $userRoles = array_map(function ($role) {
@@ -46,38 +46,19 @@ class User extends BaseUser
 
         parent::__construct($anId, $anEmail, $userRoles, $aPassword);
 
-        if (null !== $facebookId) {
-            $this->connectToFacebook($facebookId, $facebookAccessToken);
-        }
         $this->usersFollowed = $usersFollowed;
         $this->facebookAccessToken = $facebookAccessToken;
         $this->fullName = $fullName;
+        $this->facebookId = $facebookId;
+        $this->facebookAccessToken = $facebookAccessToken;
         $this->publicId = PublicId::generate();
-    }
 
-    public static function signUpWithFacebook(
-        UserId $id,
-        FullName $fullName,
-        UserFacebookId $facebookId,
-        UserEmail $email,
-        UserFacebookAccessToken $facebookAccessToken,
-        UsersFollowed $usersFollowed
-
-    ): self
-    {
-        $client = new self($id, $email, $fullName, null, $facebookId, $facebookAccessToken, $usersFollowed);
-
-        $client->publish(
-            new UserRegisteredWithFacebook(
-                $id,
-                $fullName,
-                $facebookId,
-                $facebookAccessToken,
-                $email
+        $this->publish(
+            new UserLoggedIn(
+                $this->id,
+                $this->email
             )
         );
-
-        return $client;
     }
 
 
@@ -102,22 +83,51 @@ class User extends BaseUser
         return $this->fullName;
     }
 
-    public function connectToFacebook(UserFacebookId $facebookId, UserFacebookAccessToken $accessToken): void
+    public function publicId(): PublicId
+    {
+        return $this->publicId;
+    }
+
+    public function connectToFacebook(
+        UserFacebookId $facebookId,
+        UserFacebookAccessToken $accessToken,
+        UsersFollowed $usersFollowed,
+        FullName $fullName
+    ): void
     {
         $this->facebookId = $facebookId;
         $this->lastLogin = new \DateTimeImmutable();
         $this->facebookAccessToken = $accessToken;
+        $this->usersFollowed = $usersFollowed;
+        $this->fullName = $fullName;
 
         $this->publish(
-            new UserLoggedIn(
+            new UserRegisteredWithFacebook(
                 $this->id,
+                $fullName,
+                $facebookId,
+                $accessToken,
                 $this->email
             )
         );
     }
 
-    public function updateUsersFollowed(UsersFollowed $usersFollowed) {
-        $this->usersFollowed = $usersFollowed;
+    public static function signUp(
+        UserId $id,
+        UserEmail $email,
+        ?UserPassword $password = null,
+        array $userRoles = null
+    )
+    {
+        return new self(
+            $id,
+            $email,
+            null,
+            null,
+            null,
+            null,
+            null
+        );
     }
 
     public static function availableRoles(): array
@@ -125,16 +135,6 @@ class User extends BaseUser
         return [
             self::ROLE_CLIENT,
         ];
-    }
-
-    public static function signUp(UserId $anId, UserEmail $anEmail, UserPassword $aPassword, array $userRoles)
-    {
-
-    }
-
-    public function publicId() : PublicId
-    {
-        return $this->publicId;
     }
 }
 

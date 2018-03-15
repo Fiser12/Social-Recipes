@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Recipes\Infrastructure\Persistence;
 
 /**
- * @author Ruben Garcia <ruben@lin3s.com>
+ * @author Ruben Garcia <ruben.garcia@opendeusto.es>
  */
 interface Hydrator
 {

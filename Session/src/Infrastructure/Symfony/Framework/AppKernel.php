@@ -23,7 +23,6 @@ use BenGorUser\TwigBridgeBundle\TwigBridgeBundle;
 use BenGorUser\UserBundle\BenGorUserBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
-use KnpU\OAuth2ClientBundle\KnpUOAuth2ClientBundle;
 use Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle;
 use LIN3S\Distribution\Php\Symfony\Lin3sDistributionBundle;
 use LIN3S\SharedKernel\Infrastructure\Symfony\Bundle\Lin3sSharedKernelBundle;
@@ -69,12 +68,10 @@ class AppKernel extends Kernel
 
             // User bundle
             new BenGorUserBundle(),
-            new KnpUOAuth2ClientBundle(),
             new Lin3sSharedKernelBundle(),
             new SimpleBusCommandBusBundle(),
             new SimpleBusEventBusBundle(),
-            new LexikJWTAuthenticationBundle(),
-
+            new LexikJWTAuthenticationBundle()
         );
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
