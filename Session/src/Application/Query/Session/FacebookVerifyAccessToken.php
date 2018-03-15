@@ -30,9 +30,16 @@ class FacebookVerifyAccessToken
     public function __invoke(FacebookVerifyAccessTokenQuery $query): array
     {
         $this->facebook->setDefaultAccessToken($query->accessToken());
-        $response = $this->facebook->get('/me?fields=id,first_name,last_name,email');
 
-        return $response->getDecodedBody();
+        $longAccessToken = $this->facebook->getOAuth2Client()->getLongLivedAccessToken($query->accessToken());
+        $result = ['access_token' => $longAccessToken->getValue()];
+
+        $this->facebook->setDefaultAccessToken($longAccessToken);
+
+        $response = $this->facebook->get('/me?fields=id,first_name,last_name,email');
+        $result = array_merge($response->getDecodedBody(), $result);
+
+        return $result;
     }
 }
 

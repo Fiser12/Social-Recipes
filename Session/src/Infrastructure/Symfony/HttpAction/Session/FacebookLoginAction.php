@@ -62,7 +62,7 @@ class FacebookLoginAction
         $this->commandBus->handle(
             new FacebookLogInClientCommand(
                 $user['id'],
-                $accessToken,
+                $user['access_token'],
                 $user['email'],
                 $user['first_name'],
                 $user['last_name']
