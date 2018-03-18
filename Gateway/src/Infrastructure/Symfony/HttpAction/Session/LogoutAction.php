@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace CompositeUi\Infrastructure\Symfony\HttpAction\Session;
+namespace Gateway\Infrastructure\Symfony\HttpAction\Session;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;

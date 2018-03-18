@@ -38,7 +38,7 @@ symfony-console:
 	@docker-compose -f Docker/docker-compose.$(ENV).yaml exec $(SERVICE) bash -c "php /app/$(DIR)/etc/bin/symfony-console $(COMMAND)"
 
 yarn-install-and-build:
-	@docker-compose -f Docker/docker-compose.$(ENV).yaml exec app-$(ENV) bash -c "cd /app/CompositeUi/src/Infrastructure/Ui/Assets && yarn install && yarn build$(YARN_COMPOSER)"
+	@docker-compose -f Docker/docker-compose.$(ENV).yaml exec app-$(ENV) bash -c "cd /app/Gateway/src/Infrastructure/Ui/Assets && yarn install && yarn build$(YARN_COMPOSER)"
 
 #DOCKER COMMANDS
 docker-compose-exec:
@@ -53,14 +53,14 @@ start:
 
 build:
 	@rsync --ignore-existing Docker/.env.dist Docker/.env && \
-	        chmod -R 777 Session/var CompositeUi/var && \
+	        chmod -R 777 Session/var Gateway/var && \
 	        docker-compose -f Docker/docker-compose.$(ENV).yaml down && \
         	docker-compose -f Docker/docker-compose.$(ENV).yaml build --pull --no-cache && \
             docker-compose -f Docker/docker-compose.$(ENV).yaml up -d
 
 composer-install-all:
 	@docker-compose -f Docker/docker-compose.$(ENV).yaml exec app-$(ENV) bash -c "composer install -d=/app/Session --$(ENV_COMPOSER)" && \
-        docker-compose -f Docker/docker-compose.$(ENV).yaml exec app-$(ENV) bash -c "composer install -d=/app/CompositeUi --$(ENV_COMPOSER)"
+        docker-compose -f Docker/docker-compose.$(ENV).yaml exec app-$(ENV) bash -c "composer install -d=/app/Gateway --$(ENV_COMPOSER)"
 
 docker-connect:
 	@docker exec -t -i $(IMAGE) /bin/bash

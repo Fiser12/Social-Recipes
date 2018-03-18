@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace CompositeUi\Infrastructure\Symfony\Framework;
+namespace Gateway\Infrastructure\Symfony\Framework;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;

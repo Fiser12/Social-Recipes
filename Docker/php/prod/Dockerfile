@@ -96,10 +96,10 @@ RUN chmod -R 777 /app
 
 RUN composer install -d=/app/Session --no-dev --no-interaction
 RUN composer install -d=/app/Recipes --no-dev --no-interaction
-RUN composer install -d=/app/CompositeUi --no-dev --no-interaction
+RUN composer install -d=/app/Gateway --no-dev --no-interaction
 
-RUN (cd /app/CompositeUi/src/Infrastructure/Ui/Assets && yarn install)
-RUN (cd /app/CompositeUi/src/Infrastructure/Ui/Assets && yarn build:prod)
+RUN (cd /app/Gateway/src/Infrastructure/Ui/Assets && yarn install)
+RUN (cd /app/Gateway/src/Infrastructure/Ui/Assets && yarn build:prod)
 
 CMD sed \
         -e "s/\${database_host}/${DB_HOST}/" \
@@ -156,7 +156,7 @@ CMD sed \
         -e "s/\${facebook_client_id}/${OAUTH_FACEBOOK_CLIENT_ID}/" \
         -e "s/\${facebook_client_secret}/${OAUTH_FACEBOOK_CLIENT_SECRET}/" \
         -e "s/\${env}/prod/" \
-        /app/Docker/php/.compositeui-env.dist > /app/CompositeUi/.env && \
+        /app/Docker/php/.gateway-env.dist > /app/Gateway/.env && \
 
         openssl genrsa -out /app/Session/var/jwt/private.pem -aes256 -passout pass:${JWT_PASSPHRASE} 4096 && \
         openssl rsa -pubout -in /app/Session/var/jwt/private.pem -out /app/Session/var/jwt/public.pem -passin pass:${JWT_PASSPHRASE} && \
