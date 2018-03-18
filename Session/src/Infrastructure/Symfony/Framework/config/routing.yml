@@ -5,7 +5,7 @@
 #
 # @author Ruben Garcia <ruben.garcia@opendeusto.es>
 
-#Redirections to CompositeUI
+#Redirections to Gateway
 
 session.http_action.session.verify_access_token:
     path: /session/user/login

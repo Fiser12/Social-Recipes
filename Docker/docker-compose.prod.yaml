@@ -34,7 +34,7 @@ services:
     volumes:
       - app_data:/app:rw
       - ./volumes/log/prod/Session:/app/Session/var/logs
-      - ./volumes/log/prod/CompositeUi:/app/CompositeUi/var/log
+      - ./volumes/log/prod/Gateway:/app/Gateway/var/log
       - ./volumes/log/prod/Recipes:/app/Recipes/var/logs
     networks:
       crv_prod_network:

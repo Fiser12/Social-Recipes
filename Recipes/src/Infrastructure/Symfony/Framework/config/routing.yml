@@ -6,7 +6,7 @@
 #
 # @author Ruben Garcia <ruben.garcia@opendeusto.es>
 
-#Redirections to CompositeUI
+#Redirections to Gateway
 app_home:
     path: /
 

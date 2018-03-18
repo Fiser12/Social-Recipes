@@ -14,19 +14,19 @@ root:
 
 app_home:
     path: /{_locale}/
-    controller: CompositeUi\Infrastructure\Symfony\HttpAction\HomeAction::__invoke
+    controller: Gateway\Infrastructure\Symfony\HttpAction\HomeAction::__invoke
     requirements:
         _locale: '%locales%'
 
 app_timeline:
     path: /{_locale}/timeline
-    controller: CompositeUi\Infrastructure\Symfony\HttpAction\TimelineAction::__invoke
+    controller: Gateway\Infrastructure\Symfony\HttpAction\TimelineAction::__invoke
     requirements:
         _locale: '%locales%'
 
 app_logout:
     path: /{_locale}/logout
-    controller: CompositeUi\Infrastructure\Symfony\HttpAction\Session\LogoutAction::__invoke
+    controller: Gateway\Infrastructure\Symfony\HttpAction\Session\LogoutAction::__invoke
     requirements:
         _locale: '%locales%'
 
