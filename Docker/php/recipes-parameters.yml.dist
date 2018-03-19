@@ -9,6 +9,7 @@
 # @author Gorka Laucirica <gorka.lauzirika@gmail.com>
 
 parameters:
+    database_driver:                    pdo_mysql
     database_host:                      ${database_host}
     database_port:                      ${database_port}
     database_name:                      ${database_name}
